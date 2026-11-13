@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV to PDF Converter — OmniTools</title>
+    <meta name="description" content="Convert CSV files or pasted tabular data into formatted PDF tables directly in your browser. 100% private and client-side.">
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="stylesheet" href="/src/input.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col justify-between transition-colors">
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+        <!-- Tool Header -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20">
+                        PDF Suite
+                    </span>
+                    <span class="privacy-badge">🔒 100% Client-Side Privacy</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">CSV to PDF Converter</h1>
+                <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">Upload a .csv file or paste comma-separated data to render a clean, paginated PDF table.</p>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700">
+                    RFC-4180 CSV Parser
+                </span>
+            </div>
+        </div>
+
+        <!-- Split 2-Column Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+            <!-- Left Column: Upload, Paste CSV & Settings -->
+            <div class="workspace-panel space-y-6">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                        <span>📋</span> CSV Input &amp; Options
+                    </h2>
+                    <div class="flex items-center gap-3">
+                        <button type="button" id="sample-btn" class="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">Load Sample</button>
+                        <button type="button" id="clear-btn" class="text-xs font-semibold text-rose-500 hover:underline">Clear</button>
+                    </div>
+                </div>
+
+                <!-- Modern Dropzone -->
+                <div id="dropzone" class="modern-dropzone p-6 text-center cursor-pointer transition-all !min-h-[140px]">
+                    <input type="file" id="csv-input" accept=".csv,.tsv,.txt,text/csv" class="hidden">
+                    <div class="flex flex-col items-center justify-center space-y-2">
+                        <div class="w-12 h-12 rounded-2xl bg-rose-500/10 text-rose-600 dark:text-rose-400 flex items-center justify-center">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold text-zinc-800 dark:text-zinc-200">Click to upload or drag &amp; drop a CSV file</p>
+                            <p class="text-xs text-zinc-400 mt-0.5" id="file-status">Or paste raw CSV data in the editor below</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Paste CSV Editor -->
+                <div>
+                    <label for="csv-textarea" class="block text-xs font-semibold text-zinc-600 dark:text-zinc-400 mb-1.5">Paste or Edit CSV Data</label>
+                    <textarea id="csv-textarea" rows="7" placeholder="Name,Department,Role,Location&#10;Alice Martin,Engineering,Lead Developer,Berlin&#10;David Chen,Product,Product Manager,Toronto" class="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-xs font-mono text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+                </div>
+
+                <!-- Options -->
+                <div class="space-y-4">
+                    <div>
+                        <label for="doc-title" class="block text-xs font-semibold text-zinc-600 dark:text-zinc-400 mb-1.5">Document Title</label>
+                        <input type="text" id="doc-title" placeholder="CSV Data Export" class="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-sm text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div>
+                            <label for="delimiter" class="block text-xs font-semibold text-zinc-600 dark:text-zinc-400 mb-1.5">Delimiter</label>
+                            <select id="delimiter" class="w-full px-3 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-sm text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="auto" selected>Auto-detect</option>
+                                <option value=",">Comma (,)</option>
+                                <option value=";">Semicolon (;)</option>
+                                <option value="tab">Tab (\t)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="orientation" class="block text-xs font-semibold text-zinc-600 dark:text-zinc-400 mb-1.5">Orientation</label>
+                            <select id="orientation" class="w-full px-3 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-sm text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="portrait">Portrait</option>
+                                <option value="landscape" selected>Landscape</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="font-size" class="block text-xs font-semibold text-zinc-600 dark:text-zinc-400 mb-1.5">Font Size</label>
+                            <select id="font-size" class="w-full px-3 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-sm text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="8">8 pt</option>
+                                <option value="9">9 pt</option>
+                                <option value="10" selected>10 pt</option>
+                                <option value="11">11 pt</option>
+                                <option value="12">12 pt</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <label class="inline-flex items-center gap-2 text-xs text-zinc-600 dark:text-zinc-400 cursor-pointer">
+                        <input type="checkbox" id="has-header" checked class="rounded border-zinc-300 dark:border-zinc-700 text-indigo-600 focus:ring-indigo-500">
+                        <span>Use first row as table header</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Right Column: Live Table Preview, Stats & Download -->
+            <div class="workspace-panel space-y-6">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                        <span>⚡</span> Live Table Preview &amp; Export
+                    </h2>
+                    <span id="preview-badge" class="text-[11px] font-medium text-zinc-400">Waiting for CSV</span>
+                </div>
+
+                <!-- Statistics Grid -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div class="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200/80 dark:border-zinc-800">
+                        <span class="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider block">Rows</span>
+                        <span id="stat-rows" class="text-xl font-extrabold text-zinc-900 dark:text-white font-mono">0</span>
+                    </div>
+                    <div class="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200/80 dark:border-zinc-800">
+                        <span class="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider block">Columns</span>
+                        <span id="stat-cols" class="text-xl font-extrabold text-zinc-900 dark:text-white font-mono">0</span>
+                    </div>
+                    <div class="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200/80 dark:border-zinc-800">
+                        <span class="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider block">Characters</span>
+                        <span id="stat-chars" class="text-xl font-extrabold text-zinc-900 dark:text-white font-mono">0</span>
+                    </div>
+                    <div class="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200/80 dark:border-zinc-800">
+                        <span class="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider block">Est. Pages</span>
+                        <span id="stat-pages" class="text-xl font-extrabold text-zinc-900 dark:text-white font-mono">0</span>
+                    </div>
+                </div>
+
+                <!-- Live Table Preview -->
+                <div class="rounded-2xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800 overflow-hidden">
+                    <div id="preview-empty" class="py-12 px-6 text-center text-xs text-zinc-400 italic">
+                        Upload a CSV file or paste CSV data on the left to preview the parsed table.
+                    </div>
+                    <div id="table-scroll" class="hidden max-h-[320px] overflow-auto">
+                        <table id="preview-table" class="w-full text-left border-collapse text-xs"></table>
+                    </div>
+                </div>
+
+                <!-- Generate PDF Button -->
+                <button type="button" id="generate-btn" disabled class="btn-primary w-full !py-3.5 text-sm font-semibold opacity-50 cursor-not-allowed">
+                    <span>Generate PDF</span>
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                </button>
+
+                <!-- Output Box -->
+                <div id="output-box" class="hidden p-5 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/80 space-y-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-emerald-900 dark:text-emerald-200">PDF Ready!</h3>
+                            <p class="text-xs text-emerald-700 dark:text-emerald-400" id="output-stat-text">CSV converted cleanly.</p>
+                        </div>
+                    </div>
+                    <a id="download-btn" href="#" download="csv-export.pdf" class="btn-secondary w-full !bg-emerald-600 hover:!bg-emerald-700 text-white !py-3 text-sm font-semibold text-center block">
+                        Download PDF
+                    </a>
+                </div>
+
+                <!-- Error Box -->
+                <div id="error-box" class="hidden p-4 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-xs text-rose-700 dark:text-rose-400"></div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        const { jsPDF } = window.jspdf;
+
+        const dropzone = document.getElementById('dropzone');
+        const csvInput = document.getElementById('csv-input');
+        const csvTextarea = document.getElementById('csv-textarea');
+        const fileStatus = document.getElementById('file-status');
+        const sampleBtn = document.getElementById('sample-btn');
+        const clearBtn = document.getElementById('clear-btn');
+        const docTitleInput = document.getElementById('doc-title');
+        const delimiterSelect = document.getElementById('delimiter');
+        const orientationSelect = document.getElementById('orientation');
+        const fontSizeSelect = document.getElementById('font-size');
+        const hasHeaderCheckbox = document.getElementById('has-header');
+
+        const statRows = document.getElementById('stat-rows');
+        const statCols = document.getElementById('stat-cols');
+        const statChars = document.getElementById('stat-chars');
+        const statPages = document.getElementById('stat-pages');
+        const previewBadge = document.getElementById('preview-badge');
+        const previewEmpty = document.getElementById('preview-empty');
+        const tableScroll = document.getElementById('table-scroll');
+        const previewTable = document.getElementById('preview-table');
+        const generateBtn = document.getElementById('generate-btn');
+        const outputBox = document.getElementById('output-box');
+        const downloadBtn = document.getElementById('download-btn');
+        const outputStatText = document.getElementById('output-stat-text');
+        const errorBox = document.getElementById('error-box');
+
+        let parsedRows = [];
+        let currentFilename = 'csv-export';
+        let activeBlobUrl = null;
+
+        dropzone.addEventListener('click', () => csvInput.click());
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.classList.add('border-rose-500', 'bg-rose-50/20');
+        });
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.classList.remove('border-rose-500', 'bg-rose-50/20');
+        });
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('border-rose-500', 'bg-rose-50/20');
+            if (e.dataTransfer.files.length) loadCsvFile(e.dataTransfer.files[0]);
+        });
+        csvInput.addEventListener('change', () => {
+            if (csvInput.files.length) loadCsvFile(csvInput.files[0]);
+        });
+
+        sampleBtn.addEventListener('click', () => {
+            csvTextarea.value = [
+                'Order ID,Customer,Plan,Amount (USD),Status,Date',
+                'ORD-1042,Acme Corp,Enterprise,"$1,250.00",Paid,2026-11-01',
+                'ORD-1043,Northwind Labs,Pro Team,"$299.00",Paid,2026-11-03',
+                'ORD-1044,Studio Vega,Starter,"$49.00",Pending,2026-11-05',
+                'ORD-1045,Horizon AI,Enterprise,"$1,250.00",Paid,2026-11-08',
+                'ORD-1046,PixelForge,Pro Team,"$299.00",Paid,2026-11-10'
+            ].join('\n');
+            currentFilename = 'quarterly-orders';
+            if (!docTitleInput.value.trim()) docTitleInput.value = 'Quarterly Orders Report';
+            fileStatus.textContent = 'Sample CSV loaded';
+            processCsv();
+        });
+
+        clearBtn.addEventListener('click', () => {
+            csvInput.value = '';
+            csvTextarea.value = '';
+            docTitleInput.value = '';
+            currentFilename = 'csv-export';
+            fileStatus.textContent = 'Or paste raw CSV data in the editor below';
+            outputBox.classList.add('hidden');
+            errorBox.classList.add('hidden');
+            processCsv();
+        });
+
+        csvTextarea.addEventListener('input', processCsv);
+        delimiterSelect.addEventListener('change', processCsv);
+        hasHeaderCheckbox.addEventListener('change', processCsv);
+        orientationSelect.addEventListener('change', updateStats);
+        fontSizeSelect.addEventListener('change', updateStats);
+
+        async function loadCsvFile(file) {
+            errorBox.classList.add('hidden');
+            try {
+                const text = await file.text();
+                csvTextarea.value = text;
+                currentFilename = file.name.replace(/\.[^.]+$/, '') || 'csv-export';
+                fileStatus.textContent = `Loaded: ${file.name} (${formatBytes(file.size)})`;
+                if (!docTitleInput.value.trim()) docTitleInput.value = currentFilename;
+                processCsv();
+            } catch (err) {
+                showError('Could not read CSV file: ' + err.message);
+            }
+        }
+
+        function detectDelimiter(text) {
+            const firstLine = text.split(/\r?\n/).find(l => l.trim().length > 0) || '';
+            const candidates = [',', ';', '\t'];
+            let best = ',';
+            let bestCount = -1;
+            candidates.forEach((d) => {
+                const count = firstLine.split(d).length - 1;
+                if (count > bestCount) {
+                    bestCount = count;
+                    best = d;
+                }
+            });
+            return best;
+        }
+
+        function parseCSV(text, delimiter) {
+            const rows = [];
+            let row = [];
+            let field = '';
+            let inQuotes = false;
+
+            for (let i = 0; i < text.length; i++) {
+                const ch = text[i];
+                const next = text[i + 1];
+
+                if (inQuotes) {
+                    if (ch === '"' && next === '"') {
+                        field += '"';
+                        i++;
+                    } else if (ch === '"') {
+                        inQuotes = false;
+                    } else {
+                        field += ch;
+                    }
+                } else {
+                    if (ch === '"') {
+                        inQuotes = true;
+                    } else if (ch === delimiter) {
+                        row.push(field);
+                        field = '';
+                    } else if (ch === '\r' && next === '\n') {
+                        row.push(field);
+                        rows.push(row);
+                        row = [];
+                        field = '';
+                        i++;
+                    } else if (ch === '\n' || ch === '\r') {
+                        row.push(field);
+                        rows.push(row);
+                        row = [];
+                        field = '';
+                    } else {
+                        field += ch;
+                    }
+                }
+            }
+            if (field.length > 0 || row.length > 0) {
+                row.push(field);
+                rows.push(row);
+            }
+
+            const nonEmpty = rows.filter(r => r.some(c => c.trim() !== ''));
+            const maxCols = nonEmpty.reduce((m, r) => Math.max(m, r.length), 0);
+            return nonEmpty.map(r => {
+                const padded = [];
+                for (let c = 0; c < maxCols; c++) {
+                    padded.push(r[c] !== undefined ? r[c] : '');
+                }
+                return padded;
+            });
+        }
+
+        function processCsv() {
+            outputBox.classList.add('hidden');
+            errorBox.classList.add('hidden');
+
+            const raw = csvTextarea.value;
+            if (!raw.trim()) {
+                parsedRows = [];
+                renderPreviewTable();
+                updateStats();
+                return;
+            }
+
+            const delimVal = delimiterSelect.value;
+            const delimiter = delimVal === 'auto' ? detectDelimiter(raw) : (delimVal === 'tab' ? '\t' : delimVal);
+            parsedRows = parseCSV(raw, delimiter);
+            renderPreviewTable();
+            updateStats();
+        }
+
+        function renderPreviewTable() {
+            previewTable.innerHTML = '';
+            if (!parsedRows.length || !parsedRows[0].length) {
+                tableScroll.classList.add('hidden');
+                previewEmpty.classList.remove('hidden');
+                previewBadge.textContent = 'Waiting for CSV';
+                generateBtn.disabled = true;
+                generateBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                return;
+            }
+
+            previewEmpty.classList.add('hidden');
+            tableScroll.classList.remove('hidden');
+            generateBtn.disabled = false;
+            generateBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+
+            const hasHeader = hasHeaderCheckbox.checked;
+            const headers = hasHeader
+                ? parsedRows[0]
+                : parsedRows[0].map((_, idx) => `Column ${idx + 1}`);
+            const bodyRows = (hasHeader ? parsedRows.slice(1) : parsedRows).slice(0, 100);
+
+            const thead = document.createElement('thead');
+            thead.className = 'bg-zinc-100 dark:bg-zinc-900 sticky top-0 border-b border-zinc-200 dark:border-zinc-800';
+            const headTr = document.createElement('tr');
+            headers.forEach((cell) => {
+                const th = document.createElement('th');
+                th.className = 'px-3 py-2 font-semibold text-zinc-700 dark:text-zinc-200 whitespace-nowrap border-r border-zinc-200/60 dark:border-zinc-800 last:border-r-0';
+                th.textContent = cell || '—';
+                headTr.appendChild(th);
+            });
+            thead.appendChild(headTr);
+            previewTable.appendChild(thead);
+
+            const tbody = document.createElement('tbody');
+            tbody.className = 'divide-y divide-zinc-200/70 dark:divide-zinc-800/70 bg-white dark:bg-zinc-950/30';
+            bodyRows.forEach((row) => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-zinc-50 dark:hover:bg-zinc-900/50';
+                row.forEach((cell) => {
+                    const td = document.createElement('td');
+                    td.className = 'px-3 py-2 text-zinc-600 dark:text-zinc-300 whitespace-nowrap border-r border-zinc-200/40 dark:border-zinc-800/40 last:border-r-0';
+                    td.textContent = cell;
+                    tr.appendChild(td);
+                });
+                tbody.appendChild(tr);
+            });
+            previewTable.appendChild(tbody);
+
+            const totalData = hasHeader ? Math.max(0, parsedRows.length - 1) : parsedRows.length;
+            previewBadge.textContent = totalData > 100 ? `Showing first 100 of ${totalData} rows` : `${parsedRows.length} rows parsed`;
+        }
+
+        function updateStats() {
+            const rows = parsedRows.length;
+            const cols = rows > 0 ? parsedRows[0].length : 0;
+            const chars = csvTextarea.value.length;
+
+            const orientation = orientationSelect.value;
+            const fontSize = parseInt(fontSizeSelect.value, 10);
+            const rowsPerPage = orientation === 'landscape'
+                ? Math.max(12, Math.floor(28 * (10 / fontSize)))
+                : Math.max(18, Math.floor(42 * (10 / fontSize)));
+            const estPages = rows > 0 ? Math.max(1, Math.ceil(rows / rowsPerPage)) : 0;
+
+            statRows.textContent = rows;
+            statCols.textContent = cols;
+            statChars.textContent = chars.toLocaleString();
+            statPages.textContent = estPages;
+        }
+
+        generateBtn.addEventListener('click', () => {
+            if (!parsedRows.length) return;
+            errorBox.classList.add('hidden');
+            outputBox.classList.add('hidden');
+
+            try {
+                const orientation = orientationSelect.value;
+                const fontSize = parseInt(fontSizeSelect.value, 10);
+                const hasHeader = hasHeaderCheckbox.checked;
+                const title = docTitleInput.value.trim() || 'CSV Data Export';
+
+                const doc = new jsPDF({
+                    orientation,
+                    unit: 'mm',
+                    format: 'a4'
+                });
+
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(14);
+                doc.text(title, 14, 16);
+
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(9);
+                doc.setTextColor(113, 113, 122);
+                doc.text(`${parsedRows.length} rows × ${parsedRows[0].length} columns`, 14, 22);
+                doc.setTextColor(24, 24, 27);
+
+                const head = hasHeader
+                    ? [parsedRows[0]]
+                    : [parsedRows[0].map((_, idx) => `Column ${idx + 1}`)];
+                const body = hasHeader ? parsedRows.slice(1) : parsedRows;
+
+                doc.autoTable({
+                    head,
+                    body: body.length ? body : [['(No data rows)']],
+                    startY: 27,
+                    theme: 'striped',
+                    styles: {
+                        fontSize,
+                        cellPadding: 2.5,
+                        overflow: 'linebreak'
+                    },
+                    headStyles: {
+                        fillColor: [79, 70, 229],
+                        textColor: 255,
+                        fontStyle: 'bold'
+                    },
+                    margin: { top: 18, right: 14, bottom: 16, left: 14 },
+                    didDrawPage: (data) => {
+                        const pageSize = doc.internal.pageSize;
+                        doc.setFontSize(8);
+                        doc.setTextColor(150);
+                        doc.text(`Page ${data.pageNumber}`, pageSize.getWidth() - 14, pageSize.getHeight() - 8, { align: 'right' });
+                    }
+                });
+
+                const blob = doc.output('blob');
+                if (activeBlobUrl) URL.revokeObjectURL(activeBlobUrl);
+                activeBlobUrl = URL.createObjectURL(blob);
+
+                downloadBtn.href = activeBlobUrl;
+                downloadBtn.download = `${currentFilename}.pdf`;
+                outputStatText.textContent = `Generated ${doc.getNumberOfPages()} page${doc.getNumberOfPages() > 1 ? 's' : ''} (${formatBytes(blob.size)}).`;
+                outputBox.classList.remove('hidden');
+            } catch (err) {
+                console.error('PDF generation error:', err);
+                showError('Failed to generate PDF: ' + err.message);
+            }
+        });
+
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function showError(msg) {
+            errorBox.textContent = msg;
+            errorBox.classList.remove('hidden');
+        }
+    </script>
+    <script type="module" src="/src/layout.js"></script>
+</body>
+</html>

@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to PDF Converter — OmniTools</title>
+    <meta name="description" content="Convert plain text files or written notes into clean, paginated PDF documents directly in your browser. 100% private and client-side.">
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="stylesheet" href="/src/input.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col justify-between transition-colors">
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+        <!-- Tool Header -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20">
+                        PDF Suite
+                    </span>
+                    <span class="privacy-badge">🔒 100% Client-Side Privacy</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">Text to PDF Converter</h1>
+                <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">Upload a text file or type directly in the editor to export a formatted, multi-page PDF.</p>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700">
+                    Client-Side Typesetting
+                </span>
+            </div>
+        </div>
+
+        <!-- Split 2-Column Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+            <!-- Left Column: Dropzone, Text Editor & Layout Options -->
+            <div class="workspace-panel space-y-6">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                        <span>📝</span> Document Editor &amp; Settings
+                    </h2>
+                    <div class="flex items-center gap-3">
+                        <button type="button" id="sample-btn" class="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">Load Sample</button>
+                        <button type="button" id="clear-btn" class="text-xs font-semibold text-rose-500 hover:underline">Clear</button>
+                    </div>
+                </div>
+
+                <!-- Modern Dropzone -->
+                <div id="dropzone" class="modern-dropzone p-6 text-center cursor-pointer transition-all !min-h-[130px]">
+                    <input type="file" id="text-file-input" accept=".txt,.md,.log,text/plain" class="hidden">
+                    <div class="flex flex-col items-center justify-center space-y-2">
+                        <div class="w-11 h-11 rounded-2xl bg-rose-500/10 text-rose-600 dark:text-rose-400 flex items-center justify-center">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold text-zinc-800 dark:text-zinc-200">Click to upload or drag &amp; drop a .txt file</p>
+                            <p class="text-xs text-zinc-400 mt-0.5" id="file-status">Supports .txt, .md, and .log files</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Textarea Editor -->
+                <div>
+                    <label for="text-input" class="block text-xs font-semibold text-zinc-600 dark:text-zinc-400 mb-1.5">Plain Text Content</label>
+                    <textarea id="text-input" rows="8" placeholder="Start typing or paste your text here..." class="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-sm text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 leading-relaxed"></textarea>
+                </div>
+
+                <!-- Document Settings -->
+                <div class="space-y-4">
+                    <div>
+                        <label for="doc-title" class="block text-xs font-semibold text-zinc-600 dark:text-zinc-400 mb-1.5">Document Title (Optional)</label>
+                        <input type="text" id="doc-title" placeholder="Meeting Notes" class="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-sm text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div>
+                            <label for="font-size" class="block text-xs font-semibold text-zinc-600 dark:text-zinc-400 mb-1.5">Font Size</label>
+                            <select id="font-size" class="w-full px-3 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-sm text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="10">10 pt</option>
+                                <option value="11">11 pt</option>
+                                <option value="12" selected>12 pt (Default)</option>
+                                <option value="14">14 pt</option>
+                                <option value="16">16 pt</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="orientation" class="block text-xs font-semibold text-zinc-600 dark:text-zinc-400 mb-1.5">Orientation</label>
+                            <select id="orientation" class="w-full px-3 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-sm text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="portrait" selected>Portrait</option>
+                                <option value="landscape">Landscape</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="font-family" class="block text-xs font-semibold text-zinc-600 dark:text-zinc-400 mb-1.5">Font Family</label>
+                            <select id="font-family" class="w-full px-3 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-sm text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="helvetica" selected>Sans-Serif (Helvetica)</option>
+                                <option value="times">Serif (Times)</option>
+                                <option value="courier">Monospace (Courier)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Live Document Preview, Stats & Download -->
+            <div class="workspace-panel space-y-6">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                        <span>⚡</span> Live Document Preview
+                    </h2>
+                    <span id="preview-badge" class="text-[11px] font-medium text-zinc-400">Ready</span>
+                </div>
+
+                <!-- Statistics Grid -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div class="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200/80 dark:border-zinc-800">
+                        <span class="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider block">Lines</span>
+                        <span id="stat-lines" class="text-xl font-extrabold text-zinc-900 dark:text-white font-mono">0</span>
+                    </div>
+                    <div class="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200/80 dark:border-zinc-800">
+                        <span class="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider block">Words</span>
+                        <span id="stat-words" class="text-xl font-extrabold text-zinc-900 dark:text-white font-mono">0</span>
+                    </div>
+                    <div class="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200/80 dark:border-zinc-800">
+                        <span class="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider block">Characters</span>
+                        <span id="stat-chars" class="text-xl font-extrabold text-zinc-900 dark:text-white font-mono">0</span>
+                    </div>
+                    <div class="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200/80 dark:border-zinc-800">
+                        <span class="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider block">Est. Pages</span>
+                        <span id="stat-pages" class="text-xl font-extrabold text-zinc-900 dark:text-white font-mono">0</span>
+                    </div>
+                </div>
+
+                <!-- Paper Preview -->
+                <div class="rounded-2xl bg-zinc-100/80 dark:bg-zinc-950/70 border border-zinc-200 dark:border-zinc-800 p-4">
+                    <div id="paper-preview" class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-6 min-h-[260px] max-h-[340px] overflow-y-auto shadow-xs">
+                        <h3 id="preview-title" class="text-base font-bold text-zinc-900 dark:text-zinc-100 pb-2 mb-3 border-b border-zinc-200 dark:border-zinc-800 hidden"></h3>
+                        <p id="preview-empty" class="text-xs text-zinc-400 italic py-10 text-center">Your live formatted document preview will appear here as you type or upload a file.</p>
+                        <pre id="preview-body" class="hidden whitespace-pre-wrap break-words text-zinc-800 dark:text-zinc-200 leading-relaxed font-sans text-sm"></pre>
+                    </div>
+                </div>
+
+                <!-- Generate PDF Button -->
+                <button type="button" id="generate-btn" disabled class="btn-primary w-full !py-3.5 text-sm font-semibold opacity-50 cursor-not-allowed">
+                    <span>Generate PDF</span>
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                </button>
+
+                <!-- Output Box -->
+                <div id="output-box" class="hidden p-5 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/80 space-y-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-emerald-900 dark:text-emerald-200">PDF Ready!</h3>
+                            <p class="text-xs text-emerald-700 dark:text-emerald-400" id="output-stat-text">Text document exported.</p>
+                        </div>
+                    </div>
+                    <a id="download-btn" href="#" download="text-document.pdf" class="btn-secondary w-full !bg-emerald-600 hover:!bg-emerald-700 text-white !py-3 text-sm font-semibold text-center block">
+                        Download PDF
+                    </a>
+                </div>
+
+                <!-- Error Box -->
+                <div id="error-box" class="hidden p-4 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-xs text-rose-700 dark:text-rose-400"></div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        const { jsPDF } = window.jspdf;
+
+        const dropzone = document.getElementById('dropzone');
+        const textFileInput = document.getElementById('text-file-input');
+        const fileStatus = document.getElementById('file-status');
+        const textInput = document.getElementById('text-input');
+        const docTitleInput = document.getElementById('doc-title');
+        const fontSizeSelect = document.getElementById('font-size');
+        const orientationSelect = document.getElementById('orientation');
+        const fontFamilySelect = document.getElementById('font-family');
+        const sampleBtn = document.getElementById('sample-btn');
+        const clearBtn = document.getElementById('clear-btn');
+
+        const statLines = document.getElementById('stat-lines');
+        const statWords = document.getElementById('stat-words');
+        const statChars = document.getElementById('stat-chars');
+        const statPages = document.getElementById('stat-pages');
+        const previewBadge = document.getElementById('preview-badge');
+        const previewTitle = document.getElementById('preview-title');
+        const previewEmpty = document.getElementById('preview-empty');
+        const previewBody = document.getElementById('preview-body');
+        const generateBtn = document.getElementById('generate-btn');
+        const outputBox = document.getElementById('output-box');
+        const downloadBtn = document.getElementById('download-btn');
+        const outputStatText = document.getElementById('output-stat-text');
+        const errorBox = document.getElementById('error-box');
+
+        let currentFilename = 'text-document';
+        let activeBlobUrl = null;
+
+        dropzone.addEventListener('click', () => textFileInput.click());
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.classList.add('border-rose-500', 'bg-rose-50/20');
+        });
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.classList.remove('border-rose-500', 'bg-rose-50/20');
+        });
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('border-rose-500', 'bg-rose-50/20');
+            if (e.dataTransfer.files.length) loadTextFile(e.dataTransfer.files[0]);
+        });
+        textFileInput.addEventListener('change', () => {
+            if (textFileInput.files.length) loadTextFile(textFileInput.files[0]);
+        });
+
+        sampleBtn.addEventListener('click', () => {
+            docTitleInput.value = 'OmniTools Product Release Notes';
+            textInput.value = [
+                'Release Summary — v2.0',
+                '',
+                '1. 100% Client-Side Processing',
+                'All conversions, table exports, and PDF formatting execute directly inside your browser using modern Web APIs. No files are ever transmitted to external servers.',
+                '',
+                '2. Unified Split Workspace',
+                'Each tool provides real-time statistics, live document previews, and customizable page layout options including portrait/landscape orientation and font scaling.',
+                '',
+                '3. Action Items',
+                '- Verify typography spacing across A4 and Letter page sizes.',
+                '- Confirm multi-page pagination and page number footers.'
+            ].join('\n');
+            currentFilename = 'release-notes';
+            fileStatus.textContent = 'Sample text loaded';
+            updatePreview();
+        });
+
+        clearBtn.addEventListener('click', () => {
+            textFileInput.value = '';
+            textInput.value = '';
+            docTitleInput.value = '';
+            currentFilename = 'text-document';
+            fileStatus.textContent = 'Supports .txt, .md, and .log files';
+            outputBox.classList.add('hidden');
+            errorBox.classList.add('hidden');
+            updatePreview();
+        });
+
+        [textInput, docTitleInput, fontSizeSelect, orientationSelect, fontFamilySelect].forEach(el => {
+            el.addEventListener('input', updatePreview);
+            el.addEventListener('change', updatePreview);
+        });
+
+        async function loadTextFile(file) {
+            errorBox.classList.add('hidden');
+            try {
+                const content = await file.text();
+                textInput.value = content;
+                currentFilename = file.name.replace(/\.[^.]+$/, '') || 'text-document';
+                fileStatus.textContent = `Loaded: ${file.name} (${formatBytes(file.size)})`;
+                if (!docTitleInput.value.trim()) docTitleInput.value = currentFilename;
+                updatePreview();
+            } catch (err) {
+                showError('Failed to read file: ' + err.message);
+            }
+        }
+
+        function updatePreview() {
+            outputBox.classList.add('hidden');
+            errorBox.classList.add('hidden');
+
+            const text = textInput.value;
+            const title = docTitleInput.value.trim();
+            const fontSize = parseInt(fontSizeSelect.value, 10);
+            const orientation = orientationSelect.value;
+            const fontFamily = fontFamilySelect.value;
+
+            const lines = text ? text.split(/\r?\n/).length : 0;
+            const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+            const chars = text.length;
+
+            const charsPerPage = orientation === 'landscape'
+                ? Math.floor(2600 * (12 / fontSize))
+                : Math.floor(2200 * (12 / fontSize));
+            const estPages = text.trim() ? Math.max(1, Math.ceil((chars + lines * 35) / charsPerPage)) : 0;
+
+            statLines.textContent = lines;
+            statWords.textContent = words;
+            statChars.textContent = chars.toLocaleString();
+            statPages.textContent = estPages;
+
+            if (title) {
+                previewTitle.textContent = title;
+                previewTitle.classList.remove('hidden');
+            } else {
+                previewTitle.classList.add('hidden');
+            }
+
+            previewBody.classList.remove('font-sans', 'font-serif', 'font-mono');
+            if (fontFamily === 'times') previewBody.classList.add('font-serif');
+            else if (fontFamily === 'courier') previewBody.classList.add('font-mono');
+            else previewBody.classList.add('font-sans');
+            previewBody.style.fontSize = `${Math.max(11, Math.min(16, fontSize))}px`;
+
+            if (!text.trim()) {
+                previewBody.classList.add('hidden');
+                previewEmpty.classList.remove('hidden');
+                previewBadge.textContent = 'Empty';
+                generateBtn.disabled = true;
+                generateBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            } else {
+                previewEmpty.classList.add('hidden');
+                previewBody.classList.remove('hidden');
+                previewBody.textContent = text;
+                previewBadge.textContent = `${orientation.toUpperCase()} • ${fontSize}pt`;
+                generateBtn.disabled = false;
+                generateBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+        }
+
+        generateBtn.addEventListener('click', () => {
+            const text = textInput.value;
+            if (!text.trim()) return;
+            errorBox.classList.add('hidden');
+            outputBox.classList.add('hidden');
+
+            try {
+                const title = docTitleInput.value.trim();
+                const fontSize = parseInt(fontSizeSelect.value, 10);
+                const orientation = orientationSelect.value;
+                const fontFamily = fontFamilySelect.value;
+
+                const doc = new jsPDF({
+                    orientation,
+                    unit: 'mm',
+                    format: 'a4'
+                });
+
+                const margin = 16;
+                const pageWidth = doc.internal.pageSize.getWidth();
+                const pageHeight = doc.internal.pageSize.getHeight();
+                const maxWidth = pageWidth - margin * 2;
+                let y = margin;
+
+                if (title) {
+                    doc.setFont(fontFamily, 'bold');
+                    doc.setFontSize(fontSize + 5);
+                    const titleLines = doc.splitTextToSize(title, maxWidth);
+                    doc.text(titleLines, margin, y);
+                    y += titleLines.length * ((fontSize + 5) * 0.45) + 3;
+                    doc.setDrawColor(212, 212, 216);
+                    doc.line(margin, y, pageWidth - margin, y);
+                    y += 7;
+                }
+
+                doc.setFont(fontFamily, 'normal');
+                doc.setFontSize(fontSize);
+                const lineHeight = fontSize * 0.48;
+                const paragraphs = text.split(/\r?\n/);
+
+                paragraphs.forEach((para) => {
+                    if (para === '') {
+                        y += lineHeight * 0.8;
+                        if (y > pageHeight - margin - 8) {
+                            doc.addPage();
+                            y = margin;
+                        }
+                        return;
+                    }
+                    const wrapped = doc.splitTextToSize(para, maxWidth);
+                    wrapped.forEach((line) => {
+                        if (y + lineHeight > pageHeight - margin - 8) {
+                            doc.addPage();
+                            y = margin;
+                        }
+                        doc.text(line, margin, y);
+                        y += lineHeight;
+                    });
+                });
+
+                const totalPages = doc.getNumberOfPages();
+                for (let p = 1; p <= totalPages; p++) {
+                    doc.setPage(p);
+                    doc.setFont('helvetica', 'normal');
+                    doc.setFontSize(8);
+                    doc.setTextColor(150);
+                    doc.text(`Page ${p} of ${totalPages}`, pageWidth - margin, pageHeight - 8, { align: 'right' });
+                }
+
+                const blob = doc.output('blob');
+                if (activeBlobUrl) URL.revokeObjectURL(activeBlobUrl);
+                activeBlobUrl = URL.createObjectURL(blob);
+
+                downloadBtn.href = activeBlobUrl;
+                downloadBtn.download = `${currentFilename}.pdf`;
+                outputStatText.textContent = `Generated ${totalPages} page${totalPages > 1 ? 's' : ''} (${formatBytes(blob.size)}).`;
+                outputBox.classList.remove('hidden');
+            } catch (err) {
+                console.error('PDF generation error:', err);
+                showError('Failed to generate PDF: ' + err.message);
+            }
+        });
+
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function showError(msg) {
+            errorBox.textContent = msg;
+            errorBox.classList.remove('hidden');
+        }
+    </script>
+    <script type="module" src="/src/layout.js"></script>
+</body>
+</html>

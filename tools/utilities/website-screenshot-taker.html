@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Screenshot & Screen Capture — OmniTools</title>
+  <meta name="description"
+    content="Capture high-resolution screenshots of any browser tab, application window, or full display screen directly client-side with 100% privacy.">
+  <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+  <link rel="stylesheet" href="/src/input.css">
+</head>
+
+
+    <body
+      class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col justify-between transition-colors">
+
+          <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+            <!-- Tool Header -->
+            <div
+              class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+              <div>
+                <div class="flex items-center gap-2 mb-2">
+                  <span
+                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
+                    Utilities
+                  </span>
+                  <span class="privacy-badge">🔒 100% Client-Side Privacy</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">Screenshot Taker</h1>
+                <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">Capture pixel-perfect screenshots of
+                  any tab, window, or monitor using the browser's native Screen Capture API.</p>
+              </div>
+            </div>
+
+            <!-- Split 2-Column Workspace -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+              <!-- Left Column: Controls & Trigger -->
+              <div class="workspace-panel space-y-6">
+                <div>
+                  <h2
+                    class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 mb-3 flex items-center gap-2">
+                    <span>📸</span> Screen Capture Setup
+                  </h2>
+
+                      <div
+                        class="p-6 rounded-2xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/60 text-center space-y-4">
+                        <div
+                          class="w-14 h-14 mx-auto rounded-2xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
+                          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                          </svg>
+                        </div>
+                        <div>
+                          <p class="text-sm font-bold text-zinc-800 dark:text-zinc-200">Ready to Capture</p>
+                          <p class="text-xs text-zinc-400 mt-1 max-w-sm mx-auto">Select any browser tab, application
+                            window, or full display monitor to snapshot.</p>
+                        </div>
+
+                        <button id="captureBtn"
+                          class="btn-primary w-full !py-3.5 text-sm font-semibold flex items-center justify-center gap-2 shadow-lg">
+                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                          </svg>
+                          <span>Choose Window / Tab to Capture</span>
+                        </button>
+                      </div>
+
+                      <div id="statusMessage" class="hidden mt-4 p-4 rounded-xl text-xs text-center"></div>
+                    </div>
+
+                    <!-- Privacy & Permissions Note -->
+                    <div
+                      class="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950/40 border border-zinc-200/60 dark:border-zinc-800 text-xs text-zinc-500 dark:text-zinc-400 space-y-1.5">
+                      <p class="font-semibold text-zinc-700 dark:text-zinc-300 flex items-center gap-1.5">
+                        <span>🛡️</span> Zero Recording & Privacy Policy
+                      </p>
+                      <p class="text-[11px] leading-relaxed">The screen stream is sampled once to extract a single frame
+                        to a local Canvas, and the media stream is immediately closed. No video or frames are recorded
+                        or transmitted anywhere.</p>
+                    </div>
+                  </div>
+
+                    <!-- Right Column: Canvas Preview & Download -->
+                    <div class="workspace-panel space-y-6">
+                      <div class="flex items-center justify-between">
+                        <h2
+                          class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                          <span>🖼️</span> Snapshot Preview
+                        </h2>
+                        <span id="resolutionBadge"
+                          class="hidden text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800"></span>
+                      </div>
+
+                      <!-- Idle Placeholder -->
+                      <div id="idle-output"
+                        class="text-center py-16 px-4 rounded-2xl border border-dashed border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-950/30">
+                        <div
+                          class="w-12 h-12 mx-auto mb-3 rounded-2xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-xl text-zinc-400">
+                          📸
+                        </div>
+                        <p class="text-sm font-semibold text-zinc-700 dark:text-zinc-300">No Capture Yet</p>
+                        <p class="text-xs text-zinc-400 mt-1 max-w-xs mx-auto">Click the capture button on the left to
+                          take a screenshot.</p>
+                      </div>
+
+                      <!-- Active Canvas Preview Container -->
+                      <div id="previewCard" class="hidden space-y-4">
+                        <div
+                          class="overflow-auto max-h-[460px] rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-900 flex justify-center items-center p-2 shadow-inner">
+                          <canvas id="screenshotCanvas" class="max-w-full h-auto rounded-lg shadow-md"></canvas>
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row gap-3">
+                          <a id="downloadLink"
+                            class="btn-accent flex-1 !py-3 text-xs font-semibold flex items-center justify-center gap-2 cursor-pointer shadow-md">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                            <span>Download Full Resolution PNG</span>
+                          </a>
+                          <button id="copyImgBtn" type="button"
+                            class="btn-secondary !py-3 !px-5 text-xs font-semibold flex items-center justify-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                            </svg>
+                            <span>Copy Image</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+          </main>
+
+          <script type="module" src="/src/layout.js"></script>
+          <script>
+            const captureBtn = document.getElementById('captureBtn');
+            const screenshotCanvas = document.getElementById('screenshotCanvas');
+            const previewCard = document.getElementById('previewCard');
+            const idleOutput = document.getElementById('idle-output');
+            const downloadLink = document.getElementById('downloadLink');
+            const copyImgBtn = document.getElementById('copyImgBtn');
+            const statusMessage = document.getElementById('statusMessage');
+            const resolutionBadge = document.getElementById('resolutionBadge');
+
+            captureBtn.addEventListener('click', async () => {
+              statusMessage.classList.add('hidden');
+
+              if (!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia) {
+                showStatus('Your browser does not support the Screen Capture API. Please use a modern browser.', 'red');
+                return;
+              }
+
+              try {
+                const stream = await navigator.mediaDevices.getDisplayMedia({
+                  video: { displaySurface: 'browser' },
+                  audio: false
+                });
+
+                const video = document.createElement('video');
+                video.srcObject = stream;
+                video.play();
+
+                video.onloadedmetadata = () => {
+                  setTimeout(() => {
+                    screenshotCanvas.width = video.videoWidth;
+                    screenshotCanvas.height = video.videoHeight;
+                    const ctx = screenshotCanvas.getContext('2d');
+                    ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+
+                    // Stop streams immediately to preserve privacy
+                    stream.getTracks().forEach(track => track.stop());
+
+                    const dataUrl = screenshotCanvas.toDataURL('image/png');
+                    downloadLink.href = dataUrl;
+                    downloadLink.download = `screenshot-${Date.now()}.png`;
+
+                    resolutionBadge.textContent = `${video.videoWidth} × ${video.videoHeight}px`;
+                    resolutionBadge.classList.remove('hidden');
+
+                    idleOutput.classList.add('hidden');
+                    previewCard.classList.remove('hidden');
+                  showStatus('Screenshot captured successfully!', 'green');
+                }, 400);
+        };
+      } catch (err) {
+              if (err.name !== 'NotAllowedError') {
+                showStatus('Error capturing screen: ' + err.message, 'red');
+              }
+            }
+    });
+
+              copyImgBtn.addEventListener('click', () => {
+                screenshotCanvas.toBlob(blob => {
+                  try {
+                    const item = new ClipboardItem({ 'image/png': blob });
+                    navigator.clipboard.write([item]).then(() => {
+                      alert('Screenshot copied to clipboard!');
+                    });
+                  } catch (e) {
+                    alert('Clipboard write not supported on this browser.');
+                  }
+                });
+              });
+
+              function showStatus(text, type) {
+                statusMessage.textContent = text;
+                statusMessage.className = type === 'red'
+                  ? 'p-3.5 mt-4 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/50 text-red-700 dark:text-red-300 text-xs text-center'
+                  : 'p-3.5 mt-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/50 text-emerald-700 dark:text-emerald-300 text-xs text-center';
+                statusMessage.classList.remove('hidden');
+              }
+          </script>
+    </body>
+
+</html>

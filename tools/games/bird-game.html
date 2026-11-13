@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover">
+    <title>Flappy Bird Arcade — OmniTools</title>
+    <meta name="description" content="Play the retro Flappy Bird arcade game right in your browser. Responsive WebGL client-side gaming experience.">
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="stylesheet" href="/src/input.css">
+    <script src="https://s3-eu-west-1.amazonaws.com/apps.playcanvas.com/DLgXf1zr/playcanvas-stable.min.js"></script>
+    <script>
+        ASSET_PREFIX = "https://s3-eu-west-1.amazonaws.com/apps.playcanvas.com/DLgXf1zr/";
+        SCRIPT_PREFIX = "https://s3-eu-west-1.amazonaws.com/apps.playcanvas.com/DLgXf1zr/";
+        SCENE_PATH = "404993.json";
+        CONTEXT_OPTIONS = {
+            'antialias': true,
+            'alpha': false,
+            'preserveDrawingBuffer': false,
+            'preferWebGl2': true,
+            'powerPreference': "default"
+        };
+        SCRIPTS = [ 37175323, 21399876, 4554207, 4554213, 4554214, 4554217, 4554270, 4554271, 4554273, 4554276, 4554279, 20754603, 20755574, 37175329, 37186400 ];
+        CONFIG_FILENAME = "https://s3-eu-west-1.amazonaws.com/apps.playcanvas.com/DLgXf1zr/config.json";
+        INPUT_SETTINGS = {
+            useKeyboard: true,
+            useMouse: true,
+            useGamepads: false,
+            useTouch: true
+        };
+        pc.script.legacy = false;
+        PRELOAD_MODULES = [];
+    </script>
+    <script src="https://s3-eu-west-1.amazonaws.com/apps.playcanvas.com/DLgXf1zr/__game-scripts.js"></script>
+    <style>
+        #game-frame {
+            position: relative;
+            width: 100%;
+            max-width: 440px;
+            height: 600px;
+            margin: 0 auto;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+            background: #283538;
+        }
+        #application-canvas {
+            width: 100% !important;
+            height: 100% !important;
+            display: block;
+            outline: none;
+        }
+    </style>
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col justify-between transition-colors">
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+        <!-- Tool Header -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20">
+                        Games & Fun
+                    </span>
+                    <span class="privacy-badge">🔒 100% Client-Side Privacy</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">Flappy Bird Arcade</h1>
+                <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">Navigate your bird through green pipes using quick reflexes and rhythm.</p>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
+                    🎮 WebGL Powered
+                </span>
+            </div>
+        </div>
+
+        <!-- Split 2-Column Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            
+            <!-- Left Column: Instructions & Arcade Controls -->
+            <div class="space-y-6">
+                <div class="workspace-panel space-y-5">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                        <span>🕹️</span> How to Play
+                    </h2>
+
+                    <div class="space-y-3 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400">
+                        <div class="flex items-start gap-3 p-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200/60 dark:border-zinc-700/60">
+                            <span class="text-lg">🖱️</span>
+                            <div>
+                                <span class="font-bold text-zinc-900 dark:text-white block">Mouse Click / Tap</span>
+                                <span class="text-xs text-zinc-500 dark:text-zinc-400">Click or tap anywhere on the game screen to flap your wings upward.</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-3 p-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200/60 dark:border-zinc-700/60">
+                            <span class="text-lg">⌨️</span>
+                            <div>
+                                <span class="font-bold text-zinc-900 dark:text-white block">Spacebar Key</span>
+                                <span class="text-xs text-zinc-500 dark:text-zinc-400">Press the Space key on desktop keyboards to maintain steady flight altitude.</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-3 p-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200/60 dark:border-zinc-700/60">
+                            <span class="text-lg">🎯</span>
+                            <div>
+                                <span class="font-bold text-zinc-900 dark:text-white block">Game Objective</span>
+                                <span class="text-xs text-zinc-500 dark:text-zinc-400">Pass cleanly between as many pipes as possible without touching obstacles or the ground.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-indigo-50/50 dark:bg-indigo-950/30 border border-indigo-100 dark:border-indigo-900/40 text-xs text-indigo-700 dark:text-indigo-300">
+                        <p class="font-semibold mb-1">💡 Pro Tip for High Scores</p>
+                        <p class="text-[11px] leading-relaxed">Tap in short, calculated bursts rather than holding down. Gravity accelerates quickly, so steady timing is key.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Retro Arcade Cabinet Frame -->
+            <div class="workspace-panel flex flex-col items-center justify-center p-4 sm:p-6 bg-zinc-900 text-white rounded-2xl border border-zinc-800 shadow-2xl">
+                <div class="flex items-center justify-between w-full max-w-[440px] px-2 mb-3 text-xs text-zinc-400">
+                    <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> ARCADE READY</span>
+                    <span>WebGL Engine</span>
+                </div>
+
+                <div id="game-frame" class="border border-zinc-700/80">
+                    <canvas id="application-canvas" tabindex="0"></canvas>
+                </div>
+
+                <p class="text-[11px] text-zinc-500 mt-3 text-center">Click inside the arcade frame to start flapping</p>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="https://s3-eu-west-1.amazonaws.com/apps.playcanvas.com/DLgXf1zr/__start__.js"></script>
+    <script src="https://s3-eu-west-1.amazonaws.com/apps.playcanvas.com/DLgXf1zr/__loading__.js"></script>
+    <script type="module" src="/src/layout.js"></script>
+</body>
+</html>

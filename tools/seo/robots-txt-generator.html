@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robots.txt Generator — OmniTools</title>
+    <meta name="description"
+        content="Generate and download customized robots.txt files to manage search engine crawling and indexation directives. 100% free and client-side.">
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="stylesheet" href="/src/input.css">
+</head>
+
+<body
+    class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col justify-between transition-colors">
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+        <!-- Tool Header -->
+        <div
+            class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span
+                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20">
+                        SEO Tools
+                    </span>
+                    <span class="privacy-badge">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                        100% Client-Side Privacy
+                    </span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">Robots.txt Generator</h1>
+                <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">Configure search spider crawler
+                    permissions, crawl-delay parameters, and XML sitemaps.</p>
+            </div>
+        </div>
+
+        <!-- Split 2-Column Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+            <!-- Left Column: Rule Configuration -->
+            <div class="workspace-panel space-y-5">
+                <div class="flex items-center justify-between flex-wrap gap-2">
+                    <h2
+                        class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                        <svg class="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                        </svg>
+                        Crawler Directives
+                    </h2>
+
+                    <!-- Quick Presets -->
+                    <div class="flex items-center gap-1.5">
+                        <button type="button" id="preset-allow"
+                            class="px-2.5 py-1 rounded-lg text-[11px] font-semibold border border-zinc-200 dark:border-zinc-700 hover:border-purple-500 transition-colors cursor-pointer">Allow
+                            All</button>
+                        <button type="button" id="preset-standard"
+                            class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 cursor-pointer">Standard</button>
+                        <button type="button" id="preset-disallow"
+                            class="px-2.5 py-1 rounded-lg text-[11px] font-semibold border border-zinc-200 dark:border-zinc-700 hover:border-purple-500 transition-colors cursor-pointer">Disallow
+                            All</button>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <!-- User Agent -->
+                    <div>
+                        <label for="userAgentSelect"
+                            class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Target Bot
+                            (User-agent)</label>
+                        <select id="userAgentSelect"
+                            class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-xs sm:text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none">
+                            <option value="*" selected>All Crawlers (*)</option>
+                            <option value="Googlebot">Googlebot (Google)</option>
+                            <option value="Bingbot">Bingbot (Bing &amp; Copilot)</option>
+                            <option value="Applebot">Applebot (Apple Siri &amp; Spotlight)</option>
+                            <option value="YandexBot">YandexBot (Yandex)</option>
+                            <option value="DuckDuckBot">DuckDuckBot</option>
+                            <option value="custom">Custom User-agent...</option>
+                        </select>
+                        <input type="text" id="customAgentInput" placeholder="Enter custom user-agent (e.g. GPTBot)"
+                            class="hidden mt-2 w-full px-3.5 py-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-xs focus:ring-2 focus:ring-purple-500 focus:outline-none">
+                    </div>
+
+                    <!-- Path Directives Builder -->
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <label class="text-xs font-semibold text-zinc-700 dark:text-zinc-300">Path
+                                Directives</label>
+                            <button type="button" id="addPathBtn"
+                                class="text-[11px] font-bold text-purple-600 dark:text-purple-400 hover:underline flex items-center gap-1 cursor-pointer">
+                                <span>+ Add Rule</span>
+                            </button>
+                        </div>
+                        <div id="pathsContainer" class="space-y-2">
+                            <!-- Dynamic rule rows -->
+                        </div>
+                    </div>
+
+                    <!-- Crawl Delay -->
+                    <div class="pt-3 border-t border-zinc-200 dark:border-zinc-800 space-y-2">
+                        <label
+                            class="flex items-center justify-between text-xs font-semibold text-zinc-700 dark:text-zinc-300 cursor-pointer">
+                            <span class="flex items-center gap-2">
+                                <input type="checkbox" id="enableCrawlDelay"
+                                    class="rounded border-zinc-300 text-purple-600 focus:ring-purple-500">
+                                <span>Crawl Delay (Throttle bot requests)</span>
+                            </span>
+                            <span id="delayDisplay" class="font-mono text-purple-600 dark:text-purple-400 hidden">5s</span>
+                        </label>
+                        <div id="delayInputContainer" class="hidden">
+                            <input type="number" id="crawlDelayValue" min="1" max="60" value="5"
+                                class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-xs focus:ring-2 focus:ring-purple-500 focus:outline-none">
+                        </div>
+                    </div>
+
+                    <!-- Sitemap Link -->
+                    <div class="pt-3 border-t border-zinc-200 dark:border-zinc-800">
+                        <label for="sitemapUrl"
+                            class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Sitemap URL
+                            (Optional)</label>
+                        <input type="url" id="sitemapUrl" placeholder="https://example.com/sitemap.xml"
+                            value="https://omnitools.app/sitemap.xml"
+                            class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-xs focus:ring-2 focus:ring-purple-500 focus:outline-none">
+                    </div>
+                </div>
+
+                <div
+                    class="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950/40 border border-zinc-200/60 dark:border-zinc-800 text-xs text-zinc-500 dark:text-zinc-400">
+                    <p class="font-semibold text-zinc-700 dark:text-zinc-300 mb-1">Deployment Note</p>
+                    <p class="text-[11px] leading-relaxed">Save this file as <code>robots.txt</code> in your domain's
+                        top-level root directory (e.g. <code>https://yourdomain.com/robots.txt</code>).</p>
+                </div>
+            </div>
+
+            <!-- Right Column: Live Robots.txt Output & Download -->
+            <div class="workspace-panel space-y-6">
+                <div class="flex items-center justify-between">
+                    <h2
+                        class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                        <svg class="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        Live robots.txt File
+                    </h2>
+                    <span class="text-xs font-mono text-zinc-400">RFC 9309 Compliant</span>
+                </div>
+
+                <!-- Monospace Code Output -->
+                <div class="relative">
+                    <pre
+                        class="p-5 rounded-2xl bg-zinc-900 text-emerald-400 font-mono text-xs overflow-x-auto min-h-[260px] border border-zinc-800 leading-relaxed"><code id="robotsCode"></code></pre>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="grid grid-cols-2 gap-3">
+                    <button type="button" id="copyBtn"
+                        class="btn-secondary !py-3 text-xs font-semibold flex items-center justify-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                        <span id="copyLabel">Copy Contents</span>
+                    </button>
+                    <button type="button" id="downloadBtn"
+                        class="btn-primary !py-3 text-xs font-semibold !bg-purple-600 hover:!bg-purple-700 flex items-center justify-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                        <span>Download robots.txt</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const userAgentSelect = document.getElementById('userAgentSelect');
+        const customAgentInput = document.getElementById('customAgentInput');
+        const pathsContainer = document.getElementById('pathsContainer');
+        const addPathBtn = document.getElementById('addPathBtn');
+        const enableCrawlDelay = document.getElementById('enableCrawlDelay');
+        const delayDisplay = document.getElementById('delayDisplay');
+        const delayInputContainer = document.getElementById('delayInputContainer');
+        const crawlDelayValue = document.getElementById('crawlDelayValue');
+        const sitemapUrl = document.getElementById('sitemapUrl');
+
+        const robotsCode = document.getElementById('robotsCode');
+        const copyBtn = document.getElementById('copyBtn');
+        const copyLabel = document.getElementById('copyLabel');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        const presetAllow = document.getElementById('preset-allow');
+        const presetStandard = document.getElementById('preset-standard');
+        const presetDisallow = document.getElementById('preset-disallow');
+
+        let paths = [
+            { type: 'disallow', path: '/admin/' },
+            { type: 'disallow', path: '/private/' },
+            { type: 'allow', path: '/' }
+        ];
+
+        function renderPathRows() {
+            pathsContainer.innerHTML = '';
+            paths.forEach((item, index) => {
+                const row = document.createElement('div');
+                row.className = 'flex items-center gap-2';
+
+                const select = document.createElement('select');
+                select.className = 'path-type w-28 px-2.5 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-xs font-semibold';
+                const allowOpt = document.createElement('option');
+                allowOpt.value = 'allow';
+                allowOpt.textContent = 'Allow';
+                allowOpt.selected = item.type === 'allow';
+                const disallowOpt = document.createElement('option');
+                disallowOpt.value = 'disallow';
+                disallowOpt.textContent = 'Disallow';
+                disallowOpt.selected = item.type === 'disallow';
+                select.appendChild(allowOpt);
+                select.appendChild(disallowOpt);
+
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.value = item.path;
+                input.placeholder = '/example-path/';
+                input.className = 'path-input flex-1 px-3 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-xs font-mono';
+
+                const removeBtn = document.createElement('button');
+                removeBtn.type = 'button';
+                removeBtn.title = 'Delete Rule';
+                removeBtn.className = 'p-1.5 text-zinc-400 hover:text-rose-500 transition-colors cursor-pointer';
+                removeBtn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>';
+
+                select.addEventListener('change', (e) => {
+                    paths[index].type = e.target.value;
+                    generateRobotsTxt();
+                });
+
+                input.addEventListener('input', (e) => {
+                    paths[index].path = e.target.value;
+                    generateRobotsTxt();
+                });
+
+                removeBtn.addEventListener('click', () => {
+                    paths.splice(index, 1);
+                    renderPathRows();
+                    generateRobotsTxt();
+                });
+
+                row.appendChild(select);
+                row.appendChild(input);
+                row.appendChild(removeBtn);
+                pathsContainer.appendChild(row);
+            });
+        }
+
+        addPathBtn.addEventListener('click', () => {
+            paths.push({ type: 'disallow', path: '/temp/' });
+            renderPathRows();
+            generateRobotsTxt();
+        });
+
+        presetAllow.addEventListener('click', () => {
+            paths = [{ type: 'allow', path: '/' }];
+            renderPathRows();
+            generateRobotsTxt();
+        });
+
+        presetStandard.addEventListener('click', () => {
+            paths = [
+                { type: 'disallow', path: '/admin/' },
+                { type: 'disallow', path: '/api/' },
+                { type: 'allow', path: '/' }
+            ];
+            renderPathRows();
+            generateRobotsTxt();
+        });
+
+        presetDisallow.addEventListener('click', () => {
+            paths = [{ type: 'disallow', path: '/' }];
+            renderPathRows();
+            generateRobotsTxt();
+        });
+
+        enableCrawlDelay.addEventListener('change', () => {
+            if (enableCrawlDelay.checked) {
+                delayInputContainer.classList.remove('hidden');
+                delayDisplay.classList.remove('hidden');
+                delayDisplay.textContent = crawlDelayValue.value + 's';
+            } else {
+                delayInputContainer.classList.add('hidden');
+                delayDisplay.classList.add('hidden');
+            }
+            generateRobotsTxt();
+        });
+
+        crawlDelayValue.addEventListener('input', () => {
+            delayDisplay.textContent = crawlDelayValue.value + 's';
+            generateRobotsTxt();
+        });
+
+        userAgentSelect.addEventListener('change', () => {
+            if (userAgentSelect.value === 'custom') {
+                customAgentInput.classList.remove('hidden');
+            } else {
+                customAgentInput.classList.add('hidden');
+            }
+            generateRobotsTxt();
+        });
+
+        customAgentInput.addEventListener('input', generateRobotsTxt);
+        sitemapUrl.addEventListener('input', generateRobotsTxt);
+
+        function generateRobotsTxt() {
+            let agent = userAgentSelect.value;
+            if (agent === 'custom') {
+                agent = customAgentInput.value.trim() || '*';
+            }
+
+            let txt = '# robots.txt generated by OmniTools\n\n';
+            txt += `User-agent: ${agent}\n`;
+
+            if (enableCrawlDelay.checked && crawlDelayValue.value) {
+                txt += `Crawl-delay: ${crawlDelayValue.value}\n`;
+            }
+
+            paths.forEach(item => {
+                const pathVal = item.path.trim();
+                if (pathVal) {
+                    const directive = item.type === 'allow' ? 'Allow' : 'Disallow';
+                    txt += `${directive}: ${pathVal}\n`;
+                }
+            });
+
+            const sm = sitemapUrl.value.trim();
+            if (sm) {
+                txt += `\n# Sitemaps\nSitemap: ${sm}\n`;
+            }
+
+            robotsCode.textContent = txt;
+        }
+
+        copyBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(robotsCode.textContent).then(() => {
+                copyLabel.textContent = 'Copied!';
+                setTimeout(() => { copyLabel.textContent = 'Copy Contents'; }, 2000);
+            });
+        });
+
+        downloadBtn.addEventListener('click', () => {
+            const blob = new Blob([robotsCode.textContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'robots.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+
+        // Initialize
+        renderPathRows();
+        generateRobotsTxt();
+    </script>
+    <script type="module" src="/src/layout.js"></script>
+</body>
+
+</html>

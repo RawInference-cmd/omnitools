@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Video &amp; Media Hub — OmniTools</title>
+    <meta name="description"
+        content="Embed YouTube videos, generate responsive iframe embed codes, and download high-resolution video thumbnails. 100% client-side.">
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="stylesheet" href="/src/input.css">
+</head>
+
+<body
+    class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col justify-between transition-colors">
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+        <!-- Tool Header -->
+        <div
+            class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span
+                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/20">
+                        Utilities
+                    </span>
+                    <span class="privacy-badge">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                        100% Client-Side Privacy
+                    </span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">YouTube Media Hub</h1>
+                <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">Preview videos in a privacy-enhanced
+                    player, generate clean responsive embed codes, and download HD thumbnails.</p>
+            </div>
+        </div>
+
+        <!-- Split 2-Column Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+            <!-- Left Column: Input & Video Player -->
+            <div class="workspace-panel space-y-6">
+                <div>
+                    <h2
+                        class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 mb-3 flex items-center gap-2">
+                        <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        YouTube URL or Video ID
+                    </h2>
+
+                    <div class="space-y-3">
+                        <div class="relative">
+                            <input type="text" id="videoUrl"
+                                class="w-full pl-4 pr-16 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-sm focus:ring-2 focus:ring-red-500 focus:outline-none transition-all"
+                                placeholder="Paste YouTube link (e.g. https://www.youtube.com/watch?v=...)">
+                            <button id="paste-btn" type="button"
+                                class="absolute right-2.5 top-2.5 px-2.5 py-1 text-xs font-medium rounded-lg bg-zinc-100 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-600 cursor-pointer">Paste</button>
+                        </div>
+                        <button id="fetch-btn" type="button"
+                            class="btn-primary w-full !py-3 text-sm font-semibold !from-red-600 !to-rose-600 hover:!from-red-500 hover:!to-rose-500">
+                            <span>Fetch Media &amp; Thumbnails</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div id="errorBox"
+                        class="hidden mt-4 p-4 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/50 text-red-700 dark:text-red-300 text-xs">
+                    </div>
+                </div>
+
+                <!-- Video Preview & Embed Code -->
+                <div id="playerSection" class="hidden space-y-4 pt-4 border-t border-zinc-200/80 dark:border-zinc-800">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300">Live Video
+                        Player Preview</h3>
+                    <div
+                        class="rounded-2xl overflow-hidden shadow-lg border border-zinc-200 dark:border-zinc-800 aspect-video bg-black">
+                        <iframe id="videoPlayer" class="w-full h-full" src="" title="YouTube video player"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <label for="embedCodeInput"
+                                class="text-xs font-semibold text-zinc-700 dark:text-zinc-300">Clean Embed Code</label>
+                            <span class="text-[10px] text-zinc-400">nocookie mode</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <input type="text" id="embedCodeInput"
+                                class="flex-1 p-2.5 bg-zinc-50 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 rounded-xl text-xs font-mono text-zinc-700 dark:text-zinc-300"
+                                readonly>
+                            <button id="copyEmbedBtn" type="button"
+                                class="btn-secondary !py-2 !px-4 text-xs font-semibold">Copy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Thumbnail Gallery -->
+            <div class="workspace-panel space-y-6">
+                <h2
+                    class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                    <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    HD Video Thumbnails
+                </h2>
+
+                <!-- Idle State -->
+                <div id="idle-output"
+                    class="text-center py-12 px-4 rounded-2xl border border-dashed border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-950/30">
+                    <div
+                        class="w-12 h-12 mx-auto mb-3 rounded-2xl bg-zinc-200/70 dark:bg-zinc-800 flex items-center justify-center text-zinc-400">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
+                        </svg>
+                    </div>
+                    <p class="text-sm font-semibold text-zinc-700 dark:text-zinc-300">Awaiting Video URL</p>
+                    <p class="text-xs text-zinc-400 mt-1 max-w-xs mx-auto">Paste any YouTube URL or Shorts link on the
+                        left to inspect media and download thumbnails.</p>
+                </div>
+
+                <!-- Thumbnails Grid -->
+                <div id="thumbnailContainer" class="hidden space-y-4">
+                    <div id="thumbnailGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+
+                <!-- Privacy & Info -->
+                <div
+                    class="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950/40 border border-zinc-200/60 dark:border-zinc-800 text-xs text-zinc-500 dark:text-zinc-400">
+                    <p class="font-semibold text-zinc-700 dark:text-zinc-300 mb-1">1-Click Thumbnail Save</p>
+                    <p class="text-[11px] leading-relaxed">Thumbnails are fetched client-side and can be saved
+                        immediately to your device in original resolution.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const videoUrlInput = document.getElementById('videoUrl');
+        const pasteBtn = document.getElementById('paste-btn');
+        const fetchBtn = document.getElementById('fetch-btn');
+        const copyEmbedBtn = document.getElementById('copyEmbedBtn');
+        const errorBox = document.getElementById('errorBox');
+        const playerSection = document.getElementById('playerSection');
+        const thumbnailContainer = document.getElementById('thumbnailContainer');
+        const idleOutput = document.getElementById('idle-output');
+        const videoPlayer = document.getElementById('videoPlayer');
+        const embedCodeInput = document.getElementById('embedCodeInput');
+        const thumbnailGrid = document.getElementById('thumbnailGrid');
+
+        pasteBtn.addEventListener('click', async () => {
+            try {
+                const text = await navigator.clipboard.readText();
+                if (text) {
+                    videoUrlInput.value = text;
+                    processUrl();
+                }
+            } catch (err) {
+                // Clipboard permission not granted
+            }
+        });
+
+        fetchBtn.addEventListener('click', processUrl);
+        videoUrlInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                processUrl();
+            }
+        });
+
+        function extractVideoId(input) {
+            const trimmed = input.trim();
+            if (/^[a-zA-Z0-9_-]{11}$/.test(trimmed)) {
+                return trimmed;
+            }
+            const regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/)([^#&?]*).*/;
+            const match = trimmed.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+
+        function processUrl() {
+            const videoId = extractVideoId(videoUrlInput.value);
+
+            if (!videoId) {
+                errorBox.textContent = 'Please enter a valid YouTube video URL or 11-character ID (e.g., https://www.youtube.com/watch?v=dQw4w9WgXcQ).';
+                errorBox.classList.remove('hidden');
+                playerSection.classList.add('hidden');
+                thumbnailContainer.classList.add('hidden');
+                idleOutput.classList.remove('hidden');
+                return;
+            }
+
+            errorBox.classList.add('hidden');
+
+            videoPlayer.src = `https://www.youtube-nocookie.com/embed/${videoId}`;
+            embedCodeInput.value = `<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/${videoId}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+
+            thumbnailGrid.innerHTML = '';
+
+            const qualities = [
+                { label: 'Max Resolution (1080p HD)', url: `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`, filename: `${videoId}-maxres.jpg` },
+                { label: 'High Quality (720p HQ)', url: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`, filename: `${videoId}-hq.jpg` },
+                { label: 'Medium Quality (480p MQ)', url: `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`, filename: `${videoId}-mq.jpg` },
+                { label: 'Standard Quality (SD)', url: `https://img.youtube.com/vi/${videoId}/default.jpg`, filename: `${videoId}-sd.jpg` }
+            ];
+
+            qualities.forEach(q => {
+                const card = document.createElement('div');
+                card.className = 'border border-zinc-200 dark:border-zinc-800 rounded-xl p-3 bg-zinc-50 dark:bg-zinc-800/60 flex flex-col justify-between';
+
+                const top = document.createElement('div');
+                const titleEl = document.createElement('p');
+                titleEl.className = 'text-[11px] font-bold text-zinc-700 dark:text-zinc-300 mb-2';
+                titleEl.textContent = q.label;
+
+                const imgEl = document.createElement('img');
+                imgEl.src = q.url;
+                imgEl.alt = q.label;
+                imgEl.className = 'w-full rounded-lg mb-3 bg-zinc-200 dark:bg-zinc-700 object-cover aspect-video';
+                imgEl.addEventListener('error', () => {
+                    card.style.display = 'none';
+                });
+
+                top.appendChild(titleEl);
+                top.appendChild(imgEl);
+
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'btn-primary w-full !py-2 !px-3 text-xs font-semibold';
+                btn.innerHTML = '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg><span>Download Image</span>';
+                btn.addEventListener('click', () => downloadImage(q.url, q.filename));
+
+                card.appendChild(top);
+                card.appendChild(btn);
+                thumbnailGrid.appendChild(card);
+            });
+
+            playerSection.classList.remove('hidden');
+            thumbnailContainer.classList.remove('hidden');
+            idleOutput.classList.add('hidden');
+        }
+
+        async function downloadImage(url, filename) {
+            try {
+                const response = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`);
+                if (!response.ok) throw new Error('Proxy failed');
+                const blob = await response.blob();
+                const objectUrl = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = objectUrl;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(objectUrl);
+            } catch (err) {
+                window.open(url, '_blank', 'noopener,noreferrer');
+            }
+        }
+
+        copyEmbedBtn.addEventListener('click', () => {
+            embedCodeInput.select();
+            navigator.clipboard.writeText(embedCodeInput.value).then(() => {
+                copyEmbedBtn.textContent = 'Copied!';
+                setTimeout(() => { copyEmbedBtn.textContent = 'Copy'; }, 2000);
+            });
+        });
+    </script>
+    <script type="module" src="/src/layout.js"></script>
+</body>
+
+</html>

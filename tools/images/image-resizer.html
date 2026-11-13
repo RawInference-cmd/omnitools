@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Resizer — OmniTools</title>
+    <meta name="description"
+        content="Resize JPG, PNG, and WebP images to exact pixel dimensions or percentages with aspect ratio lock. 100% free and client-side.">
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="stylesheet" href="/src/input.css">
+</head>
+
+<body
+    class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col justify-between transition-colors">
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+        <!-- Tool Header -->
+        <div
+            class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span
+                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20">
+                        Images
+                    </span>
+                    <span class="privacy-badge">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                        100% Client-Side Privacy
+                    </span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">Image Resizer</h1>
+                <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">Scale your photos to custom widths,
+                    heights, standard aspect ratios, or social presets.</p>
+            </div>
+        </div>
+
+        <!-- Split 2-Column Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+            <!-- Left Column: Upload & Resize Controls -->
+            <div class="workspace-panel space-y-6">
+                <h2
+                    class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                    <svg class="w-4 h-4 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                    </svg>
+                    Source &amp; Dimensions
+                </h2>
+
+                <!-- Modern Dropzone -->
+                <div id="dropzone" class="modern-dropzone cursor-pointer">
+                    <input type="file" id="imageUpload" accept="image/jpeg,image/png,image/webp" class="hidden">
+                    <div
+                        class="w-12 h-12 mx-auto mb-3 rounded-2xl bg-sky-500/10 text-sky-600 dark:text-sky-400 flex items-center justify-center">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <p class="text-sm font-semibold text-zinc-800 dark:text-zinc-200" id="upload-prompt">Click or drag
+                        image here</p>
+                    <p class="text-xs text-zinc-400 mt-1">Supports JPG, PNG, WebP up to 50MB</p>
+                </div>
+
+                <!-- Dimension Controls -->
+                <div id="controls-section" class="space-y-4 opacity-50 pointer-events-none transition-opacity">
+                    <!-- Aspect Ratio Lock -->
+                    <div class="flex items-center justify-between pb-2 border-b border-zinc-200 dark:border-zinc-800">
+                        <label
+                            class="text-xs font-semibold text-zinc-700 dark:text-zinc-300 flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" id="lock-aspect" checked
+                                class="rounded border-zinc-300 text-sky-600 focus:ring-sky-500">
+                            <span>Maintain Aspect Ratio</span>
+                        </label>
+                        <span id="original-dim-badge" class="text-[11px] font-mono text-zinc-400">Orig: -- × --</span>
+                    </div>
+
+                    <!-- Custom Width & Height -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label for="width"
+                                class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Width
+                                (Pixels)</label>
+                            <div class="relative">
+                                <input type="number" id="width" min="1" max="10000"
+                                    class="w-full px-4 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none pr-10">
+                                <span class="absolute right-3.5 top-2.5 text-xs font-bold text-zinc-400">px</span>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="height"
+                                class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Height
+                                (Pixels)</label>
+                            <div class="relative">
+                                <input type="number" id="height" min="1" max="10000"
+                                    class="w-full px-4 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none pr-10">
+                                <span class="absolute right-3.5 top-2.5 text-xs font-bold text-zinc-400">px</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Preset Buttons -->
+                    <div>
+                        <span class="block text-xs font-semibold text-zinc-600 dark:text-zinc-400 mb-2">Popular
+                            Presets</span>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button type="button" data-preset="1920x1080"
+                                class="preset-btn py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 text-xs font-semibold hover:border-sky-500 transition-all">1920×1080
+                                (FHD)</button>
+                            <button type="button" data-preset="1280x720"
+                                class="preset-btn py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 text-xs font-semibold hover:border-sky-500 transition-all">1280×720
+                                (HD)</button>
+                            <button type="button" data-preset="1080x1080"
+                                class="preset-btn py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 text-xs font-semibold hover:border-sky-500 transition-all">1080×1080
+                                (Square)</button>
+                            <button type="button" data-scale="0.75"
+                                class="preset-btn py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 text-xs font-semibold hover:border-sky-500 transition-all">75%
+                                Scale</button>
+                            <button type="button" data-scale="0.5"
+                                class="preset-btn py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 text-xs font-semibold hover:border-sky-500 transition-all">50%
+                                Scale</button>
+                            <button type="button" data-scale="0.25"
+                                class="preset-btn py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 text-xs font-semibold hover:border-sky-500 transition-all">25%
+                                Scale</button>
+                        </div>
+                    </div>
+
+                    <button type="button" id="resizeButton"
+                        class="btn-primary w-full !py-3 text-sm font-semibold !bg-sky-600 hover:!bg-sky-700">
+                        Render Resized Output
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Column: Live Canvas Preview & Download -->
+            <div class="workspace-panel space-y-6">
+                <div class="flex items-center justify-between">
+                    <h2
+                        class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                        <svg class="w-4 h-4 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                        Canvas Preview
+                    </h2>
+                    <span id="target-dim-badge" class="text-xs font-mono font-bold text-sky-600 dark:text-sky-400">-- ×
+                        --</span>
+                </div>
+
+                <!-- Canvas Preview Container -->
+                <div
+                    class="p-4 rounded-2xl bg-zinc-100 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800 flex items-center justify-center min-h-[300px] overflow-hidden">
+                    <canvas id="canvas" class="max-w-full max-h-[360px] object-contain rounded-lg shadow-sm hidden"></canvas>
+                    <div id="empty-preview" class="text-center text-zinc-400 py-12">
+                        <div
+                            class="w-12 h-12 mx-auto mb-3 rounded-2xl bg-zinc-200/70 dark:bg-zinc-800 flex items-center justify-center text-zinc-400">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <p class="text-xs font-medium">Upload an image on the left to view preview</p>
+                    </div>
+                </div>
+
+                <!-- Export Controls -->
+                <div id="export-controls" class="space-y-4 hidden">
+                    <div class="flex items-center justify-between gap-4">
+                        <div class="flex-1">
+                            <label for="export-format"
+                                class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">Output
+                                Format</label>
+                            <select id="export-format"
+                                class="w-full px-3 py-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-xs font-semibold text-zinc-900 dark:text-white focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                                <option value="image/png">PNG (Lossless)</option>
+                                <option value="image/jpeg" selected>JPEG (Photo)</option>
+                                <option value="image/webp">WebP (Modern Web)</option>
+                            </select>
+                        </div>
+                        <div class="flex-1">
+                            <label for="quality-slider"
+                                class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">Quality: <span
+                                    id="quality-val" class="text-sky-600 dark:text-sky-400 font-mono">90%</span></label>
+                            <input type="range" id="quality-slider" min="10" max="100" value="90"
+                                class="w-full accent-sky-600">
+                        </div>
+                    </div>
+
+                    <button type="button" id="downloadButton"
+                        class="btn-accent w-full !py-3 text-sm font-semibold flex items-center justify-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                        <span>Download Resized Image</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const dropzone = document.getElementById('dropzone');
+        const imageUpload = document.getElementById('imageUpload');
+        const uploadPrompt = document.getElementById('upload-prompt');
+        const controlsSection = document.getElementById('controls-section');
+        const widthInput = document.getElementById('width');
+        const heightInput = document.getElementById('height');
+        const lockAspect = document.getElementById('lock-aspect');
+        const originalDimBadge = document.getElementById('original-dim-badge');
+        const targetDimBadge = document.getElementById('target-dim-badge');
+        const canvas = document.getElementById('canvas');
+        const emptyPreview = document.getElementById('empty-preview');
+        const resizeButton = document.getElementById('resizeButton');
+        const exportControls = document.getElementById('export-controls');
+        const exportFormat = document.getElementById('export-format');
+        const qualitySlider = document.getElementById('quality-slider');
+        const qualityVal = document.getElementById('quality-val');
+        const downloadButton = document.getElementById('downloadButton');
+        const presetBtns = document.querySelectorAll('.preset-btn');
+
+        let originalImg = null;
+        let originalWidth = 0;
+        let originalHeight = 0;
+        let aspectRatio = 1;
+        let originalFilename = 'resized-image';
+
+        dropzone.addEventListener('click', () => imageUpload.click());
+
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.classList.add('border-sky-500');
+        });
+
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.classList.remove('border-sky-500');
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('border-sky-500');
+            if (e.dataTransfer.files.length) {
+                handleFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        imageUpload.addEventListener('change', (e) => {
+            if (e.target.files.length) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        function handleFile(file) {
+            if (!file.type.startsWith('image/')) {
+                alert('Please select a valid image file (PNG, JPG, or WebP).');
+                return;
+            }
+            originalFilename = file.name.substring(0, file.name.lastIndexOf('.')) || 'resized-image';
+            uploadPrompt.textContent = file.name;
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const img = new Image();
+                img.onload = function () {
+                    originalImg = img;
+                    originalWidth = img.width;
+                    originalHeight = img.height;
+                    aspectRatio = originalWidth / originalHeight;
+
+                    widthInput.value = originalWidth;
+                    heightInput.value = originalHeight;
+                    originalDimBadge.textContent = `Orig: ${originalWidth} × ${originalHeight}`;
+
+                    controlsSection.classList.remove('opacity-50', 'pointer-events-none');
+                    renderCanvas(originalWidth, originalHeight);
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        widthInput.addEventListener('input', () => {
+            if (lockAspect.checked && aspectRatio > 0) {
+                const w = parseFloat(widthInput.value) || 0;
+                heightInput.value = Math.max(1, Math.round(w / aspectRatio));
+            }
+        });
+
+        heightInput.addEventListener('input', () => {
+            if (lockAspect.checked && aspectRatio > 0) {
+                const h = parseFloat(heightInput.value) || 0;
+                widthInput.value = Math.max(1, Math.round(h * aspectRatio));
+            }
+        });
+
+        presetBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (!originalImg) return;
+                if (btn.dataset.preset) {
+                    const [w, h] = btn.dataset.preset.split('x').map(Number);
+                    widthInput.value = w;
+                    heightInput.value = h;
+                    lockAspect.checked = false;
+                } else if (btn.dataset.scale) {
+                    const scale = parseFloat(btn.dataset.scale);
+                    widthInput.value = Math.max(1, Math.round(originalWidth * scale));
+                    heightInput.value = Math.max(1, Math.round(originalHeight * scale));
+                }
+                renderCanvas(parseInt(widthInput.value, 10) || 1, parseInt(heightInput.value, 10) || 1);
+            });
+        });
+
+        resizeButton.addEventListener('click', () => {
+            const w = Math.max(1, parseInt(widthInput.value, 10) || 1);
+            const h = Math.max(1, parseInt(heightInput.value, 10) || 1);
+            renderCanvas(w, h);
+        });
+
+        qualitySlider.addEventListener('input', () => {
+            qualityVal.textContent = qualitySlider.value + '%';
+        });
+
+        function renderCanvas(targetW, targetH) {
+            if (!originalImg) return;
+            canvas.width = targetW;
+            canvas.height = targetH;
+            const ctx = canvas.getContext('2d');
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
+            ctx.drawImage(originalImg, 0, 0, targetW, targetH);
+
+            canvas.classList.remove('hidden');
+            emptyPreview.classList.add('hidden');
+            exportControls.classList.remove('hidden');
+            targetDimBadge.textContent = `${targetW} × ${targetH} px`;
+        }
+
+        downloadButton.addEventListener('click', () => {
+            if (!canvas.width || !originalImg) return;
+            const mimeType = exportFormat.value;
+            const quality = parseInt(qualitySlider.value, 10) / 100;
+            const ext = mimeType === 'image/png' ? 'png' : (mimeType === 'image/webp' ? 'webp' : 'jpg');
+
+            let outputUrl;
+            if (mimeType === 'image/jpeg') {
+                const exportCanvas = document.createElement('canvas');
+                exportCanvas.width = canvas.width;
+                exportCanvas.height = canvas.height;
+                const exportCtx = exportCanvas.getContext('2d');
+                exportCtx.fillStyle = '#FFFFFF';
+                exportCtx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
+                exportCtx.drawImage(canvas, 0, 0);
+                outputUrl = exportCanvas.toDataURL(mimeType, quality);
+            } else {
+                outputUrl = canvas.toDataURL(mimeType, quality);
+            }
+
+            const link = document.createElement('a');
+            link.download = `${originalFilename}-${canvas.width}x${canvas.height}.${ext}`;
+            link.href = outputUrl;
+            link.click();
+        });
+    </script>
+    <script type="module" src="/src/layout.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF to PNG Converter — OmniTools</title>
+    <meta name="description" content="Convert PDF pages into lossless high-resolution PNG images directly in your browser. Download single pages or all pages as a ZIP archive with 100% client-side privacy.">
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="stylesheet" href="/src/input.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.worker.min.js';
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col justify-between transition-colors">
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+        <!-- Tool Header -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20">
+                        PDF Suite
+                    </span>
+                    <span class="privacy-badge">🔒 100% Client-Side Privacy</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">PDF to PNG Converter</h1>
+                <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">Transform PDF pages into lossless PNG images with sharp typography and optional multi-page ZIP export.</p>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700">
+                    Lossless PNG (.png)
+                </span>
+            </div>
+        </div>
+
+        <!-- Split 2-Column Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+            <!-- Left Column: Upload & Conversion Settings -->
+            <div class="workspace-panel space-y-6">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                    <span>📄</span> Upload PDF & Settings
+                </h2>
+
+                <!-- Modern Dropzone -->
+                <div id="dropzone" class="modern-dropzone p-8 text-center cursor-pointer transition-all">
+                    <input type="file" id="pdf-input" accept="application/pdf" class="hidden">
+                    <div class="flex flex-col items-center justify-center space-y-3">
+                        <div class="w-14 h-14 rounded-2xl bg-rose-500/10 text-rose-600 dark:text-rose-400 flex items-center justify-center">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold text-zinc-800 dark:text-zinc-200">Click to upload or drag & drop a PDF</p>
+                            <p class="text-xs text-zinc-400 mt-1">Single PDF document • Processed locally in your browser</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- File Info Card -->
+                <div id="file-info-card" class="hidden p-4 rounded-xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200/80 dark:border-zinc-700/60 flex items-center justify-between gap-3">
+                    <div class="flex items-center gap-3 min-w-0 flex-1">
+                        <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 flex items-center justify-center font-bold text-xs flex-shrink-0">
+                            PDF
+                        </div>
+                        <div class="min-w-0 flex-1">
+                            <p id="file-name" class="text-xs font-semibold text-zinc-900 dark:text-zinc-100 truncate">—</p>
+                            <p class="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5">
+                                <span id="file-size">0 KB</span> • <span id="file-pages">0 pages</span>
+                            </p>
+                        </div>
+                    </div>
+                    <button type="button" id="clear-file-btn" class="px-2.5 py-1.5 rounded-lg text-xs font-medium text-rose-600 dark:text-rose-400 hover:bg-rose-500/10 transition-colors flex-shrink-0">
+                        Remove
+                    </button>
+                </div>
+
+                <!-- Render Scale Selector -->
+                <div class="space-y-2">
+                    <label class="block text-xs font-semibold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Render Scale</label>
+                    <div id="scale-group" class="grid grid-cols-3 gap-2.5">
+                        <button type="button" data-scale="1" class="scale-btn px-3 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800/60 text-xs font-semibold text-zinc-700 dark:text-zinc-300 hover:border-indigo-400 transition-all text-center">
+                            <span class="block font-bold">1x</span>
+                            <span class="text-[10px] text-zinc-400 font-normal">Standard</span>
+                        </button>
+                        <button type="button" data-scale="1.5" class="scale-btn px-3 py-2.5 rounded-xl border-2 border-indigo-500 bg-indigo-500/10 text-xs font-semibold text-indigo-600 dark:text-indigo-400 transition-all text-center">
+                            <span class="block font-bold">1.5x</span>
+                            <span class="text-[10px] opacity-80 font-normal">High</span>
+                        </button>
+                        <button type="button" data-scale="2" class="scale-btn px-3 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800/60 text-xs font-semibold text-zinc-700 dark:text-zinc-300 hover:border-indigo-400 transition-all text-center">
+                            <span class="block font-bold">2x</span>
+                            <span class="text-[10px] text-zinc-400 font-normal">Ultra HD</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Lossless PNG Info -->
+                <div class="p-3.5 rounded-xl bg-zinc-50 dark:bg-zinc-950/40 border border-zinc-200/60 dark:border-zinc-800 text-xs text-zinc-500 dark:text-zinc-400 flex items-center justify-between">
+                    <span class="font-semibold text-zinc-700 dark:text-zinc-300">Compression Mode</span>
+                    <span class="font-mono text-[11px] px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-semibold">Lossless (100%)</span>
+                </div>
+
+                <!-- Page Selector -->
+                <div class="space-y-2.5">
+                    <div class="flex items-center justify-between text-xs font-semibold text-zinc-600 dark:text-zinc-400">
+                        <span class="uppercase tracking-wider">Page Navigation & Scope</span>
+                        <span id="page-indicator" class="font-mono text-zinc-500 dark:text-zinc-400">No PDF loaded</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button type="button" id="prev-page-btn" disabled class="btn-secondary !px-3.5 !py-2 text-xs disabled:opacity-40 disabled:cursor-not-allowed">
+                            ← Prev
+                        </button>
+                        <select id="page-select" disabled class="flex-1 px-3 py-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800/80 text-xs font-semibold text-zinc-800 dark:text-zinc-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:opacity-50">
+                            <option value="1">Page 1</option>
+                        </select>
+                        <button type="button" id="next-page-btn" disabled class="btn-secondary !px-3.5 !py-2 text-xs disabled:opacity-40 disabled:cursor-not-allowed">
+                            Next →
+                        </button>
+                    </div>
+                    <div class="flex items-center justify-between p-3 rounded-xl bg-zinc-50 dark:bg-zinc-950/40 border border-zinc-200/60 dark:border-zinc-800 text-[11px] text-zinc-500 dark:text-zinc-400">
+                        <span>Export Scope:</span>
+                        <div class="inline-flex rounded-lg bg-zinc-200/70 dark:bg-zinc-800 p-0.5">
+                            <button type="button" id="scope-current-btn" class="scope-btn px-2.5 py-1 rounded-md text-[11px] font-semibold bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white shadow-xs transition-all">
+                                Current Page
+                            </button>
+                            <button type="button" id="scope-all-btn" class="scope-btn px-2.5 py-1 rounded-md text-[11px] font-semibold text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 transition-all">
+                                All Pages (ZIP)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Live Canvas Preview & Export -->
+            <div class="workspace-panel space-y-6">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                        <span>🖼️</span> Live Page Preview
+                    </h2>
+                    <span id="canvas-dimensions" class="text-[11px] font-mono text-zinc-400">—</span>
+                </div>
+
+                <!-- Preview Container -->
+                <div class="relative rounded-2xl bg-zinc-100 dark:bg-zinc-950/70 border border-zinc-200 dark:border-zinc-800 min-h-[340px] flex items-center justify-center p-4 overflow-auto">
+                    <div id="preview-empty" class="text-center py-12 px-4 space-y-2">
+                        <div class="w-12 h-12 rounded-2xl bg-zinc-200/80 dark:bg-zinc-800 text-zinc-400 flex items-center justify-center mx-auto">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        </div>
+                        <p class="text-xs font-semibold text-zinc-500 dark:text-zinc-400">PDF page preview will appear here</p>
+                        <p class="text-[11px] text-zinc-400">Upload a PDF on the left to inspect and export pages.</p>
+                    </div>
+                    <canvas id="pdf-canvas" class="hidden max-w-full h-auto rounded-lg shadow-md border border-zinc-200 dark:border-zinc-700 bg-white"></canvas>
+                </div>
+
+                <!-- Export Progress -->
+                <div id="progress-box" class="hidden p-4 rounded-xl bg-indigo-50 dark:bg-indigo-950/30 border border-indigo-200 dark:border-indigo-800/70 space-y-2">
+                    <div class="flex justify-between text-xs font-semibold text-indigo-700 dark:text-indigo-300">
+                        <span id="progress-label">Rendering pages...</span>
+                        <span id="progress-percent" class="font-mono">0%</span>
+                    </div>
+                    <div class="w-full h-2 rounded-full bg-indigo-200/70 dark:bg-indigo-900/60 overflow-hidden">
+                        <div id="progress-bar" class="h-full bg-indigo-600 transition-all duration-150" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <button type="button" id="download-current-btn" disabled class="btn-primary w-full !py-3.5 text-sm font-semibold">
+                        <span>Download Current Page (.png)</span>
+                    </button>
+                    <button type="button" id="download-zip-btn" disabled class="btn-accent w-full !py-3.5 text-sm font-semibold disabled:opacity-50 disabled:cursor-not-allowed">
+                        <span>Download All Pages (.zip)</span>
+                    </button>
+                </div>
+
+                <!-- Error Display -->
+                <div id="error-box" class="hidden p-4 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-xs text-rose-700 dark:text-rose-400"></div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        const dropzone = document.getElementById('dropzone');
+        const pdfInput = document.getElementById('pdf-input');
+        const fileInfoCard = document.getElementById('file-info-card');
+        const fileNameEl = document.getElementById('file-name');
+        const fileSizeEl = document.getElementById('file-size');
+        const filePagesEl = document.getElementById('file-pages');
+        const clearFileBtn = document.getElementById('clear-file-btn');
+
+        const scaleButtons = document.querySelectorAll('.scale-btn');
+
+        const prevPageBtn = document.getElementById('prev-page-btn');
+        const nextPageBtn = document.getElementById('next-page-btn');
+        const pageSelect = document.getElementById('page-select');
+        const pageIndicator = document.getElementById('page-indicator');
+        const scopeCurrentBtn = document.getElementById('scope-current-btn');
+        const scopeAllBtn = document.getElementById('scope-all-btn');
+
+        const previewEmpty = document.getElementById('preview-empty');
+        const pdfCanvas = document.getElementById('pdf-canvas');
+        const canvasDimensions = document.getElementById('canvas-dimensions');
+
+        const progressBox = document.getElementById('progress-box');
+        const progressLabel = document.getElementById('progress-label');
+        const progressPercent = document.getElementById('progress-percent');
+        const progressBar = document.getElementById('progress-bar');
+
+        const downloadCurrentBtn = document.getElementById('download-current-btn');
+        const downloadZipBtn = document.getElementById('download-zip-btn');
+        const errorBox = document.getElementById('error-box');
+
+        let pdfDoc = null;
+        let currentPage = 1;
+        let renderScale = 1.5;
+        let baseFileName = 'document';
+        let activeRenderTask = null;
+
+        dropzone.addEventListener('click', () => pdfInput.click());
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.classList.add('border-rose-500', 'bg-rose-50/20');
+        });
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.classList.remove('border-rose-500', 'bg-rose-50/20');
+        });
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('border-rose-500', 'bg-rose-50/20');
+            if (e.dataTransfer.files.length) loadPdfFile(e.dataTransfer.files[0]);
+        });
+        pdfInput.addEventListener('change', () => {
+            if (pdfInput.files.length) loadPdfFile(pdfInput.files[0]);
+        });
+
+        clearFileBtn.addEventListener('click', resetWorkspace);
+
+        scaleButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                renderScale = parseFloat(btn.dataset.scale);
+                scaleButtons.forEach(b => {
+                    b.className = 'scale-btn px-3 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800/60 text-xs font-semibold text-zinc-700 dark:text-zinc-300 hover:border-indigo-400 transition-all text-center';
+                });
+                btn.className = 'scale-btn px-3 py-2.5 rounded-xl border-2 border-indigo-500 bg-indigo-500/10 text-xs font-semibold text-indigo-600 dark:text-indigo-400 transition-all text-center';
+                if (pdfDoc) renderPreviewPage(currentPage);
+            });
+        });
+
+        prevPageBtn.addEventListener('click', () => {
+            if (pdfDoc && currentPage > 1) {
+                currentPage -= 1;
+                pageSelect.value = String(currentPage);
+                renderPreviewPage(currentPage);
+            }
+        });
+
+        nextPageBtn.addEventListener('click', () => {
+            if (pdfDoc && currentPage < pdfDoc.numPages) {
+                currentPage += 1;
+                pageSelect.value = String(currentPage);
+                renderPreviewPage(currentPage);
+            }
+        });
+
+        pageSelect.addEventListener('change', () => {
+            if (!pdfDoc) return;
+            currentPage = parseInt(pageSelect.value, 10);
+            renderPreviewPage(currentPage);
+        });
+
+        scopeCurrentBtn.addEventListener('click', () => setExportScope('current'));
+        scopeAllBtn.addEventListener('click', () => setExportScope('all'));
+
+        function setExportScope(scope) {
+            if (scope === 'current') {
+                scopeCurrentBtn.className = 'scope-btn px-2.5 py-1 rounded-md text-[11px] font-semibold bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white shadow-xs transition-all';
+                scopeAllBtn.className = 'scope-btn px-2.5 py-1 rounded-md text-[11px] font-semibold text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 transition-all';
+                downloadZipBtn.classList.remove('ring-2', 'ring-emerald-400');
+                downloadCurrentBtn.classList.add('ring-2', 'ring-indigo-400');
+            } else {
+                scopeAllBtn.className = 'scope-btn px-2.5 py-1 rounded-md text-[11px] font-semibold bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white shadow-xs transition-all';
+                scopeCurrentBtn.className = 'scope-btn px-2.5 py-1 rounded-md text-[11px] font-semibold text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 transition-all';
+                downloadCurrentBtn.classList.remove('ring-2', 'ring-indigo-400');
+                downloadZipBtn.classList.add('ring-2', 'ring-emerald-400');
+            }
+        }
+
+        async function loadPdfFile(file) {
+            hideError();
+            if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+                showError('Please upload a valid PDF file.');
+                return;
+            }
+
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                const loadingTask = pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) });
+                pdfDoc = await loadingTask.promise;
+
+                baseFileName = file.name.replace(/\.pdf$/i, '') || 'document';
+                currentPage = 1;
+
+                fileNameEl.textContent = file.name;
+                fileSizeEl.textContent = formatBytes(file.size);
+                filePagesEl.textContent = `${pdfDoc.numPages} page${pdfDoc.numPages > 1 ? 's' : ''}`;
+                fileInfoCard.classList.remove('hidden');
+
+                pageSelect.innerHTML = '';
+                for (let i = 1; i <= pdfDoc.numPages; i++) {
+                    const opt = document.createElement('option');
+                    opt.value = String(i);
+                    opt.textContent = `Page ${i} of ${pdfDoc.numPages}`;
+                    pageSelect.appendChild(opt);
+                }
+                pageSelect.disabled = false;
+                downloadCurrentBtn.disabled = false;
+                downloadZipBtn.disabled = false;
+
+                await renderPreviewPage(currentPage);
+            } catch (err) {
+                console.error('Error loading PDF:', err);
+                showError('Could not open this PDF. It may be corrupted or password-protected.');
+            } finally {
+                pdfInput.value = '';
+            }
+        }
+
+        async function renderPageToCanvas(pageNum, canvas, scale) {
+            const page = await pdfDoc.getPage(pageNum);
+            const viewport = page.getViewport({ scale });
+            const ctx = canvas.getContext('2d');
+            canvas.width = Math.floor(viewport.width);
+            canvas.height = Math.floor(viewport.height);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const renderTask = page.render({
+                canvasContext: ctx,
+                viewport
+            });
+            return { renderTask, width: canvas.width, height: canvas.height };
+        }
+
+        async function renderPreviewPage(pageNum) {
+            if (!pdfDoc) return;
+            hideError();
+            try {
+                if (activeRenderTask) {
+                    activeRenderTask.cancel();
+                    activeRenderTask = null;
+                }
+                const { renderTask, width, height } = await renderPageToCanvas(pageNum, pdfCanvas, renderScale);
+                activeRenderTask = renderTask;
+                await renderTask.promise;
+                activeRenderTask = null;
+
+                previewEmpty.classList.add('hidden');
+                pdfCanvas.classList.remove('hidden');
+                canvasDimensions.textContent = `${width} × ${height} px (${renderScale}x)`;
+                updatePageControls();
+            } catch (err) {
+                if (err && err.name === 'RenderingCancelledException') return;
+                console.error('Render error:', err);
+                showError('Failed to render PDF page preview.');
+            }
+        }
+
+        function updatePageControls() {
+            if (!pdfDoc) return;
+            pageIndicator.textContent = `Page ${currentPage} of ${pdfDoc.numPages}`;
+            prevPageBtn.disabled = currentPage <= 1;
+            nextPageBtn.disabled = currentPage >= pdfDoc.numPages;
+        }
+
+        downloadCurrentBtn.addEventListener('click', async () => {
+            if (!pdfDoc) return;
+            hideError();
+            downloadCurrentBtn.disabled = true;
+            try {
+                const exportCanvas = document.createElement('canvas');
+                const { renderTask } = await renderPageToCanvas(currentPage, exportCanvas, renderScale);
+                await renderTask.promise;
+
+                const blob = await canvasToBlob(exportCanvas, 'image/png');
+                triggerBlobDownload(blob, `${baseFileName}-page-${currentPage}.png`);
+            } catch (err) {
+                console.error('Export error:', err);
+                showError('Failed to export current page to PNG.');
+            } finally {
+                downloadCurrentBtn.disabled = false;
+            }
+        });
+
+        downloadZipBtn.addEventListener('click', async () => {
+            if (!pdfDoc) return;
+            hideError();
+            downloadCurrentBtn.disabled = true;
+            downloadZipBtn.disabled = true;
+            progressBox.classList.remove('hidden');
+            updateProgress(0, `Preparing ${pdfDoc.numPages} page(s)...`);
+
+            try {
+                const zip = new JSZip();
+                const offscreen = document.createElement('canvas');
+
+                for (let pageNum = 1; pageNum <= pdfDoc.numPages; pageNum++) {
+                    updateProgress(Math.round(((pageNum - 1) / pdfDoc.numPages) * 100), `Rendering page ${pageNum} of ${pdfDoc.numPages}...`);
+                    const { renderTask } = await renderPageToCanvas(pageNum, offscreen, renderScale);
+                    await renderTask.promise;
+
+                    const blob = await canvasToBlob(offscreen, 'image/png');
+                    const pad = String(pageNum).padStart(String(pdfDoc.numPages).length, '0');
+                    zip.file(`${baseFileName}-page-${pad}.png`, blob);
+                }
+
+                updateProgress(95, 'Packaging ZIP archive...');
+                const zipBlob = await zip.generateAsync({ type: 'blob' });
+                updateProgress(100, 'Download ready!');
+                triggerBlobDownload(zipBlob, `${baseFileName}-png-pages.zip`);
+            } catch (err) {
+                console.error('ZIP export error:', err);
+                showError('Failed to package all pages into a ZIP archive.');
+            } finally {
+                downloadCurrentBtn.disabled = false;
+                downloadZipBtn.disabled = false;
+                setTimeout(() => progressBox.classList.add('hidden'), 1200);
+            }
+        });
+
+        function canvasToBlob(canvas, mimeType) {
+            return new Promise((resolve, reject) => {
+                canvas.toBlob((blob) => {
+                    if (blob) resolve(blob);
+                    else reject(new Error('Canvas conversion returned empty blob.'));
+                }, mimeType);
+            });
+        }
+
+        function triggerBlobDownload(blob, filename) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(() => URL.revokeObjectURL(url), 1000);
+        }
+
+        function updateProgress(percent, label) {
+            progressBar.style.width = `${percent}%`;
+            progressPercent.textContent = `${percent}%`;
+            progressLabel.textContent = label;
+        }
+
+        function resetWorkspace() {
+            if (activeRenderTask) {
+                activeRenderTask.cancel();
+                activeRenderTask = null;
+            }
+            pdfDoc = null;
+            currentPage = 1;
+            pdfInput.value = '';
+            fileInfoCard.classList.add('hidden');
+            previewEmpty.classList.remove('hidden');
+            pdfCanvas.classList.add('hidden');
+            canvasDimensions.textContent = '—';
+            pageIndicator.textContent = 'No PDF loaded';
+            pageSelect.innerHTML = '<option value="1">Page 1</option>';
+            pageSelect.disabled = true;
+            prevPageBtn.disabled = true;
+            nextPageBtn.disabled = true;
+            downloadCurrentBtn.disabled = true;
+            downloadZipBtn.disabled = true;
+            progressBox.classList.add('hidden');
+            hideError();
+        }
+
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function showError(msg) {
+            errorBox.textContent = msg;
+            errorBox.classList.remove('hidden');
+        }
+
+        function hideError() {
+            errorBox.classList.add('hidden');
+            errorBox.textContent = '';
+        }
+    </script>
+    <script type="module" src="/src/layout.js"></script>
+</body>
+</html>

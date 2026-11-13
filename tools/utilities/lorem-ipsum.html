@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lorem Ipsum Generator — OmniTools</title>
+    <meta name="description" content="Generate customizable placeholder Lorem Ipsum dummy text by words, sentences, or paragraphs with HTML tag wrapper. 100% free.">
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="stylesheet" href="/src/input.css">
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col justify-between transition-colors">
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+        <!-- Tool Header -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
+                        Utilities
+                    </span>
+                    <span class="privacy-badge">🔒 100% Client-Side Privacy</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">Lorem Ipsum Generator</h1>
+                <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">Generate dummy copy for UI layouts, wireframes, typography testing, and mockups.</p>
+            </div>
+        </div>
+
+        <!-- Split 2-Column Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            
+            <!-- Left Column: Generator Controls -->
+            <div class="workspace-panel space-y-5">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                    <span>⚙️</span> Output Parameters
+                </h2>
+
+                <form id="generatorForm" class="space-y-4">
+                    <!-- Type Selector -->
+                    <div>
+                        <label class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Quantity Unit</label>
+                        <div class="grid grid-cols-3 gap-2" id="unit-pills">
+                            <button type="button" data-type="paragraphs" class="unit-pill py-2 rounded-xl text-xs font-bold bg-amber-500 text-white shadow-xs">Paragraphs</button>
+                            <button type="button" data-type="sentences" class="unit-pill py-2 rounded-xl text-xs font-bold border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:border-amber-500">Sentences</button>
+                            <button type="button" data-type="words" class="unit-pill py-2 rounded-xl text-xs font-bold border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:border-amber-500">Words</button>
+                        </div>
+                    </div>
+
+                    <!-- Number of items -->
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <label for="quantity" class="text-xs font-semibold text-zinc-700 dark:text-zinc-300">Quantity Count</label>
+                            <span id="quantity-display" class="text-xs font-mono font-bold text-amber-600">3 paragraphs</span>
+                        </div>
+                        <input type="range" id="quantity" min="1" max="50" value="3" class="w-full accent-amber-500">
+                    </div>
+
+                    <!-- Toggles -->
+                    <div class="space-y-2 pt-2 border-t border-zinc-200 dark:border-zinc-800">
+                        <label class="flex items-center justify-between p-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/40 cursor-pointer">
+                            <span class="text-xs font-medium text-zinc-800 dark:text-zinc-200">Start with "Lorem ipsum dolor sit amet..."</span>
+                            <input type="checkbox" id="start-classic" checked class="rounded border-zinc-300 text-amber-500 focus:ring-amber-500">
+                        </label>
+                        <label class="flex items-center justify-between p-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/40 cursor-pointer">
+                            <span class="text-xs font-medium text-zinc-800 dark:text-zinc-200">Wrap with &lt;p&gt; HTML Tags</span>
+                            <input type="checkbox" id="wrap-html" class="rounded border-zinc-300 text-amber-500 focus:ring-amber-500">
+                        </label>
+                    </div>
+
+                    <button type="button" id="generate-btn" class="btn-primary w-full !py-3 text-sm font-semibold !bg-amber-500 hover:!bg-amber-600">
+                        Generate Dummy Copy
+                    </button>
+                </form>
+
+                <div class="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950/40 border border-zinc-200/60 dark:border-zinc-800 text-xs text-zinc-500 dark:text-zinc-400">
+                    <p class="font-semibold text-zinc-700 dark:text-zinc-300 mb-1">💡 Cicero's Origins</p>
+                    <p class="text-[11px] leading-relaxed">Lorem Ipsum has been the printing industry standard dummy text since the 1500s, originating from sections of Cicero's 45 BC philosophical work <em>De Finibus Bonorum et Malorum</em>.</p>
+                </div>
+            </div>
+
+            <!-- Right Column: Generated Output & Copy -->
+            <div class="workspace-panel space-y-6">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                        <span>📄</span> Generated Passage
+                    </h2>
+                    <span id="output-stats" class="text-xs font-mono text-zinc-400">0 words</span>
+                </div>
+
+                <!-- Text display -->
+                <div class="p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/60 max-h-[380px] overflow-y-auto space-y-3 font-serif text-sm leading-relaxed text-zinc-800 dark:text-zinc-200" id="output-box">
+                    <!-- Dynamic paragraphs -->
+                </div>
+
+                <!-- Copy Actions -->
+                <div class="grid grid-cols-2 gap-3">
+                    <button type="button" id="copy-text-btn" class="btn-accent !py-2.5 text-xs font-semibold flex items-center justify-center gap-2">
+                        <span>📋</span>
+                        <span id="copy-label">Copy Text</span>
+                    </button>
+                    <button type="button" id="copy-html-btn" class="btn-secondary !py-2.5 text-xs font-semibold flex items-center justify-center gap-2">
+                        <span>&lt;/&gt;</span>
+                        <span id="copy-html-label">Copy HTML</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="/src/layout.js"></script>
+    <script>
+        const wordsBank = [
+            "lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipiscing", "elit",
+            "sed", "do", "eiusmod", "tempor", "incididunt", "ut", "labore", "et", "dolore",
+            "magna", "aliqua", "enim", "ad", "minim", "veniam", "quis", "nostrud",
+            "exercitation", "ullamco", "laboris", "nisi", "ut", "aliquip", "ex", "ea", "commodo",
+            "consequat", "duis", "aute", "irure", "dolor", "in", "reprehenderit", "in",
+            "voluptate", "velit", "esse", "cillum", "dolore", "eu", "fugiat", "nulla",
+            "pariatur", "excepteur", "sint", "occaecat", "cupidatat", "non", "proident",
+            "sunt", "in", "culpa", "qui", "officia", "deserunt", "mollit", "anim", "id", "est", "laborum"
+        ];
+
+        let currentType = 'paragraphs';
+
+        const unitPills = document.querySelectorAll('.unit-pill');
+        const quantity = document.getElementById('quantity');
+        const quantityDisplay = document.getElementById('quantity-display');
+        const startClassic = document.getElementById('start-classic');
+        const wrapHtml = document.getElementById('wrap-html');
+        const generateBtn = document.getElementById('generate-btn');
+
+        const outputBox = document.getElementById('output-box');
+        const outputStats = document.getElementById('output-stats');
+        const copyTextBtn = document.getElementById('copy-text-btn');
+        const copyLabel = document.getElementById('copy-label');
+        const copyHtmlBtn = document.getElementById('copy-html-btn');
+        const copyHtmlLabel = document.getElementById('copy-html-label');
+
+        unitPills.forEach(pill => {
+            pill.addEventListener('click', () => {
+                unitPills.forEach(p => {
+                    p.className = 'unit-pill py-2 rounded-xl text-xs font-bold border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:border-amber-500';
+                });
+                pill.className = 'unit-pill py-2 rounded-xl text-xs font-bold bg-amber-500 text-white shadow-xs';
+                currentType = pill.dataset.type;
+                updateQuantityLabel();
+                generateLorem();
+            });
+        });
+
+        quantity.addEventListener('input', () => {
+            updateQuantityLabel();
+            generateLorem();
+        });
+
+        function updateQuantityLabel() {
+            quantityDisplay.textContent = `${quantity.value} ${currentType}`;
+        }
+
+        startClassic.addEventListener('change', generateLorem);
+        wrapHtml.addEventListener('change', generateLorem);
+        generateBtn.addEventListener('click', generateLorem);
+
+        function makeSentence() {
+            const count = Math.floor(Math.random() * 8) + 6;
+            const chosen = [];
+            for (let i = 0; i < count; i++) {
+                chosen.push(wordsBank[Math.floor(Math.random() * wordsBank.length)]);
+            }
+            const s = chosen.join(' ');
+            return s.charAt(0).toUpperCase() + s.slice(1) + '.';
+        }
+
+        function generateLorem() {
+            const num = parseInt(quantity.value) || 3;
+            const classic = startClassic.checked;
+            const htmlWrap = wrapHtml.checked;
+            let paragraphs = [];
+
+            if (currentType === 'words') {
+                const words = [];
+                if (classic) {
+                    words.push("Lorem", "ipsum", "dolor", "sit", "amet");
+                }
+                while (words.length < num) {
+                    words.push(wordsBank[Math.floor(Math.random() * wordsBank.length)]);
+                }
+                paragraphs = [words.slice(0, num).join(' ')];
+            } else if (currentType === 'sentences') {
+                const sentences = [];
+                for (let i = 0; i < num; i++) {
+                    if (i === 0 && classic) {
+                        sentences.push("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+                    } else {
+                        sentences.push(makeSentence());
+                    }
+                }
+                paragraphs = [sentences.join(' ')];
+            } else {
+                for (let i = 0; i < num; i++) {
+                    const sentenceCount = Math.floor(Math.random() * 3) + 4;
+                    const sentences = [];
+                    for (let j = 0; j < sentenceCount; j++) {
+                        if (i === 0 && j === 0 && classic) {
+                            sentences.push("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
+                        } else {
+                            sentences.push(makeSentence());
+                        }
+                    }
+                    paragraphs.push(sentences.join(' '));
+                }
+            }
+
+            // Render Output
+            outputBox.innerHTML = '';
+            let totalWords = 0;
+
+            paragraphs.forEach(p => {
+                totalWords += p.split(/\s+/).length;
+                if (htmlWrap) {
+                    const code = document.createElement('pre');
+                    code.className = 'font-mono text-xs text-zinc-700 dark:text-zinc-300 bg-white dark:bg-zinc-800 p-2.5 rounded-lg border border-zinc-200 dark:border-zinc-700 select-all';
+                    code.textContent = `<p>${p}</p>`;
+                    outputBox.appendChild(code);
+                } else {
+                    const el = document.createElement('p');
+                    el.className = 'leading-relaxed select-all';
+                    el.textContent = p;
+                    outputBox.appendChild(el);
+                }
+            });
+
+            outputStats.textContent = `${totalWords} words • ${paragraphs.length} blocks`;
+        }
+
+        copyTextBtn.addEventListener('click', () => {
+            const rawText = Array.from(outputBox.children).map(c => c.textContent).join('\n\n');
+            navigator.clipboard.writeText(rawText).then(() => {
+                copyLabel.textContent = "Copied!";
+                setTimeout(() => { copyLabel.textContent = "Copy Text"; }, 2000);
+            });
+        });
+
+        copyHtmlBtn.addEventListener('click', () => {
+            const htmlContent = Array.from(outputBox.children).map(c => `<p>${c.textContent.replace(/<\/?p>/g, '')}</p>`).join('\n');
+            navigator.clipboard.writeText(htmlContent).then(() => {
+                copyHtmlLabel.textContent = "Copied HTML!";
+                setTimeout(() => { copyHtmlLabel.textContent = "Copy HTML"; }, 2000);
+            });
+        });
+
+        // Initialize
+        generateLorem();
+    </script>
+</body>
+</html>

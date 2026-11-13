@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI Calculator — OmniTools</title>
+    <meta name="description" content="Calculate your Body Mass Index (BMI) and discover your ideal healthy weight range. Supports both Metric and Imperial units. 100% free and client-side.">
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="stylesheet" href="/src/input.css">
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col justify-between transition-colors">
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+        <!-- Tool Header -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                        Calculators
+                    </span>
+                    <span class="privacy-badge">🔒 100% Client-Side Privacy</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">BMI Calculator</h1>
+                <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">Check your Body Mass Index, health category, and healthy target weight.</p>
+            </div>
+        </div>
+
+        <!-- Split 2-Column Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            
+            <!-- Left Column: Inputs -->
+            <div class="workspace-panel space-y-6">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                        <span>⚖️</span> Body Measurements
+                    </h2>
+                    
+                    <!-- Unit Selector -->
+                    <div class="inline-flex p-1 bg-zinc-100 dark:bg-zinc-800 rounded-xl text-xs font-semibold">
+                        <button type="button" id="tab-metric" class="px-3 py-1.5 rounded-lg bg-white dark:bg-zinc-700 text-zinc-900 dark:text-white shadow-xs transition-all">Metric (cm, kg)</button>
+                        <button type="button" id="tab-imperial" class="px-3 py-1.5 rounded-lg text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-all">Imperial (ft, lbs)</button>
+                    </div>
+                </div>
+
+                <!-- Metric Inputs Form -->
+                <div id="metric-inputs" class="space-y-4">
+                    <div>
+                        <label for="height-cm" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Height (Centimeters)</label>
+                        <div class="relative">
+                            <input type="number" id="height-cm" value="175" min="50" max="260" class="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none transition-all pr-12">
+                            <span class="absolute right-4 top-3 text-xs font-bold text-zinc-400">cm</span>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="weight-kg" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Weight (Kilograms)</label>
+                        <div class="relative">
+                            <input type="number" id="weight-kg" value="70" min="20" max="300" step="0.5" class="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none transition-all pr-12">
+                            <span class="absolute right-4 top-3 text-xs font-bold text-zinc-400">kg</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Imperial Inputs Form -->
+                <div id="imperial-inputs" class="hidden space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Height (Feet & Inches)</label>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="relative">
+                                <input type="number" id="height-ft" value="5" min="2" max="8" class="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none transition-all pr-10">
+                                <span class="absolute right-4 top-3 text-xs font-bold text-zinc-400">ft</span>
+                            </div>
+                            <div class="relative">
+                                <input type="number" id="height-in" value="9" min="0" max="11" class="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none transition-all pr-10">
+                                <span class="absolute right-4 top-3 text-xs font-bold text-zinc-400">in</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="weight-lbs" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Weight (Pounds)</label>
+                        <div class="relative">
+                            <input type="number" id="weight-lbs" value="154" min="40" max="600" step="0.5" class="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none transition-all pr-12">
+                            <span class="absolute right-4 top-3 text-xs font-bold text-zinc-400">lbs</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950/40 border border-zinc-200/60 dark:border-zinc-800 text-xs text-zinc-500 dark:text-zinc-400">
+                    <p class="font-semibold text-zinc-700 dark:text-zinc-300 mb-1">💡 What is BMI?</p>
+                    <p class="text-[11px] leading-relaxed">Body Mass Index (BMI) is a screening metric comparing height and weight used worldwide by the WHO to categorize weight ranges for adults.</p>
+                </div>
+            </div>
+
+            <!-- Right Column: Results & Health Summary -->
+            <div class="workspace-panel space-y-6">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 mb-2 flex items-center gap-2">
+                    <span>📊</span> Your Health Analysis
+                </h2>
+
+                <!-- Main BMI Card -->
+                <div class="p-6 rounded-2xl bg-gradient-to-br from-emerald-500/10 via-teal-500/5 to-transparent border border-emerald-500/20 text-center space-y-3">
+                    <p class="text-xs font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400">Calculated Body Mass Index</p>
+                    <div class="text-4xl sm:text-5xl font-black text-zinc-900 dark:text-white tracking-tight" id="bmi-value">
+                        22.9
+                    </div>
+                    <div>
+                        <span id="bmi-badge" class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-emerald-500 text-white shadow-xs">
+                            Normal Weight
+                        </span>
+                    </div>
+                    <p class="text-xs text-zinc-500 dark:text-zinc-400 max-w-sm mx-auto" id="bmi-status-desc">
+                        Your BMI falls into the healthy weight range. Keep up your balanced lifestyle!
+                    </p>
+                </div>
+
+                <!-- Ideal Weight Guidance -->
+                <div class="p-4 rounded-xl bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/60 flex items-center justify-between">
+                    <div>
+                        <span class="text-[11px] font-bold uppercase text-zinc-400">Healthy Weight Range</span>
+                        <p class="text-sm font-bold text-zinc-800 dark:text-zinc-200" id="ideal-weight-range">56.7 kg – 76.3 kg</p>
+                    </div>
+                    <span class="text-2xl">🎯</span>
+                </div>
+
+                <!-- Reference Categories Table -->
+                <div class="space-y-2">
+                    <span class="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">WHO Classification Standards</span>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs">
+                        <div class="p-2.5 rounded-xl border border-blue-200 dark:border-blue-900/50 bg-blue-50/50 dark:bg-blue-950/20">
+                            <span class="block font-bold text-blue-600 dark:text-blue-400">&lt; 18.5</span>
+                            <span class="text-[11px] text-zinc-500">Underweight</span>
+                        </div>
+                        <div class="p-2.5 rounded-xl border border-emerald-200 dark:border-emerald-900/50 bg-emerald-50/50 dark:bg-emerald-950/20">
+                            <span class="block font-bold text-emerald-600 dark:text-emerald-400">18.5 – 24.9</span>
+                            <span class="text-[11px] text-zinc-500">Healthy</span>
+                        </div>
+                        <div class="p-2.5 rounded-xl border border-amber-200 dark:border-amber-900/50 bg-amber-50/50 dark:bg-amber-950/20">
+                            <span class="block font-bold text-amber-600 dark:text-amber-400">25.0 – 29.9</span>
+                            <span class="text-[11px] text-zinc-500">Overweight</span>
+                        </div>
+                        <div class="p-2.5 rounded-xl border border-rose-200 dark:border-rose-900/50 bg-rose-50/50 dark:bg-rose-950/20">
+                            <span class="block font-bold text-rose-600 dark:text-rose-400">&ge; 30.0</span>
+                            <span class="text-[11px] text-zinc-500">Obese</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="/src/layout.js"></script>
+    <script>
+        let isMetric = true;
+
+        const tabMetric = document.getElementById('tab-metric');
+        const tabImperial = document.getElementById('tab-imperial');
+        const metricInputs = document.getElementById('metric-inputs');
+        const imperialInputs = document.getElementById('imperial-inputs');
+
+        const heightCmInput = document.getElementById('height-cm');
+        const weightKgInput = document.getElementById('weight-kg');
+
+        const heightFtInput = document.getElementById('height-ft');
+        const heightInInput = document.getElementById('height-in');
+        const weightLbsInput = document.getElementById('weight-lbs');
+
+        const bmiValueEl = document.getElementById('bmi-value');
+        const bmiBadgeEl = document.getElementById('bmi-badge');
+        const bmiStatusDescEl = document.getElementById('bmi-status-desc');
+        const idealWeightRangeEl = document.getElementById('ideal-weight-range');
+
+        tabMetric.addEventListener('click', () => {
+            isMetric = true;
+            tabMetric.classList.add('bg-white', 'dark:bg-zinc-700', 'text-zinc-900', 'dark:text-white', 'shadow-xs');
+            tabMetric.classList.remove('text-zinc-600', 'dark:text-zinc-400');
+            tabImperial.classList.remove('bg-white', 'dark:bg-zinc-700', 'text-zinc-900', 'dark:text-white', 'shadow-xs');
+            tabImperial.classList.add('text-zinc-600', 'dark:text-zinc-400');
+            metricInputs.classList.remove('hidden');
+            imperialInputs.classList.add('hidden');
+            calculateBMI();
+        });
+
+        tabImperial.addEventListener('click', () => {
+            isMetric = false;
+            tabImperial.classList.add('bg-white', 'dark:bg-zinc-700', 'text-zinc-900', 'dark:text-white', 'shadow-xs');
+            tabImperial.classList.remove('text-zinc-600', 'dark:text-zinc-400');
+            tabMetric.classList.remove('bg-white', 'dark:bg-zinc-700', 'text-zinc-900', 'dark:text-white', 'shadow-xs');
+            tabMetric.classList.add('text-zinc-600', 'dark:text-zinc-400');
+            imperialInputs.classList.remove('hidden');
+            metricInputs.classList.add('hidden');
+            calculateBMI();
+        });
+
+        [heightCmInput, weightKgInput, heightFtInput, heightInInput, weightLbsInput].forEach(input => {
+            input.addEventListener('input', calculateBMI);
+        });
+
+        function calculateBMI() {
+            let heightMeters = 0;
+            let weightKg = 0;
+
+            if (isMetric) {
+                const cm = parseFloat(heightCmInput.value) || 0;
+                weightKg = parseFloat(weightKgInput.value) || 0;
+                heightMeters = cm / 100;
+            } else {
+                const ft = parseFloat(heightFtInput.value) || 0;
+                const inches = parseFloat(heightInInput.value) || 0;
+                const lbs = parseFloat(weightLbsInput.value) || 0;
+                const totalInches = (ft * 12) + inches;
+                heightMeters = totalInches * 0.0254;
+                weightKg = lbs * 0.45359237;
+            }
+
+            if (heightMeters <= 0 || weightKg <= 0) {
+                bmiValueEl.textContent = "--";
+                bmiBadgeEl.textContent = "Awaiting input";
+                bmiBadgeEl.className = "inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300";
+                return;
+            }
+
+            const bmi = weightKg / (heightMeters * heightMeters);
+            bmiValueEl.textContent = bmi.toFixed(1);
+
+            let status = "";
+            let badgeClass = "";
+            let desc = "";
+
+            if (bmi < 18.5) {
+                status = "Underweight";
+                badgeClass = "bg-blue-500 text-white";
+                desc = "Your BMI suggests you are below the normal healthy weight range. Consider consulting a health professional.";
+            } else if (bmi <= 24.9) {
+                status = "Normal Weight";
+                badgeClass = "bg-emerald-500 text-white";
+                desc = "Your BMI is within the healthy recommended weight range. Excellent job maintaining balanced fitness!";
+            } else if (bmi <= 29.9) {
+                status = "Overweight";
+                badgeClass = "bg-amber-500 text-white";
+                desc = "Your BMI indicates moderate excess weight. Increased physical activity and healthy nutrition can help optimize your range.";
+            } else {
+                status = "Obese";
+                badgeClass = "bg-rose-500 text-white";
+                desc = "Your BMI falls in the obesity category. Regular physical activity and dietary modifications are recommended.";
+            }
+
+            bmiBadgeEl.textContent = status;
+            bmiBadgeEl.className = `inline-flex items-center px-3 py-1 rounded-full text-xs font-bold shadow-xs ${badgeClass}`;
+            bmiStatusDescEl.textContent = desc;
+
+            const minIdealKg = 18.5 * (heightMeters * heightMeters);
+            const maxIdealKg = 24.9 * (heightMeters * heightMeters);
+
+            if (isMetric) {
+                idealWeightRangeEl.textContent = `${minIdealKg.toFixed(1)} kg – ${maxIdealKg.toFixed(1)} kg`;
+            } else {
+                const minIdealLbs = minIdealKg * 2.20462;
+                const maxIdealLbs = maxIdealKg * 2.20462;
+                idealWeightRangeEl.textContent = `${minIdealLbs.toFixed(1)} lbs – ${maxIdealLbs.toFixed(1)} lbs`;
+            }
+        }
+
+        // Initialize on load
+        calculateBMI();
+    </script>
+</body>
+</html>

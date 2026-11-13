@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number to Words Converter — OmniTools</title>
+    <meta name="description" content="Convert numbers to words in English (International Millions/Billions & Indian Lakhs/Crores) for cheques, invoices, and legal documents.">
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="stylesheet" href="/src/input.css">
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col justify-between transition-colors">
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+        <!-- Tool Header -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
+                        Utilities
+                    </span>
+                    <span class="privacy-badge">🔒 100% Client-Side Privacy</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">Number to Words Converter</h1>
+                <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">Convert numerical amounts into standard legal words for financial cheques and contracts.</p>
+            </div>
+        </div>
+
+        <!-- Split 2-Column Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            
+            <!-- Left Column: Number Input & Format Options -->
+            <div class="workspace-panel space-y-5">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                    <span>🔢</span> Numerical Input
+                </h2>
+
+                <div class="space-y-4">
+                    <div>
+                        <label for="num-input" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Enter Number or Amount</label>
+                        <input type="number" id="num-input" value="125500" step="any" placeholder="e.g. 52400.50" class="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-base font-mono font-bold focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                    </div>
+
+                    <!-- Numbering System -->
+                    <div>
+                        <label class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Numbering Scale</label>
+                        <div class="grid grid-cols-2 gap-2" id="scale-pills">
+                            <button type="button" data-scale="intl" class="scale-pill py-2 rounded-xl text-xs font-bold bg-amber-500 text-white shadow-xs">International (Millions)</button>
+                            <button type="button" data-scale="indian" class="scale-pill py-2 rounded-xl text-xs font-bold border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:border-amber-500">Indian (Lakhs/Crores)</button>
+                        </div>
+                    </div>
+
+                    <!-- Currency Mode & Casing -->
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label for="currency-select" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">Currency Format</label>
+                            <select id="currency-select" class="w-full px-3 py-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-xs font-semibold">
+                                <option value="none">Numbers Only</option>
+                                <option value="usd">USD ($ / Dollars)</option>
+                                <option value="inr" selected>INR (₹ / Rupees)</option>
+                                <option value="eur">EUR (€ / Euros)</option>
+                                <option value="gbp">GBP (£ / Pounds)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="case-select" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">Letter Casing</label>
+                            <select id="case-select" class="w-full px-3 py-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-xs font-semibold">
+                                <option value="title" selected>Title Case</option>
+                                <option value="upper">UPPERCASE</option>
+                                <option value="lower">lowercase</option>
+                                <option value="sentence">Sentence case</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950/40 border border-zinc-200/60 dark:border-zinc-800 text-xs text-zinc-500 dark:text-zinc-400">
+                    <p class="font-semibold text-zinc-700 dark:text-zinc-300 mb-1">💡 Cheque & Invoice Ready</p>
+                    <p class="text-[11px] leading-relaxed">Financial mode automatically includes fractional decimal cents/paise values and appends the standard legal <strong>"Only"</strong> suffix.</p>
+                </div>
+            </div>
+
+            <!-- Right Column: Result & Copy -->
+            <div class="workspace-panel space-y-6">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                        <span>📝</span> Converted Words
+                    </h2>
+                    <span id="scale-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">Indian Scale</span>
+                </div>
+
+                <!-- Main Output Card -->
+                <div class="p-6 rounded-2xl bg-gradient-to-br from-amber-500/10 via-orange-500/5 to-transparent border border-amber-500/20 text-center space-y-3">
+                    <p class="text-[11px] font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400">Cheque & Legal Text</p>
+                    <div class="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white leading-relaxed select-all" id="output-text">
+                        One Lakh Twenty-Five Thousand Five Hundred Rupees Only
+                    </div>
+                </div>
+
+                <!-- Copy Button -->
+                <button type="button" id="copy-btn" class="btn-accent w-full !py-3 text-sm font-semibold flex items-center justify-center gap-2">
+                    <span>📋</span>
+                    <span id="copy-label">Copy Words to Clipboard</span>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="/src/layout.js"></script>
+    <script>
+        const ones = ["", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"];
+        const tens = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"];
+
+        let currentScale = 'indian';
+
+        const numInput = document.getElementById('num-input');
+        const scalePills = document.querySelectorAll('.scale-pill');
+        const currencySelect = document.getElementById('currency-select');
+        const caseSelect = document.getElementById('case-select');
+        const scaleBadge = document.getElementById('scale-badge');
+        const outputText = document.getElementById('output-text');
+        const copyBtn = document.getElementById('copy-btn');
+        const copyLabel = document.getElementById('copy-label');
+
+        scalePills.forEach(pill => {
+            pill.addEventListener('click', () => {
+                scalePills.forEach(p => {
+                    p.className = 'scale-pill py-2 rounded-xl text-xs font-bold border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:border-amber-500';
+                });
+                pill.className = 'scale-pill py-2 rounded-xl text-xs font-bold bg-amber-500 text-white shadow-xs';
+                currentScale = pill.dataset.scale;
+                scaleBadge.textContent = currentScale === 'indian' ? 'Indian Scale' : 'International Scale';
+                convert();
+            });
+        });
+
+        function convertChunk(n) {
+            let str = "";
+            if (n >= 100) {
+                str += ones[Math.floor(n / 100)] + " hundred ";
+                n %= 100;
+            }
+            if (n >= 20) {
+                str += tens[Math.floor(n / 10)] + " ";
+                n %= 10;
+            }
+            if (n > 0) {
+                str += ones[n] + " ";
+            }
+            return str.trim();
+        }
+
+        function intlToWords(num) {
+            if (num === 0) return "zero";
+            const scales = ["", "thousand", "million", "billion", "trillion"];
+            let words = "";
+            let scaleIndex = 0;
+
+            while (num > 0) {
+                let chunk = num % 1000;
+                if (chunk > 0) {
+                    words = convertChunk(chunk) + (scales[scaleIndex] ? " " + scales[scaleIndex] : "") + " " + words;
+                }
+                num = Math.floor(num / 1000);
+                scaleIndex++;
+            }
+            return words.trim();
+        }
+
+        function indianToWords(num) {
+            if (num === 0) return "zero";
+            let words = "";
+
+            if (num >= 10000000) {
+                const crore = Math.floor(num / 10000000);
+                words += indianToWords(crore) + " crore ";
+                num %= 10000000;
+            }
+            if (num >= 100000) {
+                const lakh = Math.floor(num / 100000);
+                words += convertChunk(lakh) + " lakh ";
+                num %= 100000;
+            }
+            if (num >= 1000) {
+                const thousand = Math.floor(num / 1000);
+                words += convertChunk(thousand) + " thousand ";
+                num %= 1000;
+            }
+            if (num > 0) {
+                words += convertChunk(num) + " ";
+            }
+            return words.trim();
+        }
+
+        function convert() {
+            const val = parseFloat(numInput.value);
+            if (isNaN(val)) {
+                outputText.textContent = "Please enter a valid number";
+                return;
+            }
+
+            const isNegative = val < 0;
+            const absVal = Math.abs(val);
+            const intPart = Math.floor(absVal);
+            const decPart = Math.round((absVal - intPart) * 100);
+
+            const wordsFunc = currentScale === 'indian' ? indianToWords : intlToWords;
+            let result = wordsFunc(intPart);
+            if (isNegative) result = "minus " + result;
+
+            const curr = currencySelect.value;
+            if (curr === 'inr') {
+                result += " rupees";
+                if (decPart > 0) {
+                    result += " and " + wordsFunc(decPart) + " paise";
+                }
+                result += " only";
+            } else if (curr === 'usd') {
+                result += " dollars";
+                if (decPart > 0) {
+                    result += " and " + wordsFunc(decPart) + " cents";
+                }
+                result += " only";
+            } else if (curr === 'eur') {
+                result += " euros";
+                if (decPart > 0) {
+                    result += " and " + wordsFunc(decPart) + " cents";
+                }
+                result += " only";
+            } else if (curr === 'gbp') {
+                result += " pounds";
+                if (decPart > 0) {
+                    result += " and " + wordsFunc(decPart) + " pence";
+                }
+                result += " only";
+            } else if (decPart > 0) {
+                result += " point " + wordsFunc(decPart);
+            }
+
+            // Apply casing
+            const casing = caseSelect.value;
+            if (casing === 'upper') {
+                result = result.toUpperCase();
+            } else if (casing === 'lower') {
+                result = result.toLowerCase();
+            } else if (casing === 'sentence') {
+                result = result.charAt(0).toUpperCase() + result.slice(1);
+            } else { // title
+                result = result.replace(/\b\w/g, c => c.toUpperCase());
+            }
+
+            outputText.textContent = result;
+        }
+
+        numInput.addEventListener('input', convert);
+        currencySelect.addEventListener('change', convert);
+        caseSelect.addEventListener('change', convert);
+
+        copyBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(outputText.textContent.trim()).then(() => {
+                copyLabel.textContent = "Copied!";
+                setTimeout(() => { copyLabel.textContent = "Copy Words to Clipboard"; }, 2000);
+            });
+        });
+
+        // Initialize
+        convert();
+    </script>
+</body>
+</html>

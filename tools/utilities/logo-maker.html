@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instant Logo & Icon Maker — OmniTools</title>
+    <meta name="description" content="Generate sleek, modern SVG and PNG brand logos, avatars, and app icons directly in browser. 100% free and client-side.">
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="stylesheet" href="/src/input.css">
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col justify-between transition-colors">
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+        <!-- Tool Header -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
+                        Utilities
+                    </span>
+                    <span class="privacy-badge">🔒 100% Client-Side Privacy</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">Instant Logo & Icon Maker</h1>
+                <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">Design minimalist SaaS logos, avatars, and app icons with vector sharpness.</p>
+            </div>
+        </div>
+
+        <!-- Split 2-Column Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            
+            <!-- Left Column: Branding Parameters -->
+            <div class="workspace-panel space-y-5">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                    <span>🎨</span> Logo Design Controls
+                </h2>
+
+                <div class="space-y-4">
+                    <!-- Brand text -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label for="brand-text" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">Brand Name / Letter</label>
+                            <input type="text" id="brand-text" value="Omni" placeholder="e.g. Acme" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-xs font-semibold focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label for="tagline-text" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">Tagline (Optional)</label>
+                            <input type="text" id="tagline-text" value="TOOLS" placeholder="e.g. LABS" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-xs font-semibold focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                        </div>
+                    </div>
+
+                    <!-- Shape Container -->
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label for="badge-shape" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">Emblem Geometry</label>
+                            <select id="badge-shape" class="w-full px-3 py-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-xs font-semibold">
+                                <option value="squircle" selected>Rounded Squircle</option>
+                                <option value="circle">Smooth Circle</option>
+                                <option value="square">Modern Square</option>
+                                <option value="pill">Horizontal Pill</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="font-family" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">Typography Style</label>
+                            <select id="font-family" class="w-full px-3 py-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-xs font-semibold">
+                                <option value="sans-serif" selected>Modern Sans-Serif</option>
+                                <option value="serif">Classic Serif</option>
+                                <option value="monospace">Tech Monospace</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Colors -->
+                    <div class="grid grid-cols-3 gap-3 pt-2 border-t border-zinc-200 dark:border-zinc-800">
+                        <div>
+                            <label class="block text-[11px] font-semibold text-zinc-400 mb-1">Color 1</label>
+                            <input type="color" id="color-grad-1" value="#f59e0b" class="w-full h-9 rounded-xl border border-zinc-200 dark:border-zinc-700 cursor-pointer bg-white dark:bg-zinc-800 p-1">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-semibold text-zinc-400 mb-1">Color 2</label>
+                            <input type="color" id="color-grad-2" value="#ec4899" class="w-full h-9 rounded-xl border border-zinc-200 dark:border-zinc-700 cursor-pointer bg-white dark:bg-zinc-800 p-1">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-semibold text-zinc-400 mb-1">Text Color</label>
+                            <input type="color" id="color-text" value="#ffffff" class="w-full h-9 rounded-xl border border-zinc-200 dark:border-zinc-700 cursor-pointer bg-white dark:bg-zinc-800 p-1">
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <input type="checkbox" id="transparent-bg" class="rounded border-zinc-300 text-amber-500 focus:ring-amber-500">
+                        <label for="transparent-bg" class="text-xs font-medium text-zinc-700 dark:text-zinc-300">Transparent Background (Emblem Only)</label>
+                    </div>
+                </div>
+
+                <div class="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950/40 border border-zinc-200/60 dark:border-zinc-800 text-xs text-zinc-500 dark:text-zinc-400">
+                    <p class="font-semibold text-zinc-700 dark:text-zinc-300 mb-1">💎 Crystal Crisp Export</p>
+                    <p class="text-[11px] leading-relaxed">Logos are drawn with vector anti-aliased sub-pixel rendering at 512×512 resolution, suitable for website favicons, social headers, and app manifests.</p>
+                </div>
+            </div>
+
+            <!-- Right Column: Live Logo Canvas & Download -->
+            <div class="workspace-panel space-y-6">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                        <span>👁️</span> Rendered Preview
+                    </h2>
+                    <span class="text-xs font-mono text-zinc-400">512 × 512 px</span>
+                </div>
+
+                <!-- Canvas Preview -->
+                <div class="p-6 rounded-2xl bg-zinc-100 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800 flex items-center justify-center min-h-[300px]">
+                    <canvas id="logo-canvas" width="512" height="512" class="w-64 h-64 object-contain rounded-2xl shadow-lg"></canvas>
+                </div>
+
+                <!-- Export Buttons -->
+                <div class="grid grid-cols-2 gap-3">
+                    <button type="button" id="download-png" class="btn-primary !py-3 text-xs font-semibold !bg-amber-500 hover:!bg-amber-600 flex items-center justify-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                        <span>Download PNG</span>
+                    </button>
+                    <button type="button" id="download-svg" class="btn-secondary !py-3 text-xs font-semibold flex items-center justify-center gap-2">
+                        <span>&lt;/&gt;</span>
+                        <span>Download SVG</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="/src/layout.js"></script>
+    <script>
+        const brandText = document.getElementById('brand-text');
+        const taglineText = document.getElementById('tagline-text');
+        const badgeShape = document.getElementById('badge-shape');
+        const fontFamily = document.getElementById('font-family');
+        const colorGrad1 = document.getElementById('color-grad-1');
+        const colorGrad2 = document.getElementById('color-grad-2');
+        const colorText = document.getElementById('color-text');
+        const transparentBg = document.getElementById('transparent-bg');
+        const canvas = document.getElementById('logo-canvas');
+        const downloadPng = document.getElementById('download-png');
+        const downloadSvg = document.getElementById('download-svg');
+
+        function renderLogo() {
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, 512, 512);
+
+            const isTransparent = transparentBg.checked;
+            const c1 = colorGrad1.value;
+            const c2 = colorGrad2.value;
+            const textColor = colorText.value;
+            const fontStyle = fontFamily.value;
+            const shape = badgeShape.value;
+
+            // Draw Background shape
+            if (!isTransparent) {
+                const grad = ctx.createLinearGradient(0, 0, 512, 512);
+                grad.addColorStop(0, c1);
+                grad.addColorStop(1, c2);
+                ctx.fillStyle = grad;
+
+                ctx.beginPath();
+                if (shape === 'circle') {
+                    ctx.arc(256, 256, 230, 0, Math.PI * 2);
+                } else if (shape === 'squircle') {
+                    roundRect(ctx, 40, 40, 432, 432, 100);
+                } else if (shape === 'pill') {
+                    roundRect(ctx, 40, 100, 432, 312, 150);
+                } else {
+                    roundRect(ctx, 40, 40, 432, 432, 24);
+                }
+                ctx.fill();
+            }
+
+            // Text
+            const text = brandText.value.trim() || 'Logo';
+            const sub = taglineText.value.trim();
+
+            ctx.fillStyle = textColor;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            if (sub) {
+                ctx.font = `bold ${Math.min(140, Math.round(500 / Math.max(text.length, 3)))}px ${fontStyle}`;
+                ctx.fillText(text, 256, 230);
+
+                ctx.font = `bold 28px ${fontStyle}`;
+                ctx.letterSpacing = "6px";
+                ctx.globalAlpha = 0.85;
+                ctx.fillText(sub, 256, 310);
+                ctx.globalAlpha = 1.0;
+            } else {
+                ctx.font = `bold ${Math.min(180, Math.round(650 / Math.max(text.length, 3)))}px ${fontStyle}`;
+                ctx.fillText(text, 256, 256);
+            }
+        }
+
+        function roundRect(ctx, x, y, width, height, radius) {
+            ctx.moveTo(x + radius, y);
+            ctx.lineTo(x + width - radius, y);
+            ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+            ctx.lineTo(x + width, y + height - radius);
+            ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+            ctx.lineTo(x + radius, y + height);
+            ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+            ctx.lineTo(x, y + radius);
+            ctx.quadraticCurveTo(x, y, x + radius, y);
+        }
+
+        [brandText, taglineText, badgeShape, fontFamily, colorGrad1, colorGrad2, colorText, transparentBg].forEach(el => {
+            el.addEventListener('input', renderLogo);
+            el.addEventListener('change', renderLogo);
+        });
+
+        downloadPng.addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.download = `${brandText.value.toLowerCase().replace(/\s+/g, '-') || 'logo'}-logo.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        });
+
+        downloadSvg.addEventListener('click', () => {
+            const text = brandText.value.trim() || 'Logo';
+            const sub = taglineText.value.trim();
+            const c1 = colorGrad1.value;
+            const c2 = colorGrad2.value;
+            const txtC = colorText.value;
+            const isTrans = transparentBg.checked;
+
+            const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="${c1}"/>
+      <stop offset="100%" stop-color="${c2}"/>
+    </linearGradient>
+  </defs>
+  ${isTrans ? '' : `<rect x="40" y="40" width="432" height="432" rx="100" fill="url(#grad)"/>`}
+  <text x="256" y="${sub ? '230' : '270'}" text-anchor="middle" font-family="sans-serif" font-weight="bold" font-size="120" fill="${txtC}">${text}</text>
+  ${sub ? `<text x="256" y="320" text-anchor="middle" font-family="sans-serif" font-weight="bold" font-size="28" letter-spacing="6" fill="${txtC}" opacity="0.85">${sub}</text>` : ''}
+</svg>`;
+
+            const blob = new Blob([svg], { type: 'image/svg+xml' });
+            const link = document.createElement('a');
+            link.download = `${text.toLowerCase().replace(/\s+/g, '-')}-logo.svg`;
+            link.href = URL.createObjectURL(blob);
+            link.click();
+        });
+
+        // Initialize
+        renderLogo();
+    </script>
+</body>
+</html>

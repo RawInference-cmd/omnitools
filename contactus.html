@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Support — OmniTools</title>
+    <meta name="description" content="Get help, report bugs, or send feedback to the OmniTools team. Fast support for our 100% client-side productivity suite.">
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="stylesheet" href="/src/input.css">
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col justify-between transition-colors">
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+        <!-- Page Header -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20">
+                        Support &amp; Help
+                    </span>
+                    <span class="privacy-badge">🔒 100% Client-Side Privacy</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">Contact Support</h1>
+                <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">Have a question, bug report, or tool request? Reach our team directly or browse common privacy answers below.</p>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    </span>
+                    Typical Response: &lt; 24 Hours
+                </span>
+            </div>
+        </div>
+
+        <!-- Split 2-Column Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+            <!-- Left Column: Support Channels & Privacy FAQ -->
+            <div class="workspace-panel space-y-6">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                    <span>📡</span> Support Channels
+                </h2>
+
+                <!-- Direct Email Card -->
+                <div class="p-5 rounded-2xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800 space-y-4">
+                    <div class="flex items-start justify-between gap-4">
+                        <div class="flex items-center gap-3.5">
+                            <div class="w-11 h-11 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0 border border-indigo-500/20">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-[11px] font-semibold uppercase tracking-wider text-zinc-400">Direct Support Email</p>
+                                <a href="mailto:support@omnitools.app" class="text-base font-bold text-zinc-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                                    support@omnitools.app
+                                </a>
+                            </div>
+                        </div>
+                        <button type="button" id="copy-email-btn" class="btn-secondary !px-3 !py-1.5 text-xs shrink-0">
+                            Copy Email
+                        </button>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-zinc-200/70 dark:border-zinc-800">
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20">
+                            ⏱️ Mon–Fri • &lt; 24h SLA
+                        </span>
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700">
+                            🌐 Global Remote Support
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Client-Side Privacy FAQ Cards -->
+                <div class="space-y-3">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 flex items-center gap-2">
+                        <span>🛡️</span> 100% Client-Side Privacy FAQ
+                    </h3>
+
+                    <div class="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950/50 border border-zinc-200/80 dark:border-zinc-800 space-y-1.5">
+                        <p class="text-xs font-bold text-zinc-900 dark:text-white">Do my files ever leave my browser?</p>
+                        <p class="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                            Never. Every PDF merge, image compression, spreadsheet conversion, and calculation executes locally in your browser memory. Zero files are uploaded or stored on any server.
+                        </p>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950/50 border border-zinc-200/80 dark:border-zinc-800 space-y-1.5">
+                        <p class="text-xs font-bold text-zinc-900 dark:text-white">Can support recover a document I processed?</p>
+                        <p class="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                            No. Because we never receive or retain your documents, only your device holds the processed output. Be sure to download your converted files before closing the tab.
+                        </p>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950/50 border border-zinc-200/80 dark:border-zinc-800 space-y-1.5">
+                        <p class="text-xs font-bold text-zinc-900 dark:text-white">What should I include in a bug report?</p>
+                        <p class="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                            Share the tool name, your browser version, and approximate file type or size (never send confidential files). You can review our full guarantees on the
+                            <a href="/privacy.html" class="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline">Privacy Policy</a> page.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Interactive Client-Side Contact & Feedback Form -->
+            <div class="workspace-panel space-y-6">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                        <span>✉️</span> Send Message or Feedback
+                    </h2>
+                    <span class="text-[11px] font-medium text-zinc-400">Client-side validated</span>
+                </div>
+
+                <!-- Error Banner -->
+                <div id="form-error" class="hidden p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-xs text-rose-600 dark:text-rose-400 font-medium" role="alert"></div>
+
+                <!-- Contact Form -->
+                <form id="contact-form" novalidate class="space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="contact-name" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Your Name</label>
+                            <input type="text" id="contact-name" name="name" placeholder="Alex Rivera" autocomplete="name" required
+                                class="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-950/70 border border-zinc-200 dark:border-zinc-800 text-sm text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all">
+                        </div>
+                        <div>
+                            <label for="contact-email" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Email Address</label>
+                            <input type="email" id="contact-email" name="email" placeholder="alex@company.com" autocomplete="email" required
+                                class="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-950/70 border border-zinc-200 dark:border-zinc-800 text-sm text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="contact-category" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Category</label>
+                        <select id="contact-category" name="category" required
+                            class="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-950/70 border border-zinc-200 dark:border-zinc-800 text-sm text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all">
+                            <option value="General Support">General Support</option>
+                            <option value="Bug Report">Bug Report</option>
+                            <option value="Feature Request">Feature Request</option>
+                            <option value="Privacy & Security">Privacy &amp; Security</option>
+                            <option value="Feedback">Product Feedback</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <label for="contact-message" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300">Message</label>
+                            <span id="message-char-count" class="text-[11px] font-mono text-zinc-400">0 / 2000</span>
+                        </div>
+                        <textarea id="contact-message" name="message" rows="6" maxlength="2000" placeholder="Describe your question, tool name, or suggestion..." required
+                            class="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-950/70 border border-zinc-200 dark:border-zinc-800 text-sm text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all resize-y"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-primary w-full !py-3 text-sm font-semibold">
+                        <span>Prepare Support Message</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                        </svg>
+                    </button>
+
+                    <p class="text-[11px] text-zinc-400 text-center">
+                        Validated locally in your browser. No third-party tracking forms or external scripts.
+                    </p>
+                </form>
+
+                <!-- Instant Confirmation State -->
+                <div id="confirmation-state" class="hidden space-y-4">
+                    <div class="p-5 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/80 space-y-3">
+                        <div class="flex items-start gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                            </div>
+                            <div class="space-y-1">
+                                <div class="flex flex-wrap items-center gap-2">
+                                    <h3 class="text-sm font-bold text-emerald-900 dark:text-emerald-200">Support Request Ready</h3>
+                                    <span id="ticket-ref" class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20"></span>
+                                </div>
+                                <p class="text-xs text-emerald-700 dark:text-emerald-400 leading-relaxed">
+                                    Your message has been validated locally. Launch your email app below to send it directly to <strong class="font-semibold">support@omnitools.app</strong>, or copy the formatted summary.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="result-box space-y-2 text-xs">
+                        <div class="flex justify-between gap-4 border-b border-zinc-200 dark:border-zinc-800 pb-2">
+                            <span class="text-zinc-400">From:</span>
+                            <span id="confirm-sender" class="font-semibold text-zinc-900 dark:text-zinc-100 text-right"></span>
+                        </div>
+                        <div class="flex justify-between gap-4 border-b border-zinc-200 dark:border-zinc-800 pb-2">
+                            <span class="text-zinc-400">Category:</span>
+                            <span id="confirm-category" class="font-semibold text-indigo-600 dark:text-indigo-400 text-right"></span>
+                        </div>
+                        <div class="pt-1">
+                            <span class="text-zinc-400 block mb-1">Message Preview:</span>
+                            <p id="confirm-message" class="whitespace-pre-wrap text-zinc-700 dark:text-zinc-300 leading-relaxed"></p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <a id="mailto-launch-btn" href="mailto:support@omnitools.app" class="btn-accent flex-1 !py-2.5 text-center">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
+                            <span>Open in Email Client</span>
+                        </a>
+                        <button type="button" id="copy-summary-btn" class="btn-secondary !py-2.5">
+                            Copy Summary
+                        </button>
+                        <button type="button" id="new-message-btn" class="btn-secondary !py-2.5">
+                            Edit / New
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        const form = document.getElementById('contact-form');
+        const errorBanner = document.getElementById('form-error');
+        const confirmationState = document.getElementById('confirmation-state');
+        const messageInput = document.getElementById('contact-message');
+        const charCount = document.getElementById('message-char-count');
+        const copyEmailBtn = document.getElementById('copy-email-btn');
+        const copySummaryBtn = document.getElementById('copy-summary-btn');
+        const newMessageBtn = document.getElementById('new-message-btn');
+
+        let lastSummaryText = '';
+
+        messageInput.addEventListener('input', () => {
+            charCount.textContent = `${messageInput.value.length} / 2000`;
+        });
+
+        copyEmailBtn.addEventListener('click', async () => {
+            try {
+                await navigator.clipboard.writeText('support@omnitools.app');
+                copyEmailBtn.textContent = 'Copied!';
+                setTimeout(() => { copyEmailBtn.textContent = 'Copy Email'; }, 1800);
+            } catch {
+                copyEmailBtn.textContent = 'support@omnitools.app';
+            }
+        });
+
+        function showError(msg) {
+            errorBanner.textContent = msg;
+            errorBanner.classList.remove('hidden');
+        }
+
+        function hideError() {
+            errorBanner.textContent = '';
+            errorBanner.classList.add('hidden');
+        }
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            hideError();
+
+            const name = document.getElementById('contact-name').value.trim();
+            const email = document.getElementById('contact-email').value.trim();
+            const category = document.getElementById('contact-category').value;
+            const message = messageInput.value.trim();
+
+            if (name.length < 2) {
+                showError('Please enter your name (at least 2 characters).');
+                return;
+            }
+
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                showError('Please enter a valid email address.');
+                return;
+            }
+
+            if (message.length < 10) {
+                showError('Please provide a message of at least 10 characters so we can assist you.');
+                return;
+            }
+
+            const refId = 'OMNI-' + Math.random().toString(36).substring(2, 7).toUpperCase();
+            document.getElementById('ticket-ref').textContent = refId;
+            document.getElementById('confirm-sender').textContent = `${name} (${email})`;
+            document.getElementById('confirm-category').textContent = category;
+            document.getElementById('confirm-message').textContent = message;
+
+            const subject = `[OmniTools ${category}] Support Request (${refId})`;
+            const body = `Reference: ${refId}\nName: ${name}\nEmail: ${email}\nCategory: ${category}\n\nMessage:\n${message}`;
+            lastSummaryText = `To: support@omnitools.app\nSubject: ${subject}\n\n${body}`;
+
+            const mailtoUrl = `mailto:support@omnitools.app?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            document.getElementById('mailto-launch-btn').setAttribute('href', mailtoUrl);
+
+            form.classList.add('hidden');
+            confirmationState.classList.remove('hidden');
+        });
+
+        copySummaryBtn.addEventListener('click', async () => {
+            if (!lastSummaryText) return;
+            try {
+                await navigator.clipboard.writeText(lastSummaryText);
+                copySummaryBtn.textContent = 'Copied!';
+                setTimeout(() => { copySummaryBtn.textContent = 'Copy Summary'; }, 1800);
+            } catch {
+                showError('Clipboard permission unavailable. Use the "Open in Email Client" button instead.');
+            }
+        });
+
+        newMessageBtn.addEventListener('click', () => {
+            confirmationState.classList.add('hidden');
+            form.classList.remove('hidden');
+            hideError();
+        });
+    </script>
+    <script type="module" src="/src/layout.js"></script>
+</body>
+</html>

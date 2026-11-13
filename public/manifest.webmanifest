@@ -1,0 +1,20 @@
+{
+  "name": "OmniTools — 64 Free Client-Side Productivity Tools",
+  "short_name": "OmniTools",
+  "description": "Fast, 100% client-side privacy-first productivity portal. Convert PDFs, edit images, calculate finances, and run SEO & developer utilities directly in your browser with zero server uploads.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#09090b",
+  "theme_color": "#4f46e5",
+  "categories": ["productivity", "utilities", "developer"],
+  "icons": [
+    {
+      "src": "/images/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

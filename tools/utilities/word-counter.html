@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word & Character Counter — OmniTools</title>
+    <meta name="description" content="Count words, characters, sentences, paragraphs, reading time, and readability score in real-time. 100% free and client-side.">
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="stylesheet" href="/src/input.css">
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col justify-between transition-colors">
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+        <!-- Tool Header -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
+                        Utilities
+                    </span>
+                    <span class="privacy-badge">🔒 100% Client-Side Privacy</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">Word & Character Counter</h1>
+                <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">Live metrics for word density, sentences, paragraphs, readability score, and speaking time.</p>
+            </div>
+        </div>
+
+        <!-- Split 2-Column Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            
+            <!-- Left Column: Input Textarea & Case Modifiers -->
+            <div class="workspace-panel space-y-4">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                        <span>📝</span> Text Editor
+                    </h2>
+                    <div class="flex items-center gap-2">
+                        <button type="button" id="clear-btn" class="text-xs text-zinc-400 hover:text-rose-500 font-semibold">Clear</button>
+                    </div>
+                </div>
+
+                <div>
+                    <textarea id="text-input" rows="12" placeholder="Start typing or paste your essay, email, or manuscript here..." class="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none transition-all leading-relaxed"></textarea>
+                </div>
+
+                <!-- Text Utility Actions -->
+                <div class="flex flex-wrap gap-2 pt-1">
+                    <button type="button" id="btn-upper" class="px-2.5 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-amber-500 text-xs font-semibold">UPPERCASE</button>
+                    <button type="button" id="btn-lower" class="px-2.5 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-amber-500 text-xs font-semibold">lowercase</button>
+                    <button type="button" id="btn-title" class="px-2.5 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-amber-500 text-xs font-semibold">Title Case</button>
+                    <button type="button" id="btn-clean" class="px-2.5 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:border-amber-500 text-xs font-semibold">Trim Spaces</button>
+                    <button type="button" id="btn-copy" class="px-2.5 py-1.5 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 text-xs font-bold ml-auto">Copy Text</button>
+                </div>
+
+                <div class="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950/40 border border-zinc-200/60 dark:border-zinc-800 text-xs text-zinc-500 dark:text-zinc-400">
+                    <p class="font-semibold text-zinc-700 dark:text-zinc-300 mb-1">⏱️ Reading & Speech Estimates</p>
+                    <div class="grid grid-cols-2 gap-2 text-zinc-600 dark:text-zinc-400 mt-1">
+                        <div>📖 Reading Time: <span id="reading-time" class="font-bold text-zinc-900 dark:text-white">0s</span></div>
+                        <div>🎙️ Speaking Time: <span id="speaking-time" class="font-bold text-zinc-900 dark:text-white">0s</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Bento Metrics & Readability -->
+            <div class="workspace-panel space-y-6">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 mb-2 flex items-center gap-2">
+                    <span>📊</span> Detailed Text Analytics
+                </h2>
+
+                <!-- 6 Stats Bento Cards -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-center">
+                    <div class="p-4 rounded-xl bg-gradient-to-br from-amber-500/10 via-orange-500/5 to-transparent border border-amber-500/20">
+                        <span class="text-[10px] uppercase font-bold text-amber-600 dark:text-amber-400 block mb-1">Words</span>
+                        <p class="text-2xl font-black text-zinc-900 dark:text-white" id="count-words">0</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/60">
+                        <span class="text-[10px] uppercase font-bold text-zinc-400 block mb-1">Characters</span>
+                        <p class="text-2xl font-black text-zinc-800 dark:text-zinc-200" id="count-chars">0</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/60">
+                        <span class="text-[10px] uppercase font-bold text-zinc-400 block mb-1">No Spaces</span>
+                        <p class="text-2xl font-black text-zinc-800 dark:text-zinc-200" id="count-nospaces">0</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/60">
+                        <span class="text-[10px] uppercase font-bold text-zinc-400 block mb-1">Sentences</span>
+                        <p class="text-xl font-bold text-zinc-800 dark:text-zinc-200" id="count-sentences">0</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/60">
+                        <span class="text-[10px] uppercase font-bold text-zinc-400 block mb-1">Paragraphs</span>
+                        <p class="text-xl font-bold text-zinc-800 dark:text-zinc-200" id="count-paragraphs">0</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/60">
+                        <span class="text-[10px] uppercase font-bold text-zinc-400 block mb-1">Avg Word</span>
+                        <p class="text-xl font-bold text-zinc-800 dark:text-zinc-200" id="avg-word-len">0.0</p>
+                    </div>
+                </div>
+
+                <!-- Readability Score -->
+                <div class="p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Flesch Reading Ease</span>
+                        <span id="readability-badge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-600 border border-emerald-500/20">Standard</span>
+                    </div>
+                    <p class="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed" id="readability-desc">
+                        Score: <strong>75/100</strong>. Easy to read and understandable for an average 7th-grade student.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="/src/layout.js"></script>
+    <script>
+        const textInput = document.getElementById('text-input');
+        const clearBtn = document.getElementById('clear-btn');
+        const btnUpper = document.getElementById('btn-upper');
+        const btnLower = document.getElementById('btn-lower');
+        const btnTitle = document.getElementById('btn-title');
+        const btnClean = document.getElementById('btn-clean');
+        const btnCopy = document.getElementById('btn-copy');
+
+        const countWords = document.getElementById('count-words');
+        const countChars = document.getElementById('count-chars');
+        const countNospaces = document.getElementById('count-nospaces');
+        const countSentences = document.getElementById('count-sentences');
+        const countParagraphs = document.getElementById('count-paragraphs');
+        const avgWordLen = document.getElementById('avg-word-len');
+        const readingTime = document.getElementById('reading-time');
+        const speakingTime = document.getElementById('speaking-time');
+        const readabilityBadge = document.getElementById('readability-badge');
+        const readabilityDesc = document.getElementById('readability-desc');
+
+        function updateCounts() {
+            const text = textInput.value;
+            const trimmed = text.trim();
+
+            const chars = text.length;
+            const noSpaces = text.replace(/\s/g, '').length;
+
+            const wordsArray = trimmed ? trimmed.split(/\s+/).filter(Boolean) : [];
+            const words = wordsArray.length;
+
+            const sentences = trimmed ? (text.match(/[\w|\)][.?!]+(\s|$)/g) || []).length || (words > 0 ? 1 : 0) : 0;
+            const paragraphs = trimmed ? text.split(/\n+/).filter(p => p.trim().length > 0).length : 0;
+
+            const avgLen = words > 0 ? (noSpaces / words).toFixed(1) : "0.0";
+
+            countChars.textContent = chars.toLocaleString();
+            countNospaces.textContent = noSpaces.toLocaleString();
+            countWords.textContent = words.toLocaleString();
+            countSentences.textContent = sentences.toLocaleString();
+            countParagraphs.textContent = paragraphs.toLocaleString();
+            avgWordLen.textContent = avgLen;
+
+            // Reading & speaking times
+            const readSeconds = Math.round((words / 200) * 60);
+            const speakSeconds = Math.round((words / 130) * 60);
+            readingTime.textContent = formatTime(readSeconds);
+            speakingTime.textContent = formatTime(speakSeconds);
+
+            // Readability calculation (Flesch Reading Ease)
+            if (words > 10 && sentences > 0) {
+                // Approximate syllables (rule of thumb vowels)
+                let syllables = 0;
+                wordsArray.forEach(w => {
+                    const match = w.toLowerCase().match(/[aeiouy]{1,2}/g);
+                    syllables += match ? match.length : 1;
+                });
+                const score = Math.round(206.835 - 1.015 * (words / sentences) - 84.6 * (syllables / words));
+                const clamped = Math.max(0, Math.min(100, score));
+
+                let badge = "Standard";
+                let badgeClass = "bg-emerald-500/10 text-emerald-600 border border-emerald-500/20";
+                let desc = `Score: <strong>${clamped}/100</strong>. Understandable for typical readers.`;
+
+                if (clamped >= 90) {
+                    badge = "Very Easy";
+                    desc = `Score: <strong>${clamped}/100</strong>. Very easy to read, understandable by 5th graders.`;
+                } else if (clamped >= 70) {
+                    badge = "Fairly Easy";
+                    desc = `Score: <strong>${clamped}/100</strong>. Plain English, conversational.`;
+                } else if (clamped >= 50) {
+                    badge = "Moderate";
+                    badgeClass = "bg-amber-500/10 text-amber-600 border border-amber-500/20";
+                    desc = `Score: <strong>${clamped}/100</strong>. High school reading comprehension.`;
+                } else {
+                    badge = "Difficult";
+                    badgeClass = "bg-rose-500/10 text-rose-600 border border-rose-500/20";
+                    desc = `Score: <strong>${clamped}/100</strong>. Complex language, college or academic level.`;
+                }
+
+                readabilityBadge.textContent = badge;
+                readabilityBadge.className = `px-2.5 py-0.5 rounded-full text-xs font-bold ${badgeClass}`;
+                readabilityDesc.innerHTML = desc;
+            } else {
+                readabilityBadge.textContent = "Awaiting text";
+                readabilityDesc.innerHTML = "Type at least 10 words to calculate readability grade.";
+            }
+        }
+
+        function formatTime(sec) {
+            if (sec < 60) return `${sec}s`;
+            const m = Math.floor(sec / 60);
+            const s = sec % 60;
+            return s > 0 ? `${m}m ${s}s` : `${m}m`;
+        }
+
+        textInput.addEventListener('input', updateCounts);
+
+        clearBtn.addEventListener('click', () => {
+            textInput.value = '';
+            updateCounts();
+        });
+
+        btnUpper.addEventListener('click', () => {
+            textInput.value = textInput.value.toUpperCase();
+            updateCounts();
+        });
+
+        btnLower.addEventListener('click', () => {
+            textInput.value = textInput.value.toLowerCase();
+            updateCounts();
+        });
+
+        btnTitle.addEventListener('click', () => {
+            textInput.value = textInput.value.replace(/\b\w/g, l => l.toUpperCase());
+            updateCounts();
+        });
+
+        btnClean.addEventListener('click', () => {
+            textInput.value = textInput.value.replace(/[ \t]+/g, ' ').replace(/\n\s*\n/g, '\n\n').trim();
+            updateCounts();
+        });
+
+        btnCopy.addEventListener('click', () => {
+            navigator.clipboard.writeText(textInput.value).then(() => {
+                btnCopy.textContent = "Copied!";
+                setTimeout(() => { btnCopy.textContent = "Copy Text"; }, 2000);
+            });
+        });
+
+        // Sample initial
+        textInput.value = "OmniTools delivers zero-latency client-side productivity utilities directly in your browser. All calculations, image conversions, and PDF manipulations remain strictly local to ensure optimal speed and absolute user privacy.";
+        updateCounts();
+    </script>
+</body>
+</html>

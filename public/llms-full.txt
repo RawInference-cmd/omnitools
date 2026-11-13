@@ -1,0 +1,435 @@
+# OmniTools 2.0 — Complete AEO & LLM Tool Index
+
+> OmniTools 2.0 is a 100% client-side, zero-friction productivity web portal housing 64 free browser-native tools across six categories: PDF Conversion & Utilities (24), Image Editing & Optimization (6), Financial & Health Calculators (6), SEO & Web Performance (7), Developer, Media & Text Utilities (18), and Finance & Interactive Games (3). All file parsing, document conversion, image manipulation, and mathematical computation happen strictly inside the user's browser memory with zero server uploads and zero file tracking.
+
+---
+
+## Platform Architecture & Privacy Guarantees
+
+- **Canonical Portal:** `https://YOUR_DOMAIN.com/`
+- **Version:** OmniTools 2.0
+- **Execution Model:** 100% Client-Side in Evergreen Browsers (Chrome, Edge, Firefox, Safari)
+- **Zero Server Uploads:** User-uploaded PDFs, images, spreadsheets, JSON/XML/CSV payloads, and voice transcriptions never leave the user's device.
+- **Browser APIs Used:** HTML5 Canvas, FileReader, Blob & Object URLs, Web Crypto (`crypto.getRandomValues`), Screen Capture API (`getDisplayMedia`), Web Speech API (`SpeechRecognition`), WebGL, and `localStorage` (strictly for theme, favorites, recent tools, and local Notes App persistence).
+- **Client-Side Libraries:** `pdf.js`, `jsPDF`, `jspdf-autotable`, `pdf-lib`, `JSZip`, `SheetJS (xlsx)`, `Chart.js`, `CryptoJS`, `qrcodejs`, `PlayCanvas`.
+- **Network Exceptions (External API / Fetch Tools Only):** Tools that inherently inspect external URLs or fetch live market rates (`SEO & Speed Analyzer`, `Extract Meta Tags`, `XML Sitemap Generator`, `Website Speed Test`, `Internet Speed Test`, `Currency Converter`) make read-only HTTP requests to public APIs or CORS relays solely for the target URL or exchange rate data; no local user files are ever transmitted.
+
+### Core Portal Pages
+1. **OmniTools Home Portal** — `https://YOUR_DOMAIN.com/`
+   Interactive directory of all 64 tools with instant `Ctrl+K` live search, category filtering, dark/light theme toggle, Favorites (`⭐`), and Recently Used quick access.
+2. **Privacy Policy** — `https://YOUR_DOMAIN.com/privacy.html`
+   Explains OmniTools' privacy-by-architecture design: 0% server uploads, 100% local execution, and transparent `localStorage` usage.
+3. **Contact Support** — `https://YOUR_DOMAIN.com/contactus.html`
+   Support channels, bug reporting, feature requests, and privacy FAQ.
+
+---
+
+## Category 1: PDF Conversion & Utilities (24 Tools)
+
+All PDF tools run directly in browser memory using `pdf.js`, `pdf-lib`, `jsPDF`, `JSZip`, and `SheetJS` with zero document uploads.
+
+### 1. PDF to Word
+- **URL:** `https://YOUR_DOMAIN.com/tools/pdf/pdf-to-word.html`
+- **Category:** PDF Conversion & Utilities
+- **Summary:** Convert PDF files into editable Word (`.doc`) documents client-side.
+- **Capabilities:** Extracts page text via `pdf.js` and generates a downloadable Word-compatible `.doc` file directly in browser memory.
+
+### 2. PDF to Excel
+- **URL:** `https://YOUR_DOMAIN.com/tools/pdf/pdf-to-excel.html`
+- **Category:** PDF Conversion & Utilities
+- **Summary:** Extract PDF data tables into editable Excel (`.xlsx`) spreadsheets.
+- **Capabilities:** Parses structured text rows from PDF pages and builds multi-row Excel workbooks using SheetJS (`xlsx`).
+
+### 3. PDF to CSV
+- **URL:** `https://YOUR_DOMAIN.com/tools/pdf/pdf-to-csv.html`
+- **Category:** PDF Conversion & Utilities
+- **Summary:** Extract tabular PDF contents into clean CSV spreadsheets.
+- **Capabilities:** Extracts line/column data from PDF documents into RFC-compliant `.csv` files with preview and instant download.
+
+### 4. PDF to HTML
+- **URL:** `https://YOUR_DOMAIN.com/tools/pdf/pdf-to-html.html`
+- **Category:** PDF Conversion & Utilities
+- **Summary:** Convert PDFs to clean HTML code preserving text and formatting.
+- **Capabilities:** Transforms PDF pages into structured semantic HTML markup ready to copy or download as `.html`.
+
+### 5. PDF to Text
+- **URL:** `https://YOUR_DOMAIN.com/tools/pdf/pdf-to-text.html`
+- **Category:** PDF Conversion & Utilities
+- **Summary:** Extract raw text from PDF documents with instant copy & download.
+- **Capabilities:** Reads all pages of a PDF locally, extracts plain text with page markers, and exports `.txt` or copies to clipboard.
+
+### 6. PDF to JPG
+- **URL:** `https://YOUR_DOMAIN.com/tools/pdf/pdf-to-jpg.html`
+- **Category:** PDF Conversion & Utilities
+- **Summary:** Render and export PDF pages as high-quality JPG images.
+- **Capabilities:** Renders PDF pages on HTML5 Canvas with selectable scale (1x, 1.5x, 2x) and JPG quality slider; downloads single pages or all pages as a `.zip` archive via JSZip.
+
+### 7. PDF to PNG
+- **URL:** `https://YOUR_DOMAIN.com/tools/pdf/pdf-to-png.html`
+- **Category:** PDF Conversion & Utilities
+- **Summary:** Convert PDF pages to lossless PNG images with transparent support.
+- **Capabilities:** High-DPI canvas rendering of PDF pages into crisp `.png` images with per-page preview and batch ZIP export.
+
+### 8. PDF to WebP
+- **URL:** `https://YOUR_DOMAIN.com/tools/pdf/pdf-to-webp.html`
+- **Category:** PDF Conversion & Utilities
+- **Summary:** Convert PDF pages into lightweight, modern WebP images.
+- **Capabilities:** Exports rendered PDF pages in compressed `.webp` format with scale/quality controls and ZIP batch download.
+
+### 9. PDF to XML
+- **URL:** `https://YOUR_DOMAIN.com/tools/pdf/pdf-to-xml.html`
+- **Category:** PDF Conversion & Utilities
+- **Summary:** Parse and structure PDF text into formatted XML hierarchy.
+- **Capabilities:** Extracts per-page PDF text into valid, escaped XML nodes (`<document><page>`) with copy and `.xml` file download.
+
+### 10. PDF to JSON
+- **URL:** `https://YOUR_DOMAIN.com/tools/pdf/pdf-to-json.html`
+- **Category:** PDF Conversion & Utilities
+- **Summary:** Extract PDF text and page metadata into structured JSON.
+- **Capabilities:** Outputs structured JSON containing filename, page count, and per-page text arrays for developer pipelines.
+
+### 11. PDF to ZIP
+- **URL:** `https://YOUR_DOMAIN.com/tools/pdf/pdf-to-zip.html`
+- **Category:** PDF Conversion & Utilities
+- **Summary:** Package and compress PDF documents into secure ZIP archives.
+- **Capabilities:** Compresses one or multiple PDF files client-side with JSZip into a downloadable `.zip` archive with compression ratio reporting.
+
+### 12. Merge PDF
+- **URL:** `https://YOUR_DOMAIN.com/tools/pdf/merge-pdf.html`
+- **Category:** PDF Conversion & Utilities
+- **Summary:** Combine multiple PDF files into a single unified document.
+- **Capabilities:** Uses `pdf-lib` to reorder and merge multiple PDF files losslessly inside browser memory.
+
+### 13. PDF Splitter
+- **URL:** `https://YOUR_DOMAIN.com/tools/pdf/pdf-splitter.html`
+- **Category:** PDF Conversion & Utilities
+- **Summary:** Split multi-page PDFs into separate documents by page range.
+- **Capabilities:** Extracts specific page ranges or splits every page into individual PDFs (packaged via JSZip) using `pdf-lib`.
+
+### 14. PDF Watermark
+- **URL:** `https://YOUR_DOMAIN.com/tools/pdf/pdf-watermark.html`
+- **Category:** PDF Conversion & Utilities
+- **Summary:** Add custom text watermarks to your PDF pages securely.
+- **Capabilities:** Stamps customizable text, opacity, font size, rotation, and color watermarks across all PDF pages using `pdf-lib`.
+
+### 15. PNG to PDF
+- **URL:** `https://YOUR_DOMAIN.com/tools/pdf/png-to-pdf.html`
+- **Category:** PDF Conversion & Utilities
+- **Summary:** Convert PNG images into a clean, downloadable PDF document.
+- **Capabilities:** Combines multiple PNGs with reorder controls, page size options (A4, Letter, Fit to Image), orientation, and margins using `jsPDF`.
+
+### 16. JPEG to PDF
+- **URL:** `https://YOUR_DOMAIN.com/tools/pdf/jpeg-to-pdf.html`
+- **Category:** PDF Conversion & Utilities
+- **Summary:** Turn JPG/JPEG photos into professional PDF documents.
+- **Capabilities:** Multi-image queue with orientation, margin, and page sizing controls exported cleanly to `.pdf` via `jsPDF`.
+
+### 17. WebP to PDF
+- **URL:** `https://YOUR_DOMAIN.com/tools/pdf/webp-to-pdf.html`
+- **Category:** PDF Conversion & Utilities
+- **Summary:** Convert modern WebP graphics into standard PDF format.
+- **Capabilities:** Decodes WebP images via offscreen Canvas and embeds them into multi-page PDFs using `jsPDF`.
+
+### 18. Text to PDF
+- **URL:** `https://YOUR_DOMAIN.com/tools/pdf/text-to-pdf.html`
+- **Category:** PDF Conversion & Utilities
+- **Summary:** Convert plain text and notes into formatted PDF documents.
+- **Capabilities:** Supports direct text input or `.txt` upload, font selection, font size, margins, and automatic pagination with `jsPDF`.
+
+### 19. HTML to PDF
+- **URL:** `https://YOUR_DOMAIN.com/tools/pdf/html-to-pdf.html`
+- **Category:** PDF Conversion & Utilities
+- **Summary:** Render HTML code or web snippets directly into PDF pages.
+- **Capabilities:** Live HTML preview and client-side rendering to downloadable `.pdf` documents.
+
+### 20. Excel to PDF
+- **URL:** `https://YOUR_DOMAIN.com/tools/pdf/excel-to-pdf.html`
+- **Category:** PDF Conversion & Utilities
+- **Summary:** Convert Excel spreadsheets (`.xlsx`, `.xls`) into clean printable PDFs.
+- **Capabilities:** Reads workbook sheets with SheetJS and formats clean tables in `jsPDF` + `jspdf-autotable`.
+
+### 21. CSV to PDF
+- **URL:** `https://YOUR_DOMAIN.com/tools/pdf/csv-to-pdf.html`
+- **Category:** PDF Conversion & Utilities
+- **Summary:** Transform CSV datasets into formatted table PDF reports.
+- **Capabilities:** Parses CSV files or pasted CSV text into styled tabular PDF reports with landscape/portrait support.
+
+### 22. JSON to PDF
+- **URL:** `https://YOUR_DOMAIN.com/tools/pdf/json-to-pdf.html`
+- **Category:** PDF Conversion & Utilities
+- **Summary:** Convert JSON tree datasets into readable PDF documents.
+- **Capabilities:** Validates and formats JSON payloads into clean, paginated PDF documentation.
+
+### 23. XML to PDF
+- **URL:** `https://YOUR_DOMAIN.com/tools/pdf/xml-to-pdf.html`
+- **Category:** PDF Conversion & Utilities
+- **Summary:** Render XML files into structured, printable PDF files.
+- **Capabilities:** Parses XML markup and formats readable indented output into downloadable PDF pages.
+
+### 24. Speech to PDF
+- **URL:** `https://YOUR_DOMAIN.com/tools/pdf/speech-to-pdf.html`
+- **Category:** PDF Conversion & Utilities
+- **Summary:** Transcribe your voice in real-time and export directly as PDF.
+- **Capabilities:** Uses the browser Web Speech API for live dictation with editable transcript and instant `jsPDF` export.
+
+---
+
+## Category 2: Image Editing & Optimization (6 Tools)
+
+All image tools process pixels locally via HTML5 Canvas (`canvas.toBlob` / `canvas.toDataURL`) with zero server uploads.
+
+### 25. Image Compressor
+- **URL:** `https://YOUR_DOMAIN.com/tools/images/image-compressor.html`
+- **Category:** Image Editing & Optimization
+- **Summary:** Reduce image file size with zero quality loss using HTML5 Canvas.
+- **Capabilities:** Adjustable quality slider, live original vs. compressed size comparison, savings percentage, and instant download.
+
+### 26. Image Resizer
+- **URL:** `https://YOUR_DOMAIN.com/tools/images/image-resizer.html`
+- **Category:** Image Editing & Optimization
+- **Summary:** Resize images by width, height, or aspect ratio with instant preview.
+- **Capabilities:** Pixel dimension inputs, aspect-ratio lock toggle, output format selection, and live canvas preview.
+
+### 27. Compress to 100KB
+- **URL:** `https://YOUR_DOMAIN.com/tools/images/image-100kb.html`
+- **Category:** Image Editing & Optimization
+- **Summary:** Optimize photos to strictly under 100KB for portals & forms.
+- **Capabilities:** Iteratively tunes compression quality/dimensions in browser memory until the output image fits below the 100KB threshold.
+
+### 28. Image Watermark Adder
+- **URL:** `https://YOUR_DOMAIN.com/tools/images/image-watermark.html`
+- **Category:** Image Editing & Optimization
+- **Summary:** Add repeated or positioned text watermarks over images.
+- **Capabilities:** Customize watermark text, font size, opacity, color, rotation/position, and export cleanly from HTML5 Canvas.
+
+### 29. JPG to PNG Converter
+- **URL:** `https://YOUR_DOMAIN.com/tools/images/jpg-to-png.html`
+- **Category:** Image Editing & Optimization
+- **Summary:** Convert JPG photos to PNG format with lossless compression.
+- **Capabilities:** Instant client-side JPEG-to-PNG transcoding via Canvas with preview and download.
+
+### 30. PNG to JPG Converter
+- **URL:** `https://YOUR_DOMAIN.com/tools/images/png-to-jpg.html`
+- **Category:** Image Editing & Optimization
+- **Summary:** Convert transparent PNG files into high-speed JPG format.
+- **Capabilities:** Fills transparency with configurable background color (e.g., white), adjusts JPG quality, and downloads `.jpg`.
+
+---
+
+## Category 3: Financial & Health Calculators (6 Tools)
+
+### 31. Age Calculator
+- **URL:** `https://YOUR_DOMAIN.com/tools/calculators/age-calculator.html`
+- **Category:** Financial & Health Calculators
+- **Summary:** Calculate your exact age in years, months, days, and total hours.
+- **Capabilities:** Computes chronological age, total months/weeks/days/hours lived, and countdown to next birthday.
+
+### 32. BMI Calculator
+- **URL:** `https://YOUR_DOMAIN.com/tools/calculators/bmi-calculator.html`
+- **Category:** Financial & Health Calculators
+- **Summary:** Evaluate body mass index and healthy weight ranges with charts.
+- **Capabilities:** Supports metric (kg/cm) and imperial (lbs/ft-in) units with category classification and visual gauge/chart.
+
+### 33. Compound Interest Calculator
+- **URL:** `https://YOUR_DOMAIN.com/tools/calculators/compound-interest.html`
+- **Category:** Financial & Health Calculators
+- **Summary:** Calculate future investment growth with compound interest charts.
+- **Capabilities:** Configurable principal, annual rate, duration, compounding frequency, and Chart.js growth breakdown.
+
+### 34. GST Calculator
+- **URL:** `https://YOUR_DOMAIN.com/tools/calculators/gst-calculator.html`
+- **Category:** Financial & Health Calculators
+- **Summary:** Quickly compute inclusive and exclusive Goods and Services Tax.
+- **Capabilities:** Supports standard GST slabs (5%, 12%, 18%, 28% or custom) with CGST/SGST split and net/gross totals.
+
+### 35. SIP Calculator
+- **URL:** `https://YOUR_DOMAIN.com/tools/calculators/sip-calculator.html`
+- **Category:** Financial & Health Calculators
+- **Summary:** Plan mutual fund systematic investments with interactive projection graphs.
+- **Capabilities:** Calculates invested amount, estimated returns, and maturity value with interactive Chart.js visualization.
+
+### 36. Unit Converter
+- **URL:** `https://YOUR_DOMAIN.com/tools/calculators/unit-converter.html`
+- **Category:** Financial & Health Calculators
+- **Summary:** Convert length, weight, temperature, area, and volume instantly.
+- **Capabilities:** Real-time bidirectional conversion across major metric, imperial, and scientific units.
+
+---
+
+## Category 4: SEO & Web Performance Tools (7 Tools)
+
+### 37. SEO & Speed Analyzer
+- **URL:** `https://YOUR_DOMAIN.com/tools/seo/seo-analyzer.html`
+- **Category:** SEO & Web Performance
+- **Summary:** Run Google PageSpeed performance & SEO audits on any URL.
+- **Capabilities:** Queries Lighthouse/PageSpeed metrics for desktop & mobile performance, accessibility, best practices, and SEO scores.
+
+### 38. Extract Meta Tags
+- **URL:** `https://YOUR_DOMAIN.com/tools/seo/extract-meta-tags.html`
+- **Category:** SEO & Web Performance
+- **Summary:** Inspect OpenGraph, Twitter Cards, and SEO meta tags of any site.
+- **Capabilities:** Fetches HTML head metadata of a target URL and displays title, description, canonical, robots, OpenGraph, and Twitter tags.
+
+### 39. Meta Tag Generator
+- **URL:** `https://YOUR_DOMAIN.com/tools/seo/meta-tag-generator.html`
+- **Category:** SEO & Web Performance
+- **Summary:** Build Google and social media meta tags with live SERP preview.
+- **Capabilities:** Generates HTML `<meta>` tags for SEO, OpenGraph, and Twitter Cards with character counters and live search snippet preview.
+
+### 40. Robots.txt Generator
+- **URL:** `https://YOUR_DOMAIN.com/tools/seo/robots-txt-generator.html`
+- **Category:** SEO & Web Performance
+- **Summary:** Configure crawl permissions and bot rules with visual controls.
+- **Capabilities:** Builds compliant `robots.txt` files with user-agent rules, Allow/Disallow paths, crawl-delay, and Sitemap directives.
+
+### 41. XML Sitemap Generator
+- **URL:** `https://YOUR_DOMAIN.com/tools/seo/xml-sitemap-generator.html`
+- **Category:** SEO & Web Performance
+- **Summary:** Crawl internal links and generate search engine XML sitemaps.
+- **Capabilities:** Discovers URLs or accepts URL lists and outputs valid `sitemap.xml` with `lastmod`, `changefreq`, and `priority`.
+
+### 42. Website Speed Test
+- **URL:** `https://YOUR_DOMAIN.com/tools/seo/website-speed-test.html`
+- **Category:** SEO & Web Performance
+- **Summary:** Benchmark page load metrics, Core Web Vitals, and DNS timing.
+- **Capabilities:** Analyzes TTFB, Core Web Vitals (LCP, CLS, INP/FCP), and page asset weight diagnostics.
+
+### 43. Keyword Density Checker
+- **URL:** `https://YOUR_DOMAIN.com/tools/seo/keyword-density.html`
+- **Category:** SEO & Web Performance
+- **Summary:** Analyze word frequency and keyword optimization percentages in text.
+- **Capabilities:** Computes 1-word, 2-word, and 3-word phrase frequency, stop-word filtering, and density percentages locally.
+
+---
+
+## Category 5: Developer, Media & Text Utilities (18 Tools)
+
+### 44. YouTube Media Hub
+- **URL:** `https://YOUR_DOMAIN.com/tools/utilities/youtube-video-downloader.html`
+- **Category:** Developer, Media & Text Utilities
+- **Summary:** Watch videos in a private player, get embed codes & download HD thumbnails.
+- **Capabilities:** Extracts YouTube video IDs from any URL format, renders a privacy-enhanced embed player, generates responsive iframe code, and fetches HD thumbnails.
+
+### 45. Thumbnail Downloader
+- **URL:** `https://YOUR_DOMAIN.com/tools/utilities/thumbnail-downloader.html`
+- **Category:** Developer, Media & Text Utilities
+- **Summary:** Extract and download YouTube thumbnails in 1080p, 720p, and 480p.
+- **Capabilities:** Resolves `maxresdefault`, `sddefault`, `hqdefault`, and `mqdefault` thumbnail previews for instant download.
+
+### 46. YouTube Tag Generator
+- **URL:** `https://YOUR_DOMAIN.com/tools/utilities/youtube-tag-generator.html`
+- **Category:** Developer, Media & Text Utilities
+- **Summary:** Generate high-ranking SEO tags and keywords for YouTube videos.
+- **Capabilities:** Produces topic-based tag suggestions, comma-separated tag lists, and hashtag exports for video metadata.
+
+### 47. Screenshot Taker
+- **URL:** `https://YOUR_DOMAIN.com/tools/utilities/website-screenshot-taker.html`
+- **Category:** Developer, Media & Text Utilities
+- **Summary:** Capture any tab, window, or display screen directly in high definition.
+- **Capabilities:** Uses the native browser Screen Capture API (`getDisplayMedia`) and HTML5 Canvas to capture and save PNG screenshots locally.
+
+### 48. QR Code Generator
+- **URL:** `https://YOUR_DOMAIN.com/tools/utilities/qr-code-generator.html`
+- **Category:** Developer, Media & Text Utilities
+- **Summary:** Generate custom QR codes for URLs, WiFi, emails, and texts.
+- **Capabilities:** Renders crisp QR codes client-side with customizable foreground/background colors, size, and PNG download.
+
+### 49. Password Generator
+- **URL:** `https://YOUR_DOMAIN.com/tools/utilities/password-generator.html`
+- **Category:** Developer, Media & Text Utilities
+- **Summary:** Generate cryptographically strong, customizable secure passwords.
+- **Capabilities:** Uses `window.crypto.getRandomValues` with configurable length, uppercase, lowercase, digits, symbols, and entropy strength meter.
+
+### 50. JSON Formatter & Validator
+- **URL:** `https://YOUR_DOMAIN.com/tools/utilities/json-formatter.html`
+- **Category:** Developer, Media & Text Utilities
+- **Summary:** Prettify, minify, validate, and inspect JSON payloads with syntax highlighting.
+- **Capabilities:** Parses JSON strictly, highlights syntax errors with line diagnostics, formats with custom indentation, or minifies in one click.
+
+### 51. MD5 Hash Generator
+- **URL:** `https://YOUR_DOMAIN.com/tools/utilities/md5-hash-generator.html`
+- **Category:** Developer, Media & Text Utilities
+- **Summary:** Compute client-side cryptographic MD5 hashes from any string.
+- **Capabilities:** Uses CryptoJS locally to generate lowercase/uppercase MD5 checksums with instant clipboard copy.
+
+### 52. Notes App & Scratchpad
+- **URL:** `https://YOUR_DOMAIN.com/tools/utilities/notes-app.html`
+- **Category:** Developer, Media & Text Utilities
+- **Summary:** Write, edit, and persist notes locally in browser storage.
+- **Capabilities:** Create, search, edit, export, and delete persistent notes stored strictly in browser `localStorage`.
+
+### 53. Internet Speed Test
+- **URL:** `https://YOUR_DOMAIN.com/tools/utilities/netspeed-test.html`
+- **Category:** Developer, Media & Text Utilities
+- **Summary:** Test real-time ping, latency, and download throughput.
+- **Capabilities:** Measures client network latency and download bandwidth directly from the browser.
+
+### 54. Word & Character Counter
+- **URL:** `https://YOUR_DOMAIN.com/tools/utilities/word-counter.html`
+- **Category:** Developer, Media & Text Utilities
+- **Summary:** Count words, characters, sentences, paragraphs, and reading time.
+- **Capabilities:** Live text metrics including characters with/without spaces, reading time, speaking time, and case conversions.
+
+### 55. Caesar Cipher
+- **URL:** `https://YOUR_DOMAIN.com/tools/utilities/caesar-cipher.html`
+- **Category:** Developer, Media & Text Utilities
+- **Summary:** Encrypt and decrypt text messages using classic shift cryptography.
+- **Capabilities:** Adjustable shift offset (1–25), encode/decode modes, and brute-force all-shift preview.
+
+### 56. Color Code Picker
+- **URL:** `https://YOUR_DOMAIN.com/tools/utilities/color-code.html`
+- **Category:** Developer, Media & Text Utilities
+- **Summary:** Pick colors and copy HEX, RGB, HSL, and CMYK formats.
+- **Capabilities:** Interactive color picker, palette swatches, contrast preview, and one-click format copying.
+
+### 57. CSS Gradient Generator
+- **URL:** `https://YOUR_DOMAIN.com/tools/utilities/css-gradient-generator.html`
+- **Category:** Developer, Media & Text Utilities
+- **Summary:** Design linear & radial CSS gradients with 1-click CSS code export.
+- **Capabilities:** Multi-stop color gradient editor, angle/direction controls, live canvas preview, and copyable CSS rule output.
+
+### 58. Number to Word
+- **URL:** `https://YOUR_DOMAIN.com/tools/utilities/number-to-word.html`
+- **Category:** Developer, Media & Text Utilities
+- **Summary:** Spell numbers out into English words for checks and invoices.
+- **Capabilities:** Converts integers and decimal currency amounts into English word representations (International & Indian numbering support).
+
+### 59. Lorem Ipsum Generator
+- **URL:** `https://YOUR_DOMAIN.com/tools/utilities/lorem-ipsum.html`
+- **Category:** Developer, Media & Text Utilities
+- **Summary:** Generate custom dummy placeholder text for mockups and designs.
+- **Capabilities:** Generate by paragraphs, sentences, or words with optional HTML `<p>` wrapping and 1-click copy.
+
+### 60. Logo Maker
+- **URL:** `https://YOUR_DOMAIN.com/tools/utilities/logo-maker.html`
+- **Category:** Developer, Media & Text Utilities
+- **Summary:** Craft simple brand marks and typography logos client-side.
+- **Capabilities:** Customize icon shapes, typography, colors, and gradients on Canvas/SVG with instant download.
+
+### 61. Privacy Policy Generator
+- **URL:** `https://YOUR_DOMAIN.com/tools/utilities/privacy-policy-generator.html`
+- **Category:** Developer, Media & Text Utilities
+- **Summary:** Generate compliant privacy policies for websites and apps.
+- **Capabilities:** Collects site name, domain, contact email, and cookie/analytics toggles to output HTML or plain-text privacy policies.
+
+---
+
+## Category 6: Finance & Interactive Games (3 Tools)
+
+### 62. Currency Converter
+- **URL:** `https://YOUR_DOMAIN.com/tools/finance/currency-converter/index.html`
+- **Category:** Finance & Interactive Games
+- **Summary:** Convert 160+ world currencies with real-time live exchange rates.
+- **Capabilities:** Bidirectional currency swap, 160+ ISO currency codes, live exchange rate lookup, and conversion breakdown.
+
+### 63. Flappy Bird Game
+- **URL:** `https://YOUR_DOMAIN.com/tools/games/bird-game.html`
+- **Category:** Finance & Interactive Games
+- **Summary:** Play the classic flying bird obstacle arcade game in WebGL.
+- **Capabilities:** Interactive browser arcade game powered by PlayCanvas WebGL engine with keyboard/mouse/touch controls.
+
+### 64. Tic Tac Toe Game
+- **URL:** `https://YOUR_DOMAIN.com/tools/games/tic-tac-toe.html`
+- **Category:** Finance & Interactive Games
+- **Summary:** Play interactive Tic Tac Toe against a friend or smart AI.
+- **Capabilities:** Local 2-player mode and single-player AI opponent with score tracking and instant board reset.

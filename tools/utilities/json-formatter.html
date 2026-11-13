@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Formatter & Validator — OmniTools</title>
+    <meta name="description" content="Format, beautify, minify, and validate JSON data with error line detection. 100% free and client-side.">
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="stylesheet" href="/src/input.css">
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col justify-between transition-colors">
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+        <!-- Tool Header -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
+                        Utilities
+                    </span>
+                    <span class="privacy-badge">🔒 100% Client-Side Privacy</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">JSON Formatter & Validator</h1>
+                <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">Beautify messy JSON payloads, minify data for production, and debug syntax exceptions.</p>
+            </div>
+        </div>
+
+        <!-- Split 2-Column Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            
+            <!-- Left Column: Input Payload & Actions -->
+            <div class="workspace-panel space-y-4">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                        <span>📥</span> Raw JSON Input
+                    </h2>
+                    <div class="flex items-center gap-2">
+                        <button type="button" id="sample-btn" class="text-xs text-amber-600 dark:text-amber-400 hover:underline font-semibold">Load Sample</button>
+                        <span class="text-zinc-300 dark:text-zinc-700">•</span>
+                        <button type="button" id="clear-btn" class="text-xs text-zinc-400 hover:text-rose-500 font-semibold">Clear</button>
+                    </div>
+                </div>
+
+                <div>
+                    <textarea id="json-input" rows="12" placeholder='Paste raw or unformatted JSON here... e.g. {"name":"OmniTools","version":2}' class="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-xs font-mono focus:ring-2 focus:ring-amber-500 focus:outline-none transition-all leading-relaxed"></textarea>
+                </div>
+
+                <!-- Format Buttons -->
+                <div class="grid grid-cols-3 gap-2">
+                    <button type="button" id="beautify-2-btn" class="btn-primary !py-2.5 text-xs font-semibold !bg-amber-500 hover:!bg-amber-600">
+                        Beautify (2 Sp)
+                    </button>
+                    <button type="button" id="beautify-4-btn" class="btn-secondary !py-2.5 text-xs font-semibold">
+                        Beautify (4 Sp)
+                    </button>
+                    <button type="button" id="minify-btn" class="btn-secondary !py-2.5 text-xs font-semibold">
+                        Minify / Compact
+                    </button>
+                </div>
+
+                <div class="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950/40 border border-zinc-200/60 dark:border-zinc-800 text-xs text-zinc-500 dark:text-zinc-400">
+                    <p class="font-semibold text-zinc-700 dark:text-zinc-300 mb-1">⚡ Instant Validation</p>
+                    <p class="text-[11px] leading-relaxed">JSON parsing and formatting execute entirely within your browser thread. No sensitive configuration or data keys ever touch the internet.</p>
+                </div>
+            </div>
+
+            <!-- Right Column: Formatted Output & Status -->
+            <div class="workspace-panel space-y-4">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                        <span>📤</span> Formatted Output
+                    </h2>
+                    <span id="status-pill" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">Valid JSON</span>
+                </div>
+
+                <!-- Stats summary -->
+                <div class="grid grid-cols-2 gap-3 text-center">
+                    <div class="p-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/60">
+                        <span class="text-[10px] uppercase font-bold text-zinc-400">Input Size</span>
+                        <p class="text-xs font-bold text-zinc-800 dark:text-zinc-200 font-mono" id="input-bytes">0 Bytes</p>
+                    </div>
+                    <div class="p-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/60">
+                        <span class="text-[10px] uppercase font-bold text-zinc-400">Output Size</span>
+                        <p class="text-xs font-bold text-zinc-800 dark:text-zinc-200 font-mono" id="output-bytes">0 Bytes</p>
+                    </div>
+                </div>
+
+                <!-- Formatted Code Container -->
+                <div class="relative">
+                    <pre class="p-4 rounded-xl bg-zinc-900 text-zinc-200 font-mono text-xs overflow-auto h-[260px] border border-zinc-800 leading-relaxed"><code id="json-output"></code></pre>
+                </div>
+
+                <!-- Action buttons -->
+                <div class="grid grid-cols-2 gap-3">
+                    <button type="button" id="copy-btn" class="btn-secondary !py-2.5 text-xs font-semibold flex items-center justify-center gap-2">
+                        <span>📋</span>
+                        <span id="copy-label">Copy Output</span>
+                    </button>
+                    <button type="button" id="download-btn" class="btn-primary !py-2.5 text-xs font-semibold !bg-amber-500 hover:!bg-amber-600 flex items-center justify-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                        <span>Download JSON</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="/src/layout.js"></script>
+    <script>
+        const jsonInput = document.getElementById('json-input');
+        const jsonOutput = document.getElementById('json-output');
+        const statusPill = document.getElementById('status-pill');
+        const inputBytes = document.getElementById('input-bytes');
+        const outputBytes = document.getElementById('output-bytes');
+        const beautify2Btn = document.getElementById('beautify-2-btn');
+        const beautify4Btn = document.getElementById('beautify-4-btn');
+        const minifyBtn = document.getElementById('minify-btn');
+        const sampleBtn = document.getElementById('sample-btn');
+        const clearBtn = document.getElementById('clear-btn');
+        const copyBtn = document.getElementById('copy-btn');
+        const copyLabel = document.getElementById('copy-label');
+        const downloadBtn = document.getElementById('download-btn');
+
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function processJSON(spaces) {
+            const raw = jsonInput.value.trim();
+            if (!raw) {
+                jsonOutput.textContent = "";
+                statusPill.textContent = "Awaiting input";
+                statusPill.className = "px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-zinc-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-400";
+                inputBytes.textContent = "0 Bytes";
+                outputBytes.textContent = "0 Bytes";
+                return;
+            }
+
+            inputBytes.textContent = formatBytes(new Blob([raw]).size);
+
+            try {
+                const parsed = JSON.parse(raw);
+                const result = spaces === 0 ? JSON.stringify(parsed) : JSON.stringify(parsed, null, spaces);
+                jsonOutput.textContent = result;
+                outputBytes.textContent = formatBytes(new Blob([result]).size);
+
+                statusPill.textContent = "Valid JSON";
+                statusPill.className = "px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20";
+            } catch (err) {
+                jsonOutput.textContent = `❌ JSON Parse Error:\n${err.message}`;
+                outputBytes.textContent = "0 Bytes";
+                statusPill.textContent = "Invalid Syntax";
+                statusPill.className = "px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/10 text-rose-600 border border-rose-500/20";
+            }
+        }
+
+        beautify2Btn.addEventListener('click', () => processJSON(2));
+        beautify4Btn.addEventListener('click', () => processJSON(4));
+        minifyBtn.addEventListener('click', () => processJSON(0));
+        jsonInput.addEventListener('input', () => processJSON(2));
+
+        sampleBtn.addEventListener('click', () => {
+            const sample = {
+                "project": "OmniTools",
+                "version": "2.0.0",
+                "license": "MIT",
+                "privacy": "100% Client-Side",
+                "features": ["PDF Utilities", "Image Editors", "Financial Calculators", "SEO Tools"],
+                "settings": {
+                    "theme": "modern-linear",
+                    "darkMode": true,
+                    "offlineReady": true
+                }
+            };
+            jsonInput.value = JSON.stringify(sample);
+            processJSON(2);
+        });
+
+        clearBtn.addEventListener('click', () => {
+            jsonInput.value = '';
+            processJSON(2);
+        });
+
+        copyBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(jsonOutput.textContent).then(() => {
+                copyLabel.textContent = "Copied!";
+                setTimeout(() => { copyLabel.textContent = "Copy Output"; }, 2000);
+            });
+        });
+
+        downloadBtn.addEventListener('click', () => {
+            const content = jsonOutput.textContent;
+            if (!content) return;
+            const blob = new Blob([content], { type: 'application/json' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `formatted-${Date.now()}.json`;
+            a.click();
+        });
+
+        // Initialize sample
+        sampleBtn.click();
+    </script>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JPG to PNG Converter — OmniTools</title>
+    <meta name="description"
+        content="Convert JPG/JPEG images to lossless PNG format in full high-definition resolution directly in your browser. 100% free and private.">
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="stylesheet" href="/src/input.css">
+</head>
+
+
+            <body
+                class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col justify-between transition-colors">
+
+                <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+                    <!-- Tool Header -->
+                    <div
+                        class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+                        <div>
+                            <div class="flex items-center gap-2 mb-2">
+                                <span
+                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20">
+                                    Images
+                                </span>
+                                <span class="privacy-badge">🔒 100% Client-Side Privacy</span>
+                            </div>
+                            <h1 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">JPG to PNG
+                                Converter</h1>
+                            <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">Convert JPEG photos into
+                                high quality lossless PNG graphics with full color fidelity.</p>
+                        </div>
+                    </div>
+
+                    <!-- Split 2-Column Workspace -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+        <!-- Left Column: Source Upload -->
+        <div class="workspace-panel space-y-6">
+            <h2
+                class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                <span>📥</span> Upload JPG File
+            </h2>
+
+                <div id="dropzone" class="modern-dropzone cursor-pointer">
+                    <input type="file" id="image-input" accept="image/jpeg,image/jpg" class="hidden">
+                    <div
+                        class="w-12 h-12 mx-auto mb-3 rounded-2xl bg-sky-500/10 text-sky-600 dark:text-sky-400 flex items-center justify-center text-xl">
+                        🖼️
+                    </div>
+                    <p class="text-sm font-semibold text-zinc-800 dark:text-zinc-200" id="upload-prompt">Click or drag
+                        JPG image here</p>
+                    <p class="text-xs text-zinc-400 mt-1">Accepts .jpg, .jpeg files of any resolution</p>
+                </div>
+
+                <div id="file-info"
+                    class="hidden p-4 rounded-xl bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/60 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-bold text-zinc-900 dark:text-white truncate max-w-[200px]"
+                            id="filename-label">image.jpg</p>
+                        <p class="text-[11px] text-zinc-400 mt-0.5" id="filesize-label">-- KB</p>
+                    </div>
+                    <span
+                        class="px-2 py-1 rounded text-[10px] font-bold bg-amber-500/10 text-amber-600 border border-amber-500/20">JPEG</span>
+                </div>
+
+                <button type="button" id="convert-button" disabled
+                    class="btn-primary w-full !py-3 text-sm font-semibold !bg-sky-600 hover:!bg-sky-700 opacity-50 cursor-not-allowed">
+                    Convert to PNG
+                </button>
+
+                <div
+                    class="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950/40 border border-zinc-200/60 dark:border-zinc-800 text-xs text-zinc-500 dark:text-zinc-400">
+                    <p class="font-semibold text-zinc-700 dark:text-zinc-300 mb-1">💡 Why convert to PNG?</p>
+                    <p class="text-[11px] leading-relaxed">PNG provides lossless compression, meaning no image artifacts
+                        or degradation occurs during repeated editing and saving.</p>
+                </div>
+            </div>
+
+            <!-- Right Column: Output & Download -->
+            <div class="workspace-panel space-y-6">
+                <h2
+                    class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 mb-2 flex items-center gap-2">
+                    <span>📤</span> Converted PNG Result
+                </h2>
+
+                <div id="idle-output"
+                    class="text-center py-12 px-4 rounded-2xl border border-dashed border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-950/30">
+                    <span class="text-4xl block mb-2">✨</span>
+                    <p class="text-sm font-semibold text-zinc-700 dark:text-zinc-300">Ready for Conversion</p>
+                    <p class="text-xs text-zinc-400 mt-1 max-w-xs mx-auto">Upload a JPG on the left to generate your
+                        lossless PNG.</p>
+                </div>
+
+                <div id="output-container" class="space-y-4 hidden">
+                    <div
+                        class="p-4 rounded-xl bg-zinc-100 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800 flex flex-col items-center justify-center">
+                        <img id="output-image" class="max-h-60 max-w-full rounded-lg object-contain shadow-xs">
+                        <div class="mt-3 flex items-center gap-2">
+                            <span
+                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                                Lossless PNG Ready
+                            </span>
+                            <span id="output-dim" class="text-xs font-mono text-zinc-400"></span>
+                        </div>
+                    </div>
+
+                    <a id="download-link"
+                        class="btn-accent w-full !py-3 text-sm font-semibold flex items-center justify-center gap-2 cursor-pointer">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                        <span>Download PNG Image</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main >
+
+            <script type="module" src="/src/layout.js"></script>
+    <script>
+            const dropzone = document.getElementById('dropzone');
+            const imageInput = document.getElementById('image-input');
+            const uploadPrompt = document.getElementById('upload-prompt');
+            const fileInfo = document.getElementById('file-info');
+            const filenameLabel = document.getElementById('filename-label');
+            const filesizeLabel = document.getElementById('filesize-label');
+            const convertButton = document.getElementById('convert-button');
+            const idleOutput = document.getElementById('idle-output');
+            const outputContainer = document.getElementById('output-container');
+            const outputImage = document.getElementById('output-image');
+            const outputDim = document.getElementById('output-dim');
+            const downloadLink = document.getElementById('download-link');
+
+            let selectedFile = null;
+
+        dropzone.addEventListener('click', () => imageInput.click());
+
+        dropzone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+            dropzone.classList.add('border-sky-500');
+        });
+
+        dropzone.addEventListener('dragleave', () => {
+                dropzone.classList.remove('border-sky-500');
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+                e.preventDefault();
+            dropzone.classList.remove('border-sky-500');
+            if (e.dataTransfer.files.length) {
+                handleFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        imageInput.addEventListener('change', (e) => {
+            if (e.target.files.length) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+            function handleFile(file) {
+            if (!file.type.match(/jpeg|jpg/i) && !file.name.match(/\.(jpe?g)$/i)) {
+                alert('Please upload a valid JPG/JPEG image.');
+            return;
+            }
+            selectedFile = file;
+            uploadPrompt.textContent = file.name;
+            filenameLabel.textContent = file.name;
+            filesizeLabel.textContent = (file.size / 1024).toFixed(1) + ' KB';
+            fileInfo.classList.remove('hidden');
+
+            convertButton.disabled = false;
+            convertButton.classList.remove('opacity-50', 'cursor-not-allowed');
+            doConvert();
+        }
+
+            convertButton.addEventListener('click', doConvert);
+
+            function doConvert() {
+            if (!selectedFile) return;
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+
+            const pngDataURL = canvas.toDataURL('image/png');
+            outputImage.src = pngDataURL;
+            outputDim.textContent = `${img.width} × ${img.height} px`;
+
+            const baseName = selectedFile.name.substring(0, selectedFile.name.lastIndexOf('.')) || 'image';
+            downloadLink.href = pngDataURL;
+            downloadLink.download = `${baseName}.png`;
+
+            idleOutput.classList.add('hidden');
+            outputContainer.classList.remove('hidden');
+                };
+            img.src = event.target.result;
+            };
+            reader.readAsDataURL(selectedFile);
+        }
+    </script>
+</body>
+
+</html>

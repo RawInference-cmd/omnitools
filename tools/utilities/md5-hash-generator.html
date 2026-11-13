@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MD5 & Cryptographic Hash Generator — OmniTools</title>
+    <meta name="description" content="Generate MD5, SHA-1, SHA-256, and SHA-512 hashes from text strings or files with instant checksum verification. 100% free and client-side.">
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="stylesheet" href="/src/input.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col justify-between transition-colors">
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+        <!-- Tool Header -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
+                        Utilities
+                    </span>
+                    <span class="privacy-badge">🔒 100% Client-Side Privacy</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">MD5 & Cryptographic Hash Generator</h1>
+                <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">Compute MD5, SHA-256, SHA-512 digests and verify file integrity checksums.</p>
+            </div>
+        </div>
+
+        <!-- Split 2-Column Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            
+            <!-- Left Column: Source Input & Algorithm Selection -->
+            <div class="workspace-panel space-y-5">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                    <span>🔐</span> Input & Algorithm
+                </h2>
+
+                <div class="space-y-4">
+                    <!-- Algorithm Pills -->
+                    <div>
+                        <label class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Hash Algorithm</label>
+                        <div class="grid grid-cols-4 gap-2">
+                            <button type="button" data-algo="MD5" class="algo-pill py-2 rounded-xl text-xs font-bold bg-amber-500 text-white shadow-xs">MD5</button>
+                            <button type="button" data-algo="SHA1" class="algo-pill py-2 rounded-xl text-xs font-bold border border-zinc-200 dark:border-zinc-700 hover:border-amber-500">SHA-1</button>
+                            <button type="button" data-algo="SHA256" class="algo-pill py-2 rounded-xl text-xs font-bold border border-zinc-200 dark:border-zinc-700 hover:border-amber-500">SHA-256</button>
+                            <button type="button" data-algo="SHA512" class="algo-pill py-2 rounded-xl text-xs font-bold border border-zinc-200 dark:border-zinc-700 hover:border-amber-500">SHA-512</button>
+                        </div>
+                    </div>
+
+                    <!-- Input String Area -->
+                    <div>
+                        <label for="text-input" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Input Text String</label>
+                        <textarea id="text-input" rows="6" placeholder="Type or paste any text to hash in real-time..." class="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none transition-all leading-relaxed"></textarea>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <label class="flex items-center gap-2 text-xs font-medium text-zinc-700 dark:text-zinc-300 cursor-pointer">
+                            <input type="checkbox" id="uppercase-toggle" class="rounded border-zinc-300 text-amber-500 focus:ring-amber-500">
+                            <span>Uppercase Hex Output</span>
+                        </label>
+                        <span id="char-count" class="text-xs font-mono text-zinc-400">0 characters</span>
+                    </div>
+                </div>
+
+                <div class="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950/40 border border-zinc-200/60 dark:border-zinc-800 text-xs text-zinc-500 dark:text-zinc-400">
+                    <p class="font-semibold text-zinc-700 dark:text-zinc-300 mb-1">💡 What is MD5?</p>
+                    <p class="text-[11px] leading-relaxed">MD5 produces a 128-bit (32 hexadecimal digits) digest widely used for file verification, database keys, and cache tagging.</p>
+                </div>
+            </div>
+
+            <!-- Right Column: Hash Output & Checksum Verifier -->
+            <div class="workspace-panel space-y-6">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                        <span>#️⃣</span> Hash Digest
+                    </h2>
+                    <span id="algo-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">MD5 (128-bit)</span>
+                </div>
+
+                <!-- Hash Display Card -->
+                <div class="p-5 rounded-2xl bg-zinc-900 text-white border border-zinc-800 space-y-3">
+                    <div class="p-3.5 rounded-xl bg-zinc-950/80 border border-zinc-800">
+                        <p id="hash-output" class="font-mono text-xs sm:text-sm font-bold tracking-wider break-all select-all text-amber-400">
+                            d41d8cd98f00b204e9800998ecf8427e
+                        </p>
+                    </div>
+
+                    <button type="button" id="copy-btn" class="btn-accent w-full !py-2.5 text-xs font-semibold flex items-center justify-center gap-2">
+                        <span>📋</span>
+                        <span id="copy-label">Copy Hash Digest</span>
+                    </button>
+                </div>
+
+                <!-- Checksum Comparison Verifier -->
+                <div class="p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 space-y-3">
+                    <span class="text-xs font-bold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Checksum Verifier</span>
+                    <p class="text-[11px] text-zinc-500 dark:text-zinc-400">Paste an expected checksum below to check if they match:</p>
+                    <input type="text" id="verify-input" placeholder="Paste expected hash to compare..." class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-xs font-mono focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                    <div id="verify-status" class="hidden p-2.5 rounded-xl text-xs font-semibold text-center"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="/src/layout.js"></script>
+    <script>
+        let currentAlgo = 'MD5';
+
+        const algoPills = document.querySelectorAll('.algo-pill');
+        const textInput = document.getElementById('text-input');
+        const uppercaseToggle = document.getElementById('uppercase-toggle');
+        const charCount = document.getElementById('char-count');
+        const algoBadge = document.getElementById('algo-badge');
+        const hashOutput = document.getElementById('hash-output');
+        const copyBtn = document.getElementById('copy-btn');
+        const copyLabel = document.getElementById('copy-label');
+        const verifyInput = document.getElementById('verify-input');
+        const verifyStatus = document.getElementById('verify-status');
+
+        algoPills.forEach(pill => {
+            pill.addEventListener('click', () => {
+                algoPills.forEach(p => {
+                    p.className = 'algo-pill py-2 rounded-xl text-xs font-bold border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:border-amber-500';
+                });
+                pill.className = 'algo-pill py-2 rounded-xl text-xs font-bold bg-amber-500 text-white shadow-xs';
+                currentAlgo = pill.dataset.algo;
+                computeHash();
+            });
+        });
+
+        function computeHash() {
+            const text = textInput.value;
+            charCount.textContent = `${text.length} characters`;
+
+            let hash = "";
+            let bits = "128-bit";
+
+            if (currentAlgo === 'MD5') {
+                hash = CryptoJS.MD5(text).toString();
+                bits = "128-bit";
+            } else if (currentAlgo === 'SHA1') {
+                hash = CryptoJS.SHA1(text).toString();
+                bits = "160-bit";
+            } else if (currentAlgo === 'SHA256') {
+                hash = CryptoJS.SHA256(text).toString();
+                bits = "256-bit";
+            } else if (currentAlgo === 'SHA512') {
+                hash = CryptoJS.SHA512(text).toString();
+                bits = "512-bit";
+            }
+
+            if (uppercaseToggle.checked) {
+                hash = hash.toUpperCase();
+            } else {
+                hash = hash.toLowerCase();
+            }
+
+            algoBadge.textContent = `${currentAlgo} (${bits})`;
+            hashOutput.textContent = hash;
+
+            checkVerification();
+        }
+
+        function checkVerification() {
+            const expected = verifyInput.value.trim().toLowerCase();
+            const actual = hashOutput.textContent.trim().toLowerCase();
+
+            if (!expected) {
+                verifyStatus.classList.add('hidden');
+                return;
+            }
+
+            verifyStatus.classList.remove('hidden');
+            if (expected === actual) {
+                verifyStatus.textContent = "✓ Checksum Matched! Hashes are identical.";
+                verifyStatus.className = "p-2.5 rounded-xl text-xs font-bold text-center bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20";
+            } else {
+                verifyStatus.textContent = "✗ Mismatch! Expected hash does not match.";
+                verifyStatus.className = "p-2.5 rounded-xl text-xs font-bold text-center bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20";
+            }
+        }
+
+        textInput.addEventListener('input', computeHash);
+        uppercaseToggle.addEventListener('change', computeHash);
+        verifyInput.addEventListener('input', checkVerification);
+
+        copyBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(hashOutput.textContent.trim()).then(() => {
+                copyLabel.textContent = "Copied!";
+                setTimeout(() => { copyLabel.textContent = "Copy Hash Digest"; }, 2000);
+            });
+        });
+
+        // Initialize with default
+        textInput.value = "OmniTools";
+        computeHash();
+    </script>
+</body>
+</html>

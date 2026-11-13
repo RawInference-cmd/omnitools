@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GST Calculator — OmniTools</title>
+    <meta name="description" content="Calculate Goods and Services Tax (GST) easily. Supports both GST Exclusive (Add GST) and Inclusive (Remove GST) with CGST/SGST breakdown.">
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="stylesheet" href="/src/input.css">
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col justify-between transition-colors">
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+        <!-- Tool Header -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                        Calculators
+                    </span>
+                    <span class="privacy-badge">🔒 100% Client-Side Privacy</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">GST Calculator</h1>
+                <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">Compute tax amounts, gross prices, and CGST / SGST splits for any transaction.</p>
+            </div>
+        </div>
+
+        <!-- Split 2-Column Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            
+            <!-- Left Column: Inputs -->
+            <div class="workspace-panel space-y-5">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                    <span>🧾</span> Tax Inputs
+                </h2>
+
+                <div class="space-y-4">
+                    <!-- Calculation Type Toggle -->
+                    <div>
+                        <label class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">GST Direction</label>
+                        <div class="grid grid-cols-2 gap-2 p-1 bg-zinc-100 dark:bg-zinc-800/80 rounded-xl text-xs font-semibold">
+                            <button type="button" id="btn-exclusive" class="py-2.5 rounded-lg bg-white dark:bg-zinc-700 text-zinc-900 dark:text-white shadow-xs transition-all text-center">
+                                Exclusive (Add GST)
+                            </button>
+                            <button type="button" id="btn-inclusive" class="py-2.5 rounded-lg text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-all text-center">
+                                Inclusive (Extract GST)
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Initial Amount -->
+                    <div>
+                        <label for="amount" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Transaction Amount</label>
+                        <div class="relative">
+                            <span class="absolute left-4 top-3 text-sm font-bold text-zinc-400">₹</span>
+                            <input type="number" id="amount" value="5000" min="0" step="1" class="w-full pl-8 pr-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none transition-all">
+                        </div>
+                    </div>
+
+                    <!-- Tax Slab Selector -->
+                    <div>
+                        <label class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">GST Rate Slab</label>
+                        <div class="grid grid-cols-4 gap-2 mb-2">
+                            <button type="button" data-rate="5" class="rate-pill py-2 rounded-xl text-xs font-bold border border-zinc-200 dark:border-zinc-700 hover:border-emerald-500 transition-all">5%</button>
+                            <button type="button" data-rate="12" class="rate-pill py-2 rounded-xl text-xs font-bold border border-zinc-200 dark:border-zinc-700 hover:border-emerald-500 transition-all">12%</button>
+                            <button type="button" data-rate="18" class="rate-pill py-2 rounded-xl text-xs font-bold bg-emerald-500 text-white border border-emerald-500 shadow-xs transition-all">18%</button>
+                            <button type="button" data-rate="28" class="rate-pill py-2 rounded-xl text-xs font-bold border border-zinc-200 dark:border-zinc-700 hover:border-emerald-500 transition-all">28%</button>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs text-zinc-400">Or Custom Rate:</span>
+                            <div class="relative flex-1">
+                                <input type="number" id="custom-rate" placeholder="e.g. 7.5" min="0" max="100" step="0.1" class="w-full px-3 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none pr-8">
+                                <span class="absolute right-3 top-1.5 text-xs font-bold text-zinc-400">%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950/40 border border-zinc-200/60 dark:border-zinc-800 text-xs text-zinc-500 dark:text-zinc-400">
+                    <p class="font-semibold text-zinc-700 dark:text-zinc-300 mb-1">💡 Exclusive vs Inclusive</p>
+                    <p class="text-[11px] leading-relaxed"><strong>Exclusive:</strong> Calculates GST on top of the base net price. <strong>Inclusive:</strong> Extracts the pre-tax base cost and tax fraction from the gross price paid.</p>
+                </div>
+            </div>
+
+            <!-- Right Column: Results & Breakdown -->
+            <div class="workspace-panel space-y-6">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 mb-2 flex items-center gap-2">
+                    <span>📊</span> Tax Calculation Summary
+                </h2>
+
+                <!-- Hero Result Card -->
+                <div class="p-6 rounded-2xl bg-gradient-to-br from-emerald-500/10 via-teal-500/5 to-transparent border border-emerald-500/20 text-center space-y-2">
+                    <p class="text-xs font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400">Total Invoice Amount</p>
+                    <div class="text-3xl sm:text-4xl font-black text-zinc-900 dark:text-white" id="totalAmount">
+                        ₹5,900.00
+                    </div>
+                    <p class="text-xs text-zinc-500 dark:text-zinc-400" id="rate-summary-label">
+                        Based on 18% GST (Exclusive)
+                    </p>
+                </div>
+
+                <!-- 3 Stats Bento Cards -->
+                <div class="grid grid-cols-2 gap-3 text-center">
+                    <div class="p-4 rounded-xl bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/60">
+                        <span class="text-[10px] uppercase font-bold text-zinc-400 block mb-1">Net Base Amount</span>
+                        <p class="text-base sm:text-lg font-bold text-zinc-800 dark:text-zinc-200" id="baseAmount">₹5,000.00</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/60">
+                        <span class="text-[10px] uppercase font-bold text-emerald-600 dark:text-emerald-400 block mb-1">Total GST</span>
+                        <p class="text-base sm:text-lg font-bold text-emerald-600 dark:text-emerald-400" id="gstAmount">₹900.00</p>
+                    </div>
+                </div>
+
+                <!-- Dual Split Breakdown (CGST / SGST) -->
+                <div class="p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 space-y-3">
+                    <span class="text-xs font-bold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Intra-State GST Split</span>
+                    <div class="grid grid-cols-2 gap-4 divide-x divide-zinc-200 dark:divide-zinc-800 pt-1">
+                        <div>
+                            <span class="text-[11px] text-zinc-400">Central GST (CGST - 50%)</span>
+                            <p class="text-sm font-semibold text-zinc-800 dark:text-zinc-200 mt-0.5" id="cgstAmount">₹450.00</p>
+                        </div>
+                        <div class="pl-4">
+                            <span class="text-[11px] text-zinc-400">State GST (SGST - 50%)</span>
+                            <p class="text-sm font-semibold text-zinc-800 dark:text-zinc-200 mt-0.5" id="sgstAmount">₹450.00</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="/src/layout.js"></script>
+    <script>
+        let currentType = 'exclusive';
+        let currentRate = 18;
+
+        const amountInput = document.getElementById('amount');
+        const customRateInput = document.getElementById('custom-rate');
+        const ratePills = document.querySelectorAll('.rate-pill');
+        const btnExclusive = document.getElementById('btn-exclusive');
+        const btnInclusive = document.getElementById('btn-inclusive');
+
+        const totalAmountEl = document.getElementById('totalAmount');
+        const baseAmountEl = document.getElementById('baseAmount');
+        const gstAmountEl = document.getElementById('gstAmount');
+        const cgstAmountEl = document.getElementById('cgstAmount');
+        const sgstAmountEl = document.getElementById('sgstAmount');
+        const rateSummaryLabel = document.getElementById('rate-summary-label');
+
+        function formatINR(val) {
+            return '₹' + Number(val).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        btnExclusive.addEventListener('click', () => {
+            currentType = 'exclusive';
+            btnExclusive.className = 'py-2.5 rounded-lg bg-white dark:bg-zinc-700 text-zinc-900 dark:text-white shadow-xs transition-all text-center';
+            btnInclusive.className = 'py-2.5 rounded-lg text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-all text-center';
+            calculateGST();
+        });
+
+        btnInclusive.addEventListener('click', () => {
+            currentType = 'inclusive';
+            btnInclusive.className = 'py-2.5 rounded-lg bg-white dark:bg-zinc-700 text-zinc-900 dark:text-white shadow-xs transition-all text-center';
+            btnExclusive.className = 'py-2.5 rounded-lg text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-all text-center';
+            calculateGST();
+        });
+
+        ratePills.forEach(pill => {
+            pill.addEventListener('click', () => {
+                currentRate = parseFloat(pill.dataset.rate);
+                customRateInput.value = '';
+                ratePills.forEach(p => {
+                    p.className = 'rate-pill py-2 rounded-xl text-xs font-bold border border-zinc-200 dark:border-zinc-700 hover:border-emerald-500 transition-all';
+                });
+                pill.className = 'rate-pill py-2 rounded-xl text-xs font-bold bg-emerald-500 text-white border border-emerald-500 shadow-xs transition-all';
+                calculateGST();
+            });
+        });
+
+        customRateInput.addEventListener('input', () => {
+            const custom = parseFloat(customRateInput.value);
+            if (!isNaN(custom) && custom >= 0) {
+                currentRate = custom;
+                ratePills.forEach(p => {
+                    p.className = 'rate-pill py-2 rounded-xl text-xs font-bold border border-zinc-200 dark:border-zinc-700 hover:border-emerald-500 transition-all';
+                });
+                calculateGST();
+            }
+        });
+
+        amountInput.addEventListener('input', calculateGST);
+
+        function calculateGST() {
+            const rawAmount = parseFloat(amountInput.value) || 0;
+            const rate = currentRate;
+
+            let base = 0;
+            let gst = 0;
+            let total = 0;
+
+            if (currentType === 'exclusive') {
+                base = rawAmount;
+                gst = (base * rate) / 100;
+                total = base + gst;
+            } else {
+                total = rawAmount;
+                base = total / (1 + (rate / 100));
+                gst = total - base;
+            }
+
+            const cgst = gst / 2;
+            const sgst = gst / 2;
+
+            totalAmountEl.textContent = formatINR(total);
+            baseAmountEl.textContent = formatINR(base);
+            gstAmountEl.textContent = formatINR(gst);
+            cgstAmountEl.textContent = formatINR(cgst);
+            sgstAmountEl.textContent = formatINR(sgst);
+
+            rateSummaryLabel.textContent = `Based on ${rate}% GST (${currentType.charAt(0).toUpperCase() + currentType.slice(1)})`;
+        }
+
+        // Run on load
+        calculateGST();
+    </script>
+</body>
+</html>

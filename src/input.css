@@ -1,0 +1,178 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
+  body {
+    overflow-x: hidden;
+    max-width: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer components {
+  /* Linear / Modern SaaS Buttons */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 font-medium px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 active:scale-[0.98] text-white shadow-sm shadow-indigo-500/20 hover:shadow-indigo-500/30 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-sm;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 font-medium px-5 py-2.5 rounded-xl bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800/80 dark:hover:bg-zinc-700/80 text-zinc-700 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-700/80 transition-all duration-200 cursor-pointer text-sm;
+  }
+
+  .btn-accent {
+    @apply inline-flex items-center justify-center gap-2 font-medium px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 active:scale-[0.98] text-white shadow-sm shadow-emerald-500/20 transition-all duration-200 cursor-pointer text-sm;
+  }
+
+  /* Linear-style Bento / Tool Cards */
+  .tool-card {
+    @apply bg-white dark:bg-zinc-900/80 rounded-2xl p-6 border border-zinc-200/80 dark:border-zinc-800 shadow-xs hover:shadow-xl hover:border-indigo-400 dark:hover:border-indigo-500/50 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between backdrop-blur-xs min-w-0;
+  }
+
+  /* Workspace 2-Column Split Layout */
+  .workspace-layout {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-2 gap-8 items-start;
+  }
+
+  .workspace-panel {
+    @apply bg-white dark:bg-zinc-900/90 rounded-2xl p-6 sm:p-8 border border-zinc-200/80 dark:border-zinc-800 shadow-sm backdrop-blur-sm min-w-0;
+  }
+
+  /* Modern Drag & Drop Zone */
+  .dropzone-container, .modern-dropzone {
+    @apply border-2 border-dashed border-zinc-300 dark:border-zinc-700 hover:border-indigo-500 dark:hover:border-indigo-400 rounded-2xl p-8 text-center cursor-pointer transition-all duration-200 bg-zinc-50/60 dark:bg-zinc-900/40 hover:bg-indigo-50/30 dark:hover:bg-indigo-950/20 flex flex-col items-center justify-center min-h-[180px];
+  }
+
+  /* Result & Output Box */
+  .result-box, .result-display {
+    @apply bg-zinc-50 dark:bg-zinc-950/80 border border-zinc-200 dark:border-zinc-800 rounded-xl p-4 font-mono text-sm overflow-x-auto text-zinc-800 dark:text-zinc-200 selection:bg-indigo-500 selection:text-white max-w-full;
+  }
+
+  /* Privacy Shield Pill */
+  .privacy-badge {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20;
+  }
+
+  /* Interactive FAQ Accordion */
+  .faq-accordion {
+    @apply rounded-2xl bg-white dark:bg-zinc-900/80 border border-zinc-200/80 dark:border-zinc-800 transition-all duration-200 overflow-hidden;
+  }
+
+  .faq-accordion[open] {
+    @apply border-indigo-400/60 dark:border-indigo-500/40 shadow-sm;
+  }
+
+  .faq-accordion summary {
+    @apply flex items-center justify-between gap-4 px-5 py-4 cursor-pointer select-none text-sm font-semibold text-zinc-900 dark:text-white hover:bg-zinc-50/80 dark:hover:bg-zinc-800/40 transition-colors;
+    list-style: none;
+  }
+
+  .faq-accordion summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-accordion .faq-chevron {
+    @apply w-4 h-4 text-zinc-400 shrink-0 transition-transform duration-200;
+  }
+
+  .faq-accordion[open] .faq-chevron {
+    @apply rotate-180 text-indigo-500;
+  }
+
+  .faq-accordion .faq-answer {
+    @apply px-5 pb-4 pt-1 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed border-t border-zinc-100 dark:border-zinc-800/80;
+    animation: faqSlideDown 0.2s ease-out;
+  }
+
+  /* Global Command Palette Modal */
+  .cmd-palette-backdrop {
+    @apply fixed inset-0 z-[70] bg-zinc-950/60 backdrop-blur-sm flex items-start justify-center pt-[10vh] sm:pt-[14vh] px-4;
+    animation: cmdFadeIn 0.16s ease-out;
+  }
+
+  .cmd-palette-dialog {
+    @apply w-full max-w-2xl bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl border border-zinc-200 dark:border-zinc-800 overflow-hidden;
+    animation: cmdPopIn 0.16s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Toast Notification */
+  .omnitools-toast {
+    @apply fixed bottom-5 right-5 z-[80] flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 text-xs font-semibold shadow-xl border border-zinc-800 dark:border-zinc-200;
+    animation: toastSlideUp 0.2s ease-out;
+  }
+}
+
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes faqSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cmdFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes cmdPopIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97) translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes toastSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom scrollbars for SaaS elegance */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #a1a1aa;
+  border-radius: 9999px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #3f3f46;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #71717a;
+}

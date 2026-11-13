@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Unit Converter — OmniTools</title>
+    <meta name="description" content="Convert between units of Length, Weight, Area, Volume, Temperature, Speed, and Digital Storage instantly with live formulas.">
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="stylesheet" href="/src/input.css">
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col justify-between transition-colors">
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+        <!-- Tool Header -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                        Calculators
+                    </span>
+                    <span class="privacy-badge">🔒 100% Client-Side Privacy</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">Universal Unit Converter</h1>
+                <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">Convert between metric, imperial, and digital units with live precision formulas.</p>
+            </div>
+        </div>
+
+        <!-- Split 2-Column Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            
+            <!-- Left Column: Inputs & Unit Selectors -->
+            <div class="workspace-panel space-y-5">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                    <span>🔄</span> Conversion Setup
+                </h2>
+
+                <!-- Category Pill Selector -->
+                <div>
+                    <label class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-2">Unit Category</label>
+                    <div class="grid grid-cols-3 sm:grid-cols-4 gap-2" id="category-pills">
+                        <button type="button" data-cat="length" class="cat-pill active px-3 py-2 rounded-xl text-xs font-bold bg-emerald-500 text-white shadow-xs">Length</button>
+                        <button type="button" data-cat="weight" class="cat-pill px-3 py-2 rounded-xl text-xs font-bold border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:border-emerald-500">Weight</button>
+                        <button type="button" data-cat="area" class="cat-pill px-3 py-2 rounded-xl text-xs font-bold border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:border-emerald-500">Area</button>
+                        <button type="button" data-cat="temperature" class="cat-pill px-3 py-2 rounded-xl text-xs font-bold border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:border-emerald-500">Temp</button>
+                        <button type="button" data-cat="speed" class="cat-pill px-3 py-2 rounded-xl text-xs font-bold border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:border-emerald-500">Speed</button>
+                        <button type="button" data-cat="digital" class="cat-pill px-3 py-2 rounded-xl text-xs font-bold border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:border-emerald-500">Digital</button>
+                        <button type="button" data-cat="volume" class="cat-pill px-3 py-2 rounded-xl text-xs font-bold border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:border-emerald-500">Volume</button>
+                        <button type="button" data-cat="time" class="cat-pill px-3 py-2 rounded-xl text-xs font-bold border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:border-emerald-500">Time</button>
+                    </div>
+                </div>
+
+                <div class="space-y-4 pt-2">
+                    <div>
+                        <label for="input-value" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Value to Convert</label>
+                        <input type="number" id="input-value" value="10" step="any" class="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none transition-all">
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-[1fr,auto,1fr] gap-3 items-center">
+                        <div>
+                            <label for="from-unit" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">From</label>
+                            <select id="from-unit" class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-xs sm:text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                            </select>
+                        </div>
+
+                        <div class="flex justify-center pt-5 sm:pt-6">
+                            <button type="button" id="swap-btn" class="p-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-600 dark:text-zinc-400 transition-colors" title="Swap Units">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+                            </button>
+                        </div>
+
+                        <div>
+                            <label for="to-unit" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">To</label>
+                            <select id="to-unit" class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-xs sm:text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950/40 border border-zinc-200/60 dark:border-zinc-800 text-xs text-zinc-500 dark:text-zinc-400">
+                    <p class="font-semibold text-zinc-700 dark:text-zinc-300 mb-1">⚡ Real-time Precision</p>
+                    <p class="text-[11px] leading-relaxed">Conversions update dynamically as you type with up to 6 significant decimal places.</p>
+                </div>
+            </div>
+
+            <!-- Right Column: Conversion Result & Comparison -->
+            <div class="workspace-panel space-y-6">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 mb-2 flex items-center gap-2">
+                    <span>📊</span> Conversion Result
+                </h2>
+
+                <!-- Hero Result Card -->
+                <div class="p-6 rounded-2xl bg-gradient-to-br from-emerald-500/10 via-teal-500/5 to-transparent border border-emerald-500/20 text-center space-y-2">
+                    <p class="text-xs font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400" id="result-summary-label">
+                        10 Kilometers equals
+                    </p>
+                    <div class="text-3xl sm:text-4xl font-black text-zinc-900 dark:text-white" id="result-display">
+                        6.21371 Miles
+                    </div>
+                    <div class="pt-2">
+                        <button type="button" id="copy-result-btn" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-50 text-zinc-700 dark:text-zinc-300 shadow-xs transition-all">
+                            <span>📋</span>
+                            <span id="copy-label">Copy Result</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Formula / Definition Card -->
+                <div class="p-4 rounded-xl bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/60 space-y-1">
+                    <span class="text-[10px] uppercase font-bold text-zinc-400">Conversion Formula</span>
+                    <p class="text-xs font-mono text-zinc-800 dark:text-zinc-200" id="formula-text">Multiply value by 0.621371</p>
+                </div>
+
+                <!-- Reference Equivalents -->
+                <div class="space-y-2">
+                    <span class="text-xs font-bold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Equivalent Benchmarks</span>
+                    <div class="grid grid-cols-2 gap-2 text-xs font-mono" id="benchmarks-grid">
+                        <!-- Dynamic items -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="/src/layout.js"></script>
+    <script>
+        const unitData = {
+            length: {
+                units: {
+                    meters: { name: "Meters (m)", factor: 1 },
+                    kilometers: { name: "Kilometers (km)", factor: 1000 },
+                    centimeters: { name: "Centimeters (cm)", factor: 0.01 },
+                    millimeters: { name: "Millimeters (mm)", factor: 0.001 },
+                    miles: { name: "Miles (mi)", factor: 1609.344 },
+                    yards: { name: "Yards (yd)", factor: 0.9144 },
+                    feet: { name: "Feet (ft)", factor: 0.3048 },
+                    inches: { name: "Inches (in)", factor: 0.0254 }
+                },
+                defaultFrom: "kilometers",
+                defaultTo: "miles"
+            },
+            weight: {
+                units: {
+                    kilograms: { name: "Kilograms (kg)", factor: 1 },
+                    grams: { name: "Grams (g)", factor: 0.001 },
+                    milligrams: { name: "Milligrams (mg)", factor: 0.000001 },
+                    pounds: { name: "Pounds (lbs)", factor: 0.45359237 },
+                    ounces: { name: "Ounces (oz)", factor: 0.0283495231 },
+                    metric_tons: { name: "Metric Tons (t)", factor: 1000 }
+                },
+                defaultFrom: "kilograms",
+                defaultTo: "pounds"
+            },
+            area: {
+                units: {
+                    square_meters: { name: "Square Meters (m²)", factor: 1 },
+                    square_kilometers: { name: "Square Kilometers (km²)", factor: 1000000 },
+                    square_feet: { name: "Square Feet (ft²)", factor: 0.092903 },
+                    acres: { name: "Acres", factor: 4046.85642 },
+                    hectares: { name: "Hectares", factor: 10000 }
+                },
+                defaultFrom: "square_meters",
+                defaultTo: "square_feet"
+            },
+            temperature: {
+                units: {
+                    celsius: { name: "Celsius (°C)" },
+                    fahrenheit: { name: "Fahrenheit (°F)" },
+                    kelvin: { name: "Kelvin (K)" }
+                },
+                defaultFrom: "celsius",
+                defaultTo: "fahrenheit"
+            },
+            speed: {
+                units: {
+                    mps: { name: "Meters / Second (m/s)", factor: 1 },
+                    kph: { name: "Kilometers / Hour (km/h)", factor: 0.277778 },
+                    mph: { name: "Miles / Hour (mph)", factor: 0.44704 },
+                    knots: { name: "Knots (kt)", factor: 0.514444 }
+                },
+                defaultFrom: "kph",
+                defaultTo: "mph"
+            },
+            digital: {
+                units: {
+                    bytes: { name: "Bytes (B)", factor: 1 },
+                    kilobytes: { name: "Kilobytes (KB)", factor: 1024 },
+                    megabytes: { name: "Megabytes (MB)", factor: 1048576 },
+                    gigabytes: { name: "Gigabytes (GB)", factor: 1073741824 },
+                    terabytes: { name: "Terabytes (TB)", factor: 1099511627776 }
+                },
+                defaultFrom: "gigabytes",
+                defaultTo: "megabytes"
+            },
+            volume: {
+                units: {
+                    liters: { name: "Liters (L)", factor: 1 },
+                    milliliters: { name: "Milliliters (mL)", factor: 0.001 },
+                    cubic_meters: { name: "Cubic Meters (m³)", factor: 1000 },
+                    gallons_us: { name: "Gallons (US)", factor: 3.78541 },
+                    fluid_ounces: { name: "Fluid Ounces (fl oz)", factor: 0.0295735 }
+                },
+                defaultFrom: "liters",
+                defaultTo: "gallons_us"
+            },
+            time: {
+                units: {
+                    seconds: { name: "Seconds (s)", factor: 1 },
+                    minutes: { name: "Minutes (min)", factor: 60 },
+                    hours: { name: "Hours (hr)", factor: 3600 },
+                    days: { name: "Days (d)", factor: 86400 },
+                    weeks: { name: "Weeks (wk)", factor: 604800 }
+                },
+                defaultFrom: "hours",
+                defaultTo: "minutes"
+            }
+        };
+
+        let currentCategory = 'length';
+        const categoryPills = document.querySelectorAll('.cat-pill');
+        const fromUnitSelect = document.getElementById('from-unit');
+        const toUnitSelect = document.getElementById('to-unit');
+        const inputValue = document.getElementById('input-value');
+        const swapBtn = document.getElementById('swap-btn');
+        const resultSummaryLabel = document.getElementById('result-summary-label');
+        const resultDisplay = document.getElementById('result-display');
+        const formulaText = document.getElementById('formula-text');
+        const benchmarksGrid = document.getElementById('benchmarks-grid');
+        const copyResultBtn = document.getElementById('copy-result-btn');
+        const copyLabel = document.getElementById('copy-label');
+
+        function populateUnits(cat) {
+            const data = unitData[cat];
+            fromUnitSelect.innerHTML = '';
+            toUnitSelect.innerHTML = '';
+
+            Object.entries(data.units).forEach(([key, info]) => {
+                const optFrom = document.createElement('option');
+                optFrom.value = key;
+                optFrom.textContent = info.name;
+                fromUnitSelect.appendChild(optFrom);
+
+                const optTo = document.createElement('option');
+                optTo.value = key;
+                optTo.textContent = info.name;
+                toUnitSelect.appendChild(optTo);
+            });
+
+            fromUnitSelect.value = data.defaultFrom;
+            toUnitSelect.value = data.defaultTo;
+            performConversion();
+        }
+
+        categoryPills.forEach(pill => {
+            pill.addEventListener('click', () => {
+                categoryPills.forEach(p => {
+                    p.className = 'cat-pill px-3 py-2 rounded-xl text-xs font-bold border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:border-emerald-500';
+                });
+                pill.className = 'cat-pill active px-3 py-2 rounded-xl text-xs font-bold bg-emerald-500 text-white shadow-xs';
+                currentCategory = pill.dataset.cat;
+                populateUnits(currentCategory);
+            });
+        });
+
+        swapBtn.addEventListener('click', () => {
+            const temp = fromUnitSelect.value;
+            fromUnitSelect.value = toUnitSelect.value;
+            toUnitSelect.value = temp;
+            performConversion();
+        });
+
+        inputValue.addEventListener('input', performConversion);
+        fromUnitSelect.addEventListener('change', performConversion);
+        toUnitSelect.addEventListener('change', performConversion);
+
+        function performConversion() {
+            const val = parseFloat(inputValue.value);
+            const from = fromUnitSelect.value;
+            const to = toUnitSelect.value;
+            const cat = unitData[currentCategory];
+
+            if (isNaN(val)) {
+                resultDisplay.textContent = "--";
+                return;
+            }
+
+            let result = 0;
+            let formulaDesc = "";
+
+            if (currentCategory === 'temperature') {
+                // Temperature logic
+                let celsiusVal = 0;
+                if (from === 'celsius') celsiusVal = val;
+                else if (from === 'fahrenheit') celsiusVal = (val - 32) * (5 / 9);
+                else if (from === 'kelvin') celsiusVal = val - 273.15;
+
+                if (to === 'celsius') result = celsiusVal;
+                else if (to === 'fahrenheit') result = (celsiusVal * (9 / 5)) + 32;
+                else if (to === 'kelvin') result = celsiusVal + 273.15;
+
+                formulaDesc = `${from.toUpperCase()} to ${to.toUpperCase()} standard thermal equation`;
+            } else {
+                const baseVal = val * cat.units[from].factor;
+                result = baseVal / cat.units[to].factor;
+                const ratio = cat.units[from].factor / cat.units[to].factor;
+                formulaDesc = `Multiply value by ${ratio < 0.0001 ? ratio.toExponential(4) : ratio.toFixed(6)}`;
+            }
+
+            const formattedResult = Number(result.toFixed(6)).toLocaleString('en-US', { maximumFractionDigits: 6 });
+            const fromName = cat.units[from].name;
+            const toName = cat.units[to].name;
+
+            resultSummaryLabel.textContent = `${val} ${fromName} equals`;
+            resultDisplay.textContent = `${formattedResult} ${toName.split(' (')[0]}`;
+            formulaText.textContent = formulaDesc;
+
+            // Update benchmarks
+            benchmarksGrid.innerHTML = '';
+            const testValues = [1, 5, 10, 50];
+            testValues.forEach(tVal => {
+                let benchRes = 0;
+                if (currentCategory === 'temperature') {
+                    if (from === 'celsius' && to === 'fahrenheit') benchRes = (tVal * 1.8) + 32;
+                    else benchRes = tVal;
+                } else {
+                    benchRes = (tVal * cat.units[from].factor) / cat.units[to].factor;
+                }
+                const div = document.createElement('div');
+                div.className = 'p-2 rounded-lg bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/60 flex justify-between';
+                div.innerHTML = `<span class="text-zinc-500">${tVal} =</span> <span class="text-zinc-900 dark:text-zinc-100 font-bold">${Number(benchRes.toFixed(3))}</span>`;
+                benchmarksGrid.appendChild(div);
+            });
+        }
+
+        copyResultBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(resultDisplay.textContent.trim()).then(() => {
+                copyLabel.textContent = "Copied!";
+                setTimeout(() => { copyLabel.textContent = "Copy Result"; }, 2000);
+            });
+        });
+
+        // Initial setup
+        populateUnits(currentCategory);
+    </script>
+</body>
+</html>

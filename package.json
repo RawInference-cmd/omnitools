@@ -1,0 +1,26 @@
+{
+  "name": "omnitools",
+  "version": "2.0.0",
+  "description": "OmniTools — 60+ Modern Client-Side Privacy-First Productivity Tools",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [
+    "tools",
+    "productivity",
+    "pdf",
+    "converter",
+    "calculators",
+    "client-side"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.5",
+    "tailwindcss": "^4.3.5",
+    "vite": "^8.3.6"
+  }
+}

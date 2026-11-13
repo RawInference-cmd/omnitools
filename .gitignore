@@ -1,0 +1,16 @@
+# Dependencies & Build Output
+node_modules/
+dist/
+
+# Local AI Agent & Planning Artifacts (kept on disk, excluded from repo)
+.planning/
+GEMINI.md
+scratch/
+
+# Environment & OS Files
+.DS_Store
+Thumbs.db
+*.local
+*.log
+.env
+.env.*

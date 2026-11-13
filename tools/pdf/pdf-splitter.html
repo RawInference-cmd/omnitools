@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Split PDF Pages — OmniTools</title>
+    <meta name="description" content="Extract specific pages or page ranges from any PDF document. Fast, client-side, and completely private.">
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="stylesheet" href="/src/input.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col justify-between transition-colors">
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+        <!-- Tool Header -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20">
+                        PDF Suite
+                    </span>
+                    <span class="privacy-badge">🔒 100% Client-Side Privacy</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">Split PDF Pages</h1>
+                <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">Extract specific pages or split your document into smaller PDF files directly in your browser.</p>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700">
+                    Client-Side Splitting
+                </span>
+            </div>
+        </div>
+
+        <!-- Split 2-Column Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            
+            <!-- Left Column: Upload & Page Selection -->
+            <div class="workspace-panel space-y-6">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                    <span>📄</span> Upload & Select Pages
+                </h2>
+
+                <!-- Modern Dropzone -->
+                <div id="dropzone" class="modern-dropzone p-8 text-center cursor-pointer transition-all">
+                    <input type="file" id="pdf-input" accept="application/pdf" class="hidden">
+                    <div class="flex flex-col items-center justify-center space-y-3">
+                        <div class="w-14 h-14 rounded-2xl bg-rose-500/10 text-rose-600 dark:text-rose-400 flex items-center justify-center">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold text-zinc-800 dark:text-zinc-200">Click to upload or drag & drop PDF</p>
+                            <p class="text-xs text-zinc-400 mt-1">Select a single document to split</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Document Details Card (Hidden until uploaded) -->
+                <div id="file-info-card" class="hidden p-4 rounded-xl bg-zinc-100/70 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 text-xs space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="font-bold text-zinc-800 dark:text-zinc-200 truncate max-w-[220px]" id="doc-name">document.pdf</span>
+                        <span class="px-2 py-0.5 rounded-md bg-rose-500/10 text-rose-600 dark:text-rose-400 font-semibold" id="doc-pages-badge">0 Pages</span>
+                    </div>
+                    <div class="flex justify-between text-[11px] text-zinc-500 dark:text-zinc-400">
+                        <span>File Size: <strong id="doc-size" class="text-zinc-700 dark:text-zinc-300">0 KB</strong></span>
+                        <button type="button" id="change-doc-btn" class="text-indigo-600 dark:text-indigo-400 hover:underline">Change File</button>
+                    </div>
+                </div>
+
+                <!-- Selection Method Settings -->
+                <div id="selection-settings" class="space-y-4 opacity-40 pointer-events-none transition-opacity">
+                    <div>
+                        <label class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-2">Extraction Mode:</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button type="button" class="mode-btn px-3 py-2 rounded-xl border-2 border-indigo-500 bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 text-xs font-bold text-center transition-all" data-mode="range">
+                                Page Range
+                            </button>
+                            <button type="button" class="mode-btn px-3 py-2 rounded-xl border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 text-xs font-bold text-center transition-all" data-mode="custom">
+                                Custom Pages
+                            </button>
+                            <button type="button" class="mode-btn px-3 py-2 rounded-xl border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 text-xs font-bold text-center transition-all" data-mode="all">
+                                All Pages (ZIP)
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Range Input Mode -->
+                    <div id="mode-range-box" class="space-y-3">
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label for="start-page" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">From Page:</label>
+                                <input type="number" id="start-page" min="1" value="1" class="w-full px-3 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-xs font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                            </div>
+                            <div>
+                                <label for="end-page" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">To Page:</label>
+                                <input type="number" id="end-page" min="1" value="1" class="w-full px-3 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-xs font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Custom Input Mode -->
+                    <div id="mode-custom-box" class="hidden space-y-1.5">
+                        <label for="custom-pages" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300">Custom Page Sequence:</label>
+                        <input type="text" id="custom-pages" placeholder="e.g. 1, 3, 5-8, 12" class="w-full px-3 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-xs font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                        <p class="text-[11px] text-zinc-400">Comma-separated page numbers or dash ranges.</p>
+                    </div>
+
+                    <!-- All Pages Mode Explanation -->
+                    <div id="mode-all-box" class="hidden p-3 rounded-xl bg-indigo-50/50 dark:bg-indigo-950/30 border border-indigo-100 dark:border-indigo-900/40 text-xs text-indigo-700 dark:text-indigo-300">
+                        Every single page in the document will be extracted as an individual PDF and packaged into a convenient ZIP archive.
+                    </div>
+                </div>
+
+                <div class="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950/40 border border-zinc-200/60 dark:border-zinc-800 text-xs text-zinc-500 dark:text-zinc-400">
+                    <p class="font-semibold text-zinc-700 dark:text-zinc-300 mb-1">💡 Precise Page Extraction</p>
+                    <p class="text-[11px] leading-relaxed">Page numbering starts at 1. Extracted pages retain original vector quality and embedded fonts with zero loss.</p>
+                </div>
+            </div>
+
+            <!-- Right Column: Summary & Download -->
+            <div class="workspace-panel space-y-6">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                    <span>⚡</span> Extraction Preview
+                </h2>
+
+                <div class="p-6 rounded-2xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800 space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-3.5 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200/70 dark:border-zinc-800">
+                            <span class="text-[11px] font-semibold text-zinc-400 uppercase tracking-wider block mb-1">Pages to Extract</span>
+                            <span id="summary-extract-count" class="text-2xl font-extrabold text-zinc-900 dark:text-white font-mono">0</span>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200/70 dark:border-zinc-800">
+                            <span class="text-[11px] font-semibold text-zinc-400 uppercase tracking-wider block mb-1">Total Source</span>
+                            <span id="summary-source-count" class="text-2xl font-extrabold text-zinc-900 dark:text-white font-mono">0</span>
+                        </div>
+                    </div>
+
+                    <div class="pt-2 text-xs text-zinc-500 dark:text-zinc-400 space-y-1">
+                        <div class="flex justify-between">
+                            <span>Target Page List:</span>
+                            <span id="summary-page-list" class="font-bold text-zinc-700 dark:text-zinc-300 font-mono truncate max-w-[180px]">None</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Output Type:</span>
+                            <span id="summary-output-type" class="font-bold text-zinc-700 dark:text-zinc-300 font-mono">Merged PDF</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Button -->
+                <button type="button" id="split-btn" disabled class="btn-primary w-full !py-3.5 text-sm font-semibold opacity-50 cursor-not-allowed">
+                    <span>Split & Extract Pages</span>
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                </button>
+
+                <!-- Result Box -->
+                <div id="output-box" class="hidden p-5 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/80 space-y-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-emerald-900 dark:text-emerald-200">Extraction Complete!</h3>
+                            <p class="text-xs text-emerald-700 dark:text-emerald-400" id="output-desc">Your extracted pages are ready.</p>
+                        </div>
+                    </div>
+                    <a id="download-btn" href="#" download="omnitools-split.pdf" class="btn-secondary w-full !bg-emerald-600 hover:!bg-emerald-700 text-white !py-3 text-sm font-semibold text-center block">
+                        Download Extracted File
+                    </a>
+                </div>
+
+                <!-- Error Display -->
+                <div id="error-box" class="hidden p-4 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-xs text-rose-700 dark:text-rose-400"></div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        const dropzone = document.getElementById('dropzone');
+        const pdfInput = document.getElementById('pdf-input');
+        const fileInfoCard = document.getElementById('file-info-card');
+        const docName = document.getElementById('doc-name');
+        const docPagesBadge = document.getElementById('doc-pages-badge');
+        const docSize = document.getElementById('doc-size');
+        const changeDocBtn = document.getElementById('change-doc-btn');
+        const selectionSettings = document.getElementById('selection-settings');
+        const modeBtns = document.querySelectorAll('.mode-btn');
+        const modeRangeBox = document.getElementById('mode-range-box');
+        const modeCustomBox = document.getElementById('mode-custom-box');
+        const modeAllBox = document.getElementById('mode-all-box');
+        const startPageInput = document.getElementById('start-page');
+        const endPageInput = document.getElementById('end-page');
+        const customPagesInput = document.getElementById('custom-pages');
+        const summaryExtractCount = document.getElementById('summary-extract-count');
+        const summarySourceCount = document.getElementById('summary-source-count');
+        const summaryPageList = document.getElementById('summary-page-list');
+        const summaryOutputType = document.getElementById('summary-output-type');
+        const splitBtn = document.getElementById('split-btn');
+        const outputBox = document.getElementById('output-box');
+        const downloadBtn = document.getElementById('download-btn');
+        const outputDesc = document.getElementById('output-desc');
+        const errorBox = document.getElementById('error-box');
+
+        let loadedPdfDoc = null;
+        let pdfBytes = null;
+        let totalPages = 0;
+        let activeMode = 'range'; // 'range', 'custom', 'all'
+
+        dropzone.addEventListener('click', () => pdfInput.click());
+        changeDocBtn.addEventListener('click', () => pdfInput.click());
+
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.classList.add('border-rose-500', 'bg-rose-50/20');
+        });
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.classList.remove('border-rose-500', 'bg-rose-50/20');
+        });
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('border-rose-500', 'bg-rose-50/20');
+            if (e.dataTransfer.files.length) loadFile(e.dataTransfer.files[0]);
+        });
+
+        pdfInput.addEventListener('change', () => {
+            if (pdfInput.files.length) loadFile(pdfInput.files[0]);
+        });
+
+        async function loadFile(file) {
+            if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+                showError("Please upload a valid PDF document.");
+                return;
+            }
+            errorBox.classList.add('hidden');
+            outputBox.classList.add('hidden');
+
+            try {
+                pdfBytes = await file.arrayBuffer();
+                loadedPdfDoc = await PDFLib.PDFDocument.load(pdfBytes, { ignoreEncryption: true });
+                totalPages = loadedPdfDoc.getPageCount();
+
+                docName.textContent = file.name;
+                docPagesBadge.textContent = `${totalPages} Page${totalPages > 1 ? 's' : ''}`;
+                docSize.textContent = formatBytes(file.size);
+
+                dropzone.classList.add('hidden');
+                fileInfoCard.classList.remove('hidden');
+                selectionSettings.classList.remove('opacity-40', 'pointer-events-none');
+
+                startPageInput.max = totalPages;
+                startPageInput.value = 1;
+                endPageInput.max = totalPages;
+                endPageInput.value = Math.min(totalPages, 5);
+
+                summarySourceCount.textContent = totalPages;
+                updatePageSummary();
+
+                splitBtn.disabled = false;
+                splitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+
+            } catch (err) {
+                console.error("PDF load error:", err);
+                showError("Could not read this PDF document. It may be encrypted or corrupted.");
+            }
+        }
+
+        modeBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                modeBtns.forEach(b => {
+                    b.className = "mode-btn px-3 py-2 rounded-xl border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 text-xs font-bold text-center transition-all";
+                });
+                btn.className = "mode-btn px-3 py-2 rounded-xl border-2 border-indigo-500 bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 text-xs font-bold text-center transition-all";
+                activeMode = btn.dataset.mode;
+
+                modeRangeBox.classList.toggle('hidden', activeMode !== 'range');
+                modeCustomBox.classList.toggle('hidden', activeMode !== 'custom');
+                modeAllBox.classList.toggle('hidden', activeMode !== 'all');
+
+                updatePageSummary();
+            });
+        });
+
+        [startPageInput, endPageInput, customPagesInput].forEach(inp => {
+            inp.addEventListener('input', updatePageSummary);
+        });
+
+        function getSelectedPages() {
+            if (!loadedPdfDoc) return [];
+            let pages = [];
+
+            if (activeMode === 'range') {
+                const start = Math.max(1, parseInt(startPageInput.value) || 1);
+                const end = Math.min(totalPages, parseInt(endPageInput.value) || start);
+                for (let i = start; i <= end; i++) {
+                    pages.push(i);
+                }
+            } else if (activeMode === 'custom') {
+                const text = customPagesInput.value.trim();
+                if (text) {
+                    const parts = text.split(',');
+                    for (const p of parts) {
+                        const trimmed = p.trim();
+                        if (trimmed.includes('-')) {
+                            const [s, e] = trimmed.split('-').map(x => parseInt(x.trim()));
+                            if (!isNaN(s) && !isNaN(e)) {
+                                const min = Math.max(1, Math.min(s, e));
+                                const max = Math.min(totalPages, Math.max(s, e));
+                                for (let i = min; i <= max; i++) {
+                                    if (!pages.includes(i)) pages.push(i);
+                                }
+                            }
+                        } else {
+                            const num = parseInt(trimmed);
+                            if (!isNaN(num) && num >= 1 && num <= totalPages) {
+                                if (!pages.includes(num)) pages.push(num);
+                            }
+                        }
+                    }
+                }
+            } else if (activeMode === 'all') {
+                for (let i = 1; i <= totalPages; i++) {
+                    pages.push(i);
+                }
+            }
+            return pages;
+        }
+
+        function updatePageSummary() {
+            const pages = getSelectedPages();
+            summaryExtractCount.textContent = pages.length;
+
+            if (pages.length === 0) {
+                summaryPageList.textContent = "None selected";
+            } else if (pages.length <= 6) {
+                summaryPageList.textContent = pages.join(', ');
+            } else {
+                summaryPageList.textContent = `${pages[0]}..${pages[pages.length - 1]} (${pages.length} pages)`;
+            }
+
+            if (activeMode === 'all') {
+                summaryOutputType.textContent = "ZIP Archive (Individual PDFs)";
+            } else {
+                summaryOutputType.textContent = "Single Extracted PDF";
+            }
+        }
+
+        splitBtn.addEventListener('click', async () => {
+            const pages = getSelectedPages();
+            if (pages.length === 0) {
+                showError("Please specify at least one valid page to extract.");
+                return;
+            }
+
+            errorBox.classList.add('hidden');
+            outputBox.classList.add('hidden');
+            splitBtn.disabled = true;
+            splitBtn.innerHTML = `
+                <svg class="animate-spin h-4 w-4 text-white inline-block mr-2" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
+                <span>Extracting ${pages.length} Pages...</span>
+            `;
+
+            try {
+                if (activeMode === 'all') {
+                    // Extract as ZIP of individual pages
+                    const zip = new JSZip();
+                    for (let i = 0; i < totalPages; i++) {
+                        const newPdf = await PDFLib.PDFDocument.create();
+                        const [copiedPage] = await newPdf.copyPages(loadedPdfDoc, [i]);
+                        newPdf.addPage(copiedPage);
+                        const singlePdfBytes = await newPdf.save();
+                        zip.file(`page_${i + 1}.pdf`, singlePdfBytes);
+                    }
+                    const zipContent = await zip.generateAsync({ type: 'blob' });
+                    const zipUrl = URL.createObjectURL(zipContent);
+
+                    downloadBtn.href = zipUrl;
+                    downloadBtn.download = "omnitools-split-pages.zip";
+                    outputDesc.textContent = `All ${totalPages} pages extracted as individual files inside a ZIP archive (${formatBytes(zipContent.size)}).`;
+                    outputBox.classList.remove('hidden');
+
+                } else {
+                    // Extract as single merged PDF
+                    const newPdf = await PDFLib.PDFDocument.create();
+                    // PDFLib indices are 0-based
+                    const zeroBasedIndices = pages.map(p => p - 1);
+                    const copiedPages = await newPdf.copyPages(loadedPdfDoc, zeroBasedIndices);
+                    copiedPages.forEach(p => newPdf.addPage(p));
+
+                    const outBytes = await newPdf.save();
+                    const blob = new Blob([outBytes], { type: 'application/pdf' });
+                    const blobUrl = URL.createObjectURL(blob);
+
+                    downloadBtn.href = blobUrl;
+                    downloadBtn.download = `extracted_pages_${pages[0]}-${pages[pages.length - 1]}.pdf`;
+                    outputDesc.textContent = `Extracted ${pages.length} page(s) into a standalone PDF (${formatBytes(blob.size)}).`;
+                    outputBox.classList.remove('hidden');
+                }
+
+            } catch (err) {
+                console.error("Split error:", err);
+                showError("Failed to split PDF: " + err.message);
+            } finally {
+                splitBtn.disabled = false;
+                splitBtn.innerHTML = `
+                    <span>Split & Extract Pages</span>
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                `;
+            }
+        });
+
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function showError(msg) {
+            errorBox.textContent = msg;
+            errorBox.classList.remove('hidden');
+        }
+    </script>
+    <script type="module" src="/src/layout.js"></script>
+</body>
+</html>

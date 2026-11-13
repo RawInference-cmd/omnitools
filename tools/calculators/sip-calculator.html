@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIP Calculator — OmniTools</title>
+    <meta name="description" content="Calculate returns on your Systematic Investment Plan (SIP) in mutual funds. Visualize wealth growth and estimated maturity corpus.">
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="stylesheet" href="/src/input.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col justify-between transition-colors">
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+        <!-- Tool Header -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                        Calculators
+                    </span>
+                    <span class="privacy-badge">🔒 100% Client-Side Privacy</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">SIP Calculator</h1>
+                <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">Simulate Systematic Investment Plans and forecast your mutual fund wealth growth.</p>
+            </div>
+        </div>
+
+        <!-- Split 2-Column Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            
+            <!-- Left Column: Inputs -->
+            <div class="workspace-panel space-y-5">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                    <span>📈</span> SIP Parameters
+                </h2>
+
+                <form id="sip-form" class="space-y-4">
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <label for="monthly-amount" class="text-xs font-semibold text-zinc-700 dark:text-zinc-300">Monthly Investment Amount</label>
+                            <span class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400" id="monthly-amount-val">₹5,000</span>
+                        </div>
+                        <input type="range" id="monthly-amount-range" min="500" max="100000" step="500" value="5000" class="w-full accent-emerald-500 mb-2">
+                        <div class="relative">
+                            <span class="absolute left-4 top-3 text-sm font-bold text-zinc-400">₹</span>
+                            <input type="number" id="monthly-amount" value="5000" min="100" step="500" class="w-full pl-8 pr-4 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none transition-all">
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <label for="return-rate" class="text-xs font-semibold text-zinc-700 dark:text-zinc-300">Expected Annual Return Rate (p.a)</label>
+                            <span class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400" id="return-rate-val">12%</span>
+                        </div>
+                        <input type="range" id="return-rate-range" min="1" max="30" step="0.5" value="12" class="w-full accent-emerald-500 mb-2">
+                        <div class="relative">
+                            <input type="number" id="return-rate" value="12" min="1" max="50" step="0.1" class="w-full px-4 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none transition-all pr-10">
+                            <span class="absolute right-4 top-2.5 text-xs font-bold text-zinc-400">%</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <label for="time-period" class="text-xs font-semibold text-zinc-700 dark:text-zinc-300">Investment Horizon</label>
+                            <span class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400" id="time-period-val">10 Yrs</span>
+                        </div>
+                        <input type="range" id="time-period-range" min="1" max="40" step="1" value="10" class="w-full accent-emerald-500 mb-2">
+                        <div class="relative">
+                            <input type="number" id="time-period" value="10" min="1" max="50" step="1" class="w-full px-4 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none transition-all pr-14">
+                            <span class="absolute right-4 top-2.5 text-xs font-bold text-zinc-400">Years</span>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950/40 border border-zinc-200/60 dark:border-zinc-800 text-xs text-zinc-500 dark:text-zinc-400">
+                    <p class="font-semibold text-zinc-700 dark:text-zinc-300 mb-1">💡 What is SIP?</p>
+                    <p class="text-[11px] leading-relaxed">A Systematic Investment Plan allows you to invest small recurring amounts in mutual funds periodically to benefit from rupee cost averaging and compounding.</p>
+                </div>
+            </div>
+
+            <!-- Right Column: Results & Visuals -->
+            <div class="workspace-panel space-y-6">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 mb-2 flex items-center gap-2">
+                    <span>📊</span> Projected Maturity Corpus
+                </h2>
+
+                <!-- Hero Result Card -->
+                <div class="p-6 rounded-2xl bg-gradient-to-br from-emerald-500/10 via-teal-500/5 to-transparent border border-emerald-500/20 text-center space-y-2">
+                    <p class="text-xs font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400">Total Expected Corpus</p>
+                    <div class="text-3xl sm:text-4xl font-black text-zinc-900 dark:text-white" id="final-amount">
+                        ₹11,61,695
+                    </div>
+                    <p class="text-xs text-zinc-500 dark:text-zinc-400">
+                        Value on completion of the investment term
+                    </p>
+                </div>
+
+                <!-- 2 Stats Bento Cards -->
+                <div class="grid grid-cols-2 gap-3 text-center">
+                    <div class="p-4 rounded-xl bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/60">
+                        <span class="text-[10px] uppercase font-bold text-zinc-400 block mb-1">Total Invested</span>
+                        <p class="text-base sm:text-lg font-bold text-zinc-800 dark:text-zinc-200" id="total-investment">₹6,00,000</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/60">
+                        <span class="text-[10px] uppercase font-bold text-emerald-600 dark:text-emerald-400 block mb-1">Est. Wealth Gain</span>
+                        <p class="text-base sm:text-lg font-bold text-emerald-600 dark:text-emerald-400" id="est-returns">₹5,61,695</p>
+                    </div>
+                </div>
+
+                <!-- Donut / Doughnut Chart -->
+                <div class="p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 flex flex-col items-center justify-center">
+                    <div class="w-48 h-48 relative">
+                        <canvas id="sipDonutChart"></canvas>
+                    </div>
+                    <div class="flex items-center gap-6 mt-4 text-xs font-semibold">
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-3 h-3 rounded-full bg-zinc-400 dark:bg-zinc-600"></span>
+                            <span class="text-zinc-600 dark:text-zinc-400">Invested Amount</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                            <span class="text-zinc-600 dark:text-zinc-400">Est. Returns</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="/src/layout.js"></script>
+    <script>
+        const monthlyAmountInput = document.getElementById('monthly-amount');
+        const monthlyAmountRange = document.getElementById('monthly-amount-range');
+        const monthlyAmountVal = document.getElementById('monthly-amount-val');
+
+        const returnRateInput = document.getElementById('return-rate');
+        const returnRateRange = document.getElementById('return-rate-range');
+        const returnRateVal = document.getElementById('return-rate-val');
+
+        const timePeriodInput = document.getElementById('time-period');
+        const timePeriodRange = document.getElementById('time-period-range');
+        const timePeriodVal = document.getElementById('time-period-val');
+
+        const totalInvestmentEl = document.getElementById('total-investment');
+        const estReturnsEl = document.getElementById('est-returns');
+        const finalAmountEl = document.getElementById('final-amount');
+
+        let donutChart = null;
+
+        function formatINR(val) {
+            return '₹' + Math.round(val).toLocaleString('en-IN');
+        }
+
+        // Two-way slider sync
+        monthlyAmountRange.addEventListener('input', () => {
+            monthlyAmountInput.value = monthlyAmountRange.value;
+            calculateSIP();
+        });
+        monthlyAmountInput.addEventListener('input', () => {
+            monthlyAmountRange.value = monthlyAmountInput.value;
+            calculateSIP();
+        });
+
+        returnRateRange.addEventListener('input', () => {
+            returnRateInput.value = returnRateRange.value;
+            calculateSIP();
+        });
+        returnRateInput.addEventListener('input', () => {
+            returnRateRange.value = returnRateInput.value;
+            calculateSIP();
+        });
+
+        timePeriodRange.addEventListener('input', () => {
+            timePeriodInput.value = timePeriodRange.value;
+            calculateSIP();
+        });
+        timePeriodInput.addEventListener('input', () => {
+            timePeriodRange.value = timePeriodInput.value;
+            calculateSIP();
+        });
+
+        function calculateSIP() {
+            const P = parseFloat(monthlyAmountInput.value) || 0;
+            const annualRate = (parseFloat(returnRateInput.value) || 0) / 100;
+            const years = parseInt(timePeriodInput.value) || 1;
+
+            monthlyAmountVal.textContent = '₹' + Number(P).toLocaleString('en-IN');
+            returnRateVal.textContent = (annualRate * 100).toFixed(1) + '%';
+            timePeriodVal.textContent = years + ' Yrs';
+
+            const i = annualRate / 12;
+            const n = years * 12;
+
+            const totalInvested = P * n;
+            let finalCorpus = 0;
+
+            if (i > 0) {
+                // Future Value of SIP: M = P * [ ((1 + i)^n - 1) / i ] * (1 + i)
+                finalCorpus = P * ((Math.pow(1 + i, n) - 1) / i) * (1 + i);
+            } else {
+                finalCorpus = totalInvested;
+            }
+
+            const wealthGain = finalCorpus - totalInvested;
+
+            totalInvestmentEl.textContent = formatINR(totalInvested);
+            estReturnsEl.textContent = formatINR(wealthGain);
+            finalAmountEl.textContent = formatINR(finalCorpus);
+
+            updateChart(totalInvested, wealthGain);
+        }
+
+        function updateChart(invested, returns) {
+            const ctx = document.getElementById('sipDonutChart').getContext('2d');
+            if (donutChart) {
+                donutChart.data.datasets[0].data = [invested, returns];
+                donutChart.update();
+            } else {
+                donutChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Invested Amount', 'Est. Returns'],
+                        datasets: [{
+                            data: [invested, returns],
+                            backgroundColor: ['#71717a', '#10b981'],
+                            borderWidth: 0,
+                            cutout: '70%'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return ' ' + context.label + ': ' + formatINR(context.raw);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        // Initialize on load
+        calculateSIP();
+    </script>
+</body>
+</html>

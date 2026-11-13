@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator — OmniTools</title>
+    <meta name="description" content="Calculate your exact age in years, months, days, hours, and find your next birthday countdown. 100% free and client-side.">
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="stylesheet" href="/src/input.css">
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col justify-between transition-colors">
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+        <!-- Tool Header -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                        Calculators
+                    </span>
+                    <span class="privacy-badge">🔒 100% Client-Side Privacy</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">Age Calculator</h1>
+                <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">Accurately determine age, elapsed time, total days lived, and countdown to your next birthday.</p>
+            </div>
+        </div>
+
+        <!-- Split 2-Column Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            
+            <!-- Left Column: Dates Input -->
+            <div class="workspace-panel space-y-6">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 mb-2 flex items-center gap-2">
+                    <span>📅</span> Date Selection
+                </h2>
+
+                <form id="age-form" class="space-y-4">
+                    <div>
+                        <label for="startdate" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Date of Birth (Starting Date):</label>
+                        <input type="date" id="startdate" required class="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all">
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <label for="enddate" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300">Target Date (As of Date):</label>
+                            <button type="button" id="today-btn" class="text-[11px] text-indigo-600 dark:text-indigo-400 hover:underline">Set to Today</button>
+                        </div>
+                        <input type="date" id="enddate" required class="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all">
+                    </div>
+
+                    <button type="button" id="calc-btn" class="btn-primary w-full !py-3 text-sm font-semibold mt-4">
+                        <span>Calculate Exact Age</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </button>
+                </form>
+
+                <div class="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950/40 border border-zinc-200/60 dark:border-zinc-800 text-xs text-zinc-500 dark:text-zinc-400">
+                    <p class="font-semibold text-zinc-700 dark:text-zinc-300 mb-1">💡 Quick Tip</p>
+                    <p class="text-[11px] leading-relaxed">Leave the target date as today to calculate your current age, or select a future date to project your age at milestone events.</p>
+                </div>
+            </div>
+
+            <!-- Right Column: Results & Breakdown -->
+            <div class="workspace-panel space-y-6">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 mb-2 flex items-center gap-2">
+                    <span>📊</span> Calculation Breakdown
+                </h2>
+
+                <!-- Idle State -->
+                <div id="idle-result" class="text-center py-12 px-4 rounded-2xl border border-dashed border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-950/30">
+                    <div class="w-12 h-12 mx-auto mb-3 rounded-2xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-xl text-zinc-400">
+                        🎂
+                    </div>
+                    <p class="text-sm font-semibold text-zinc-700 dark:text-zinc-300">Enter Dates to Begin</p>
+                    <p class="text-xs text-zinc-400 mt-1 max-w-xs mx-auto">Select your birth date on the left and click "Calculate Exact Age".</p>
+                </div>
+
+                <!-- Active Result Display -->
+                <div id="result-container" class="hidden space-y-4">
+                    <!-- Hero Age Card -->
+                    <div class="p-6 rounded-2xl bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-transparent border border-indigo-500/20 text-center">
+                        <p class="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400 mb-1">Primary Age</p>
+                        <div class="text-3xl sm:text-4xl font-extrabold text-zinc-900 dark:text-white" id="main-age-text">
+                            0 Years
+                        </div>
+                        <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-2" id="detail-age-text"></p>
+                    </div>
+
+                    <!-- Milestone Stats Grid -->
+                    <div class="grid grid-cols-2 gap-3" id="stats-grid">
+                        <div class="p-3.5 rounded-xl bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/60 text-center">
+                            <span class="text-[10px] uppercase font-bold text-zinc-400">Total Months</span>
+                            <p class="text-lg font-bold text-zinc-800 dark:text-zinc-200" id="total-months">0</p>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/60 text-center">
+                            <span class="text-[10px] uppercase font-bold text-zinc-400">Total Weeks</span>
+                            <p class="text-lg font-bold text-zinc-800 dark:text-zinc-200" id="total-weeks">0</p>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/60 text-center">
+                            <span class="text-[10px] uppercase font-bold text-zinc-400">Total Days</span>
+                            <p class="text-lg font-bold text-zinc-800 dark:text-zinc-200" id="total-days">0</p>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/60 text-center">
+                            <span class="text-[10px] uppercase font-bold text-zinc-400">Total Hours</span>
+                            <p class="text-lg font-bold text-zinc-800 dark:text-zinc-200" id="total-hours">0</p>
+                        </div>
+                    </div>
+
+                    <!-- Next Birthday Alert -->
+                    <div class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <span class="text-2xl">🎉</span>
+                            <div>
+                                <p class="text-xs font-bold text-amber-900 dark:text-amber-200">Next Birthday Countdown</p>
+                                <p class="text-[11px] text-amber-700 dark:text-amber-300" id="next-birthday-text"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <script type="module" src="/src/layout.js"></script>
+    <script>
+        const startInput = document.getElementById('startdate');
+        const endInput = document.getElementById('enddate');
+        const todayBtn = document.getElementById('today-btn');
+        const calcBtn = document.getElementById('calc-btn');
+        const idleResult = document.getElementById('idle-result');
+        const resultContainer = document.getElementById('result-container');
+
+        // Set default end date to today
+        const todayStr = new Date().toISOString().split('T')[0];
+        endInput.value = todayStr;
+
+        todayBtn.addEventListener('click', () => {
+            endInput.value = todayStr;
+        });
+
+        calcBtn.addEventListener('click', calculateAge);
+
+        function calculateAge() {
+            const startVal = startInput.value;
+            const endVal = endInput.value;
+
+            if (!startVal || !endVal) {
+                alert('Please select both starting and target dates.');
+                return;
+            }
+
+            const start = new Date(startVal);
+            const end = new Date(endVal);
+
+            if (start > end) {
+                alert('Starting date (Date of Birth) cannot be after the target date.');
+                return;
+            }
+
+            let years = end.getFullYear() - start.getFullYear();
+            let months = end.getMonth() - start.getMonth();
+            let days = end.getDate() - start.getDate();
+
+            if (days < 0) {
+                months--;
+                days += new Date(end.getFullYear(), end.getMonth(), 0).getDate();
+            }
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+
+            // Totals
+            const diffTime = Math.abs(end - start);
+            const totalDaysVal = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            const totalWeeksVal = Math.floor(totalDaysVal / 7);
+            const totalMonthsVal = (years * 12) + months;
+            const totalHoursVal = totalDaysVal * 24;
+
+            // Next Birthday calculation
+            const nextBirthday = new Date(end.getFullYear(), start.getMonth(), start.getDate());
+            if (nextBirthday < end) {
+                nextBirthday.setFullYear(end.getFullYear() + 1);
+            }
+            const diffBday = Math.ceil((nextBirthday - end) / (1000 * 60 * 60 * 24));
+
+            document.getElementById('main-age-text').textContent = `${years} Years, ${months} Months`;
+            document.getElementById('detail-age-text').textContent = `And exactly ${days} Days`;
+            document.getElementById('total-months').textContent = totalMonthsVal.toLocaleString();
+            document.getElementById('total-weeks').textContent = totalWeeksVal.toLocaleString();
+            document.getElementById('total-days').textContent = totalDaysVal.toLocaleString();
+            document.getElementById('total-hours').textContent = totalHoursVal.toLocaleString();
+
+            const bdayText = diffBday === 0 ? 'Today is your Birthday! Happy Birthday! 🎂' : `${diffBday} day(s) remaining until your next celebration`;
+            document.getElementById('next-birthday-text').textContent = bdayText;
+
+            idleResult.classList.add('hidden');
+            resultContainer.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

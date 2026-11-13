@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PNG to PDF Converter — OmniTools</title>
+    <meta name="description" content="Convert multiple PNG images into a single PDF document directly in your browser. 100% private and client-side.">
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="stylesheet" href="/src/input.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col justify-between transition-colors">
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+        <!-- Tool Header -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20">
+                        PDF Suite
+                    </span>
+                    <span class="privacy-badge">🔒 100% Client-Side Privacy</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">PNG to PDF Converter</h1>
+                <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">Combine multiple PNG images into a crisp PDF document with transparency support and custom page layout.</p>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700">
+                    Client-Side Conversion
+                </span>
+            </div>
+        </div>
+
+        <!-- Split 2-Column Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+            <!-- Left Column: Upload, Image Queue & Page Options -->
+            <div class="workspace-panel space-y-6">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                    <span>🖼️</span> Select & Order PNG Images
+                </h2>
+
+                <!-- Modern Dropzone -->
+                <div id="dropzone" class="modern-dropzone p-8 text-center cursor-pointer transition-all">
+                    <input type="file" id="image-input" accept="image/png,.png" multiple class="hidden">
+                    <div class="flex flex-col items-center justify-center space-y-3">
+                        <div class="w-14 h-14 rounded-2xl bg-rose-500/10 text-rose-600 dark:text-rose-400 flex items-center justify-center">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold text-zinc-800 dark:text-zinc-200">Click to upload or drag & drop PNG images</p>
+                            <p class="text-xs text-zinc-400 mt-1">Select multiple files (.png) to merge into one PDF</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image Queue List -->
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between text-xs font-semibold text-zinc-600 dark:text-zinc-400">
+                        <span>Image Queue (<span id="file-count">0</span> files)</span>
+                        <button type="button" id="clear-all-btn" class="text-rose-500 hover:underline hidden">Clear All</button>
+                    </div>
+
+                    <div id="file-list" class="space-y-2 max-h-[300px] overflow-y-auto pr-1">
+                        <p id="empty-list-msg" class="text-xs text-zinc-400 py-6 text-center italic">No PNG images uploaded yet. Add files above to begin.</p>
+                    </div>
+                </div>
+
+                <!-- Layout Options -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 border-t border-zinc-200/70 dark:border-zinc-800/70">
+                    <div>
+                        <label for="page-size" class="block text-xs font-semibold text-zinc-600 dark:text-zinc-400 mb-1.5">Page Size</label>
+                        <select id="page-size" class="w-full px-3 py-2 text-xs font-medium rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option value="a4" selected>A4</option>
+                            <option value="letter">Letter</option>
+                            <option value="fit">Fit to Image</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="orientation" class="block text-xs font-semibold text-zinc-600 dark:text-zinc-400 mb-1.5">Orientation</label>
+                        <select id="orientation" class="w-full px-3 py-2 text-xs font-medium rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed">
+                            <option value="portrait" selected>Portrait</option>
+                            <option value="landscape">Landscape</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="margin-size" class="block text-xs font-semibold text-zinc-600 dark:text-zinc-400 mb-1.5">Margin</label>
+                        <select id="margin-size" class="w-full px-3 py-2 text-xs font-medium rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option value="none">None (0 mm)</option>
+                            <option value="small" selected>Small (10 mm)</option>
+                            <option value="large">Large (20 mm)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Conversion Summary & Output -->
+            <div class="workspace-panel space-y-6">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                    <span>⚡</span> Conversion Summary & Output
+                </h2>
+
+                <div class="p-6 rounded-2xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800 space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-3.5 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200/70 dark:border-zinc-800">
+                            <span class="text-[11px] font-semibold text-zinc-400 uppercase tracking-wider block mb-1">Total Images</span>
+                            <span id="summary-image-count" class="text-2xl font-extrabold text-zinc-900 dark:text-white font-mono">0</span>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200/70 dark:border-zinc-800">
+                            <span class="text-[11px] font-semibold text-zinc-400 uppercase tracking-wider block mb-1">Page Size</span>
+                            <span id="summary-page-size" class="text-lg font-extrabold text-zinc-900 dark:text-white font-mono leading-8">A4 • Portrait</span>
+                        </div>
+                    </div>
+
+                    <div class="pt-2 text-xs text-zinc-500 dark:text-zinc-400 space-y-1.5">
+                        <div class="flex justify-between">
+                            <span>Total Upload Size:</span>
+                            <span id="summary-total-size" class="font-bold text-zinc-700 dark:text-zinc-300 font-mono">0 KB</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Margin Size:</span>
+                            <span id="summary-margin" class="font-bold text-zinc-700 dark:text-zinc-300 font-mono">Small (10 mm)</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Output Format:</span>
+                            <span class="font-bold text-zinc-700 dark:text-zinc-300 font-mono">Adobe PDF (.pdf)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Convert Action Button -->
+                <button type="button" id="convert-btn" disabled class="btn-primary w-full !py-3.5 text-sm font-semibold opacity-50 cursor-not-allowed">
+                    <span>Convert to PDF</span>
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
+                </button>
+
+                <!-- Output Box -->
+                <div id="output-box" class="hidden p-5 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/80 space-y-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-emerald-900 dark:text-emerald-200">PDF Ready!</h3>
+                            <p class="text-xs text-emerald-700 dark:text-emerald-400" id="converted-stat-text">All images converted successfully.</p>
+                        </div>
+                    </div>
+                    <a id="download-btn" href="#" download="omnitools-png-to-pdf.pdf" class="btn-accent w-full !py-3 text-sm font-semibold text-center block">
+                        Download PDF
+                    </a>
+                </div>
+
+                <!-- Error Display -->
+                <div id="error-box" class="hidden p-4 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-xs text-rose-700 dark:text-rose-400"></div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        const dropzone = document.getElementById('dropzone');
+        const imageInput = document.getElementById('image-input');
+        const fileList = document.getElementById('file-list');
+        const emptyListMsg = document.getElementById('empty-list-msg');
+        const fileCountEl = document.getElementById('file-count');
+        const clearAllBtn = document.getElementById('clear-all-btn');
+        const pageSizeSelect = document.getElementById('page-size');
+        const orientationSelect = document.getElementById('orientation');
+        const marginSelect = document.getElementById('margin-size');
+
+        const summaryImageCount = document.getElementById('summary-image-count');
+        const summaryPageSize = document.getElementById('summary-page-size');
+        const summaryTotalSize = document.getElementById('summary-total-size');
+        const summaryMargin = document.getElementById('summary-margin');
+        const convertBtn = document.getElementById('convert-btn');
+        const outputBox = document.getElementById('output-box');
+        const downloadBtn = document.getElementById('download-btn');
+        const convertedStatText = document.getElementById('converted-stat-text');
+        const errorBox = document.getElementById('error-box');
+
+        const MARGIN_MM = { none: 0, small: 10, large: 20 };
+        const MARGIN_LABELS = { none: 'None (0 mm)', small: 'Small (10 mm)', large: 'Large (20 mm)' };
+        const PAGE_LABELS = { a4: 'A4', letter: 'Letter', fit: 'Fit to Image' };
+
+        let queuedImages = []; // { file, name, size, width, height, dataUrl }
+        let activeBlobUrl = null;
+
+        dropzone.addEventListener('click', () => imageInput.click());
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.classList.add('border-rose-500', 'bg-rose-50/20');
+        });
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.classList.remove('border-rose-500', 'bg-rose-50/20');
+        });
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('border-rose-500', 'bg-rose-50/20');
+            if (e.dataTransfer.files.length) handleFiles(e.dataTransfer.files);
+        });
+
+        imageInput.addEventListener('change', () => {
+            if (imageInput.files.length) handleFiles(imageInput.files);
+        });
+
+        clearAllBtn.addEventListener('click', () => {
+            queuedImages = [];
+            revokeActiveBlob();
+            renderQueue();
+        });
+
+        [pageSizeSelect, orientationSelect, marginSelect].forEach(el => {
+            el.addEventListener('change', () => {
+                outputBox.classList.add('hidden');
+                updateSummarySettings();
+            });
+        });
+
+        function isValidPngFile(file) {
+            return file.type === 'image/png' || /\.png$/i.test(file.name);
+        }
+
+        async function handleFiles(files) {
+            errorBox.classList.add('hidden');
+            let skipped = 0;
+
+            for (const file of Array.from(files)) {
+                if (!isValidPngFile(file)) {
+                    skipped++;
+                    continue;
+                }
+                try {
+                    const dataUrl = await readFileAsDataURL(file);
+                    const img = await loadImage(dataUrl);
+                    queuedImages.push({
+                        file,
+                        name: file.name,
+                        size: file.size,
+                        width: img.naturalWidth || img.width,
+                        height: img.naturalHeight || img.height,
+                        dataUrl
+                    });
+                } catch (err) {
+                    console.error('Error loading image:', err);
+                    showError(`Could not read "${file.name}". Please verify it is a valid PNG image.`);
+                }
+            }
+
+            if (skipped > 0) {
+                showError(`Skipped ${skipped} unsupported file${skipped > 1 ? 's' : ''}. Please select PNG images only.`);
+            }
+
+            renderQueue();
+            imageInput.value = '';
+        }
+
+        function updateSummarySettings() {
+            const sizeVal = pageSizeSelect.value;
+            const orientVal = orientationSelect.value;
+            const marginVal = marginSelect.value;
+
+            if (sizeVal === 'fit') {
+                orientationSelect.disabled = true;
+                summaryPageSize.textContent = 'Fit to Image';
+            } else {
+                orientationSelect.disabled = false;
+                const orientLabel = orientVal === 'landscape' ? 'Landscape' : 'Portrait';
+                summaryPageSize.textContent = `${PAGE_LABELS[sizeVal]} • ${orientLabel}`;
+            }
+
+            summaryMargin.textContent = MARGIN_LABELS[marginVal];
+        }
+
+        function renderQueue() {
+            outputBox.classList.add('hidden');
+            fileList.innerHTML = '';
+            updateSummarySettings();
+
+            if (queuedImages.length === 0) {
+                fileList.appendChild(emptyListMsg);
+                emptyListMsg.classList.remove('hidden');
+                clearAllBtn.classList.add('hidden');
+                convertBtn.disabled = true;
+                convertBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                fileCountEl.textContent = '0';
+                summaryImageCount.textContent = '0';
+                summaryTotalSize.textContent = '0 KB';
+                return;
+            }
+
+            emptyListMsg.classList.add('hidden');
+            clearAllBtn.classList.remove('hidden');
+
+            let totalBytes = 0;
+
+            queuedImages.forEach((item, index) => {
+                totalBytes += item.size;
+
+                const row = document.createElement('div');
+                row.className = 'flex items-center justify-between p-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200/80 dark:border-zinc-700/60 text-xs';
+                row.innerHTML = `
+                    <div class="flex items-center gap-3 min-w-0 flex-1">
+                        <span class="w-6 h-6 rounded-lg bg-rose-500/10 text-rose-600 dark:text-rose-400 flex items-center justify-center font-bold text-[11px] flex-shrink-0">
+                            ${index + 1}
+                        </span>
+                        <img src="${item.dataUrl}" alt="${escapeHtml(item.name)}" class="w-10 h-10 rounded-lg object-cover border border-zinc-200 dark:border-zinc-700 flex-shrink-0 bg-white dark:bg-zinc-900">
+                        <div class="min-w-0 flex-1">
+                            <p class="font-semibold text-zinc-900 dark:text-zinc-100 truncate">${escapeHtml(item.name)}</p>
+                            <p class="text-[10px] text-zinc-400 mt-0.5">${item.width} × ${item.height} px • ${formatBytes(item.size)}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-1 ml-3 flex-shrink-0">
+                        <button type="button" class="btn-move-up p-1.5 rounded-lg hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-500 transition-colors ${index === 0 ? 'opacity-30 cursor-not-allowed' : ''}" data-idx="${index}" title="Move Up">⬆️</button>
+                        <button type="button" class="btn-move-down p-1.5 rounded-lg hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-500 transition-colors ${index === queuedImages.length - 1 ? 'opacity-30 cursor-not-allowed' : ''}" data-idx="${index}" title="Move Down">⬇️</button>
+                        <button type="button" class="btn-remove p-1.5 rounded-lg hover:bg-rose-100 dark:hover:bg-rose-950 text-rose-500 transition-colors" data-idx="${index}" title="Remove">✕</button>
+                    </div>
+                `;
+                fileList.appendChild(row);
+            });
+
+            fileCountEl.textContent = queuedImages.length;
+            summaryImageCount.textContent = queuedImages.length;
+            summaryTotalSize.textContent = formatBytes(totalBytes);
+
+            convertBtn.disabled = false;
+            convertBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+
+            fileList.querySelectorAll('.btn-move-up').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const idx = parseInt(btn.dataset.idx, 10);
+                    if (idx > 0) {
+                        [queuedImages[idx], queuedImages[idx - 1]] = [queuedImages[idx - 1], queuedImages[idx]];
+                        renderQueue();
+                    }
+                });
+            });
+
+            fileList.querySelectorAll('.btn-move-down').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const idx = parseInt(btn.dataset.idx, 10);
+                    if (idx < queuedImages.length - 1) {
+                        [queuedImages[idx], queuedImages[idx + 1]] = [queuedImages[idx + 1], queuedImages[idx]];
+                        renderQueue();
+                    }
+                });
+            });
+
+            fileList.querySelectorAll('.btn-remove').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const idx = parseInt(btn.dataset.idx, 10);
+                    queuedImages.splice(idx, 1);
+                    renderQueue();
+                });
+            });
+        }
+
+        convertBtn.addEventListener('click', async () => {
+            if (queuedImages.length === 0) return;
+            errorBox.classList.add('hidden');
+            convertBtn.disabled = true;
+            convertBtn.innerHTML = `
+                <svg class="animate-spin h-4 w-4 text-white inline-block mr-2" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
+                <span>Converting ${queuedImages.length} Image${queuedImages.length > 1 ? 's' : ''}...</span>
+            `;
+
+            try {
+                const { jsPDF } = window.jspdf;
+                const pageSize = pageSizeSelect.value;
+                const orientation = orientationSelect.value;
+                const margin = MARGIN_MM[marginSelect.value] ?? 10;
+                const pxToMm = 25.4 / 96;
+
+                let pdf = null;
+
+                for (let i = 0; i < queuedImages.length; i++) {
+                    const item = queuedImages[i];
+                    const canvasDataUrl = await renderToCanvasDataUrl(item.dataUrl, item.width, item.height, 'image/png');
+
+                    if (pageSize === 'fit') {
+                        const imgMmW = item.width * pxToMm;
+                        const imgMmH = item.height * pxToMm;
+                        const pageW = imgMmW + margin * 2;
+                        const pageH = imgMmH + margin * 2;
+                        const pageOrient = pageW >= pageH ? 'landscape' : 'portrait';
+
+                        if (i === 0) {
+                            pdf = new jsPDF({ orientation: pageOrient, unit: 'mm', format: [pageW, pageH] });
+                        } else {
+                            pdf.addPage([pageW, pageH], pageOrient);
+                        }
+
+                        pdf.addImage(canvasDataUrl, 'PNG', margin, margin, imgMmW, imgMmH);
+                    } else {
+                        if (i === 0) {
+                            pdf = new jsPDF({ orientation, unit: 'mm', format: pageSize });
+                        } else {
+                            pdf.addPage(pageSize, orientation);
+                        }
+
+                        const pageW = pdf.internal.pageSize.getWidth();
+                        const pageH = pdf.internal.pageSize.getHeight();
+                        const availW = Math.max(1, pageW - margin * 2);
+                        const availH = Math.max(1, pageH - margin * 2);
+
+                        const scale = Math.min(availW / item.width, availH / item.height);
+                        const drawW = item.width * scale;
+                        const drawH = item.height * scale;
+                        const x = (pageW - drawW) / 2;
+                        const y = (pageH - drawH) / 2;
+
+                        pdf.addImage(canvasDataUrl, 'PNG', x, y, drawW, drawH);
+                    }
+                }
+
+                const blob = pdf.output('blob');
+                revokeActiveBlob();
+                activeBlobUrl = URL.createObjectURL(blob);
+
+                downloadBtn.href = activeBlobUrl;
+                convertedStatText.textContent = `Generated ${queuedImages.length}-page PDF document (${formatBytes(blob.size)}).`;
+                outputBox.classList.remove('hidden');
+            } catch (err) {
+                console.error('Conversion error:', err);
+                showError('An error occurred while converting your PNG images to PDF: ' + err.message);
+            } finally {
+                convertBtn.disabled = queuedImages.length === 0;
+                convertBtn.innerHTML = `
+                    <span>Convert to PDF</span>
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
+                `;
+            }
+        });
+
+        async function renderToCanvasDataUrl(src, width, height, mimeType) {
+            const img = await loadImage(src);
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, width, height);
+            ctx.drawImage(img, 0, 0, width, height);
+            return canvas.toDataURL(mimeType);
+        }
+
+        function readFileAsDataURL(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = () => reject(reader.error || new Error('File read failed'));
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function loadImage(src) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.onload = () => resolve(img);
+                img.onerror = () => reject(new Error('Image decode failed'));
+                img.src = src;
+            });
+        }
+
+        function revokeActiveBlob() {
+            if (activeBlobUrl) {
+                URL.revokeObjectURL(activeBlobUrl);
+                activeBlobUrl = null;
+            }
+        }
+
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/[&<>'"]/g, ch => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+            }[ch] || ch));
+        }
+
+        function showError(msg) {
+            errorBox.textContent = msg;
+            errorBox.classList.remove('hidden');
+        }
+
+        updateSummarySettings();
+    </script>
+    <script type="module" src="/src/layout.js"></script>
+</body>
+</html>

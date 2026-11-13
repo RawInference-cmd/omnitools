@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF to Excel Converter — OmniTools</title>
+    <meta name="description" content="Convert PDF tables and text into editable Excel (.xlsx) spreadsheets directly in your browser. 100% private and client-side.">
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="stylesheet" href="/src/input.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col justify-between transition-colors">
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+        <!-- Tool Header -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20">
+                        PDF Suite
+                    </span>
+                    <span class="privacy-badge">🔒 100% Client-Side Privacy</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">PDF to Excel Converter</h1>
+                <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">Extract structured rows and columns from PDF documents into clean Excel (.xlsx) workbooks.</p>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700">
+                    SheetJS Workbook Export
+                </span>
+            </div>
+        </div>
+
+        <!-- Split 2-Column Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+            <!-- Left Column: Upload & Extraction Options -->
+            <div class="workspace-panel space-y-6">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                    <span>📊</span> Upload PDF & Configure
+                </h2>
+
+                <!-- Modern Dropzone -->
+                <div id="dropzone" class="modern-dropzone p-8 text-center cursor-pointer transition-all">
+                    <input type="file" id="pdf-input" accept="application/pdf,.pdf" class="hidden">
+                    <div class="flex flex-col items-center justify-center space-y-3">
+                        <div class="w-14 h-14 rounded-2xl bg-rose-500/10 text-rose-600 dark:text-rose-400 flex items-center justify-center">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold text-zinc-800 dark:text-zinc-200">Click to upload or drag & drop a PDF</p>
+                            <p class="text-xs text-zinc-400 mt-1">Single PDF document processed strictly in browser memory</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- File Info Card -->
+                <div id="file-info-card" class="hidden flex items-center justify-between p-4 rounded-xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200/80 dark:border-zinc-700/60 text-xs">
+                    <div class="flex items-center gap-3 min-w-0 flex-1">
+                        <span class="w-9 h-9 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 flex items-center justify-center font-bold text-xs flex-shrink-0">
+                            PDF
+                        </span>
+                        <div class="min-w-0 flex-1">
+                            <p id="file-name" class="font-semibold text-zinc-900 dark:text-zinc-100 truncate">document.pdf</p>
+                            <p id="file-meta" class="text-[11px] text-zinc-400 mt-0.5">0 KB • 0 pages</p>
+                        </div>
+                    </div>
+                    <button type="button" id="clear-file-btn" class="p-1.5 rounded-lg hover:bg-rose-100 dark:hover:bg-rose-950 text-rose-500 transition-colors ml-3" title="Remove file">✕</button>
+                </div>
+
+                <!-- Extraction Options -->
+                <div class="space-y-4 p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-950/40 border border-zinc-200/60 dark:border-zinc-800">
+                    <p class="text-xs font-bold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Extraction Settings</p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="sheet-mode" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Workbook Layout</label>
+                            <select id="sheet-mode" class="w-full px-3 py-2 rounded-xl text-xs bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 text-zinc-800 dark:text-zinc-200 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="single">Single Combined Sheet</option>
+                                <option value="per-page">Separate Sheet per Page</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="table-mode" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Column Detection</label>
+                            <select id="table-mode" class="w-full px-3 py-2 rounded-xl text-xs bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 text-zinc-800 dark:text-zinc-200 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="smart">Smart Line &amp; Column Split</option>
+                                <option value="line">One Line per Row</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <label class="flex items-center gap-2.5 text-xs text-zinc-700 dark:text-zinc-300 cursor-pointer select-none pt-1">
+                        <input type="checkbox" id="include-page-headers" checked class="w-4 h-4 rounded border-zinc-300 dark:border-zinc-700 text-indigo-600 focus:ring-indigo-500">
+                        <span>Include page header rows / page column labels</span>
+                    </label>
+                </div>
+
+                <!-- Convert Action Button -->
+                <button type="button" id="convert-btn" disabled class="btn-primary w-full !py-3.5 text-sm font-semibold opacity-50 cursor-not-allowed">
+                    <span>Extract to Excel (.xlsx)</span>
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                </button>
+
+                <!-- Error Display -->
+                <div id="error-box" class="hidden p-4 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-xs text-rose-700 dark:text-rose-400"></div>
+            </div>
+
+            <!-- Right Column: Live Table Preview & Download -->
+            <div class="workspace-panel space-y-6">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                    <span>⚡</span> Extraction Preview &amp; Export
+                </h2>
+
+                <!-- Stats Grid -->
+                <div class="p-5 rounded-2xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800 space-y-4">
+                    <div class="grid grid-cols-3 gap-3">
+                        <div class="p-3 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200/70 dark:border-zinc-800">
+                            <span class="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider block mb-1">Pages</span>
+                            <span id="stat-pages" class="text-xl font-extrabold text-zinc-900 dark:text-white font-mono">0</span>
+                        </div>
+                        <div class="p-3 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200/70 dark:border-zinc-800">
+                            <span class="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider block mb-1">Rows</span>
+                            <span id="stat-rows" class="text-xl font-extrabold text-zinc-900 dark:text-white font-mono">0</span>
+                        </div>
+                        <div class="p-3 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200/70 dark:border-zinc-800">
+                            <span class="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider block mb-1">Sheets</span>
+                            <span id="stat-sheets" class="text-xl font-extrabold text-zinc-900 dark:text-white font-mono">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Preview Box -->
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-semibold text-zinc-600 dark:text-zinc-400">Extracted Table Preview</span>
+                        <button type="button" id="copy-btn" disabled class="btn-secondary !py-1.5 !px-3 text-xs opacity-50 cursor-not-allowed">
+                            <span>Copy TSV</span>
+                        </button>
+                    </div>
+                    <div id="preview-container" class="result-box h-64 overflow-auto">
+                        <p id="preview-placeholder" class="text-xs text-zinc-400 italic text-center py-20 font-sans">Upload a PDF and click Extract to preview spreadsheet rows here.</p>
+                        <table id="preview-table" class="hidden w-full text-left border-collapse text-[11px]">
+                            <tbody id="preview-tbody" class="divide-y divide-zinc-200 dark:divide-zinc-800"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Download Box -->
+                <div id="output-box" class="hidden p-5 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/80 space-y-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-emerald-900 dark:text-emerald-200">Workbook Ready!</h3>
+                            <p class="text-xs text-emerald-700 dark:text-emerald-400" id="output-stat-text">Excel spreadsheet generated locally.</p>
+                        </div>
+                    </div>
+                    <button type="button" id="download-btn" class="btn-accent w-full !py-3 text-sm font-semibold">
+                        Download Excel (.xlsx)
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.worker.min.js';
+
+        const dropzone = document.getElementById('dropzone');
+        const pdfInput = document.getElementById('pdf-input');
+        const fileInfoCard = document.getElementById('file-info-card');
+        const fileNameEl = document.getElementById('file-name');
+        const fileMetaEl = document.getElementById('file-meta');
+        const clearFileBtn = document.getElementById('clear-file-btn');
+        const sheetModeEl = document.getElementById('sheet-mode');
+        const tableModeEl = document.getElementById('table-mode');
+        const includePageHeadersEl = document.getElementById('include-page-headers');
+        const convertBtn = document.getElementById('convert-btn');
+        const errorBox = document.getElementById('error-box');
+
+        const statPages = document.getElementById('stat-pages');
+        const statRows = document.getElementById('stat-rows');
+        const statSheets = document.getElementById('stat-sheets');
+        const copyBtn = document.getElementById('copy-btn');
+        const previewPlaceholder = document.getElementById('preview-placeholder');
+        const previewTable = document.getElementById('preview-table');
+        const previewTbody = document.getElementById('preview-tbody');
+        const outputBox = document.getElementById('output-box');
+        const outputStatText = document.getElementById('output-stat-text');
+        const downloadBtn = document.getElementById('download-btn');
+
+        let loadedPdf = null;
+        let currentFile = null;
+        let generatedWorkbook = null;
+        let generatedTsv = '';
+        let outputFileName = 'converted.xlsx';
+
+        dropzone.addEventListener('click', () => pdfInput.click());
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.classList.add('border-rose-500', 'bg-rose-50/20');
+        });
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.classList.remove('border-rose-500', 'bg-rose-50/20');
+        });
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('border-rose-500', 'bg-rose-50/20');
+            if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+        });
+        pdfInput.addEventListener('change', () => {
+            if (pdfInput.files.length) handleFile(pdfInput.files[0]);
+        });
+
+        clearFileBtn.addEventListener('click', resetWorkspace);
+
+        function resetWorkspace() {
+            loadedPdf = null;
+            currentFile = null;
+            generatedWorkbook = null;
+            generatedTsv = '';
+            pdfInput.value = '';
+            fileInfoCard.classList.add('hidden');
+            outputBox.classList.add('hidden');
+            errorBox.classList.add('hidden');
+            previewTable.classList.add('hidden');
+            previewTbody.innerHTML = '';
+            previewPlaceholder.classList.remove('hidden');
+            convertBtn.disabled = true;
+            convertBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            copyBtn.disabled = true;
+            copyBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            statPages.textContent = '0';
+            statRows.textContent = '0';
+            statSheets.textContent = '0';
+        }
+
+        async function handleFile(file) {
+            errorBox.classList.add('hidden');
+            if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+                showError('Please select a valid PDF file.');
+                return;
+            }
+            try {
+                const buffer = await file.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
+                loadedPdf = pdf;
+                currentFile = file;
+                outputFileName = file.name.replace(/\.pdf$/i, '') + '.xlsx';
+                fileNameEl.textContent = file.name;
+                fileMetaEl.textContent = `${formatBytes(file.size)} • ${pdf.numPages} page${pdf.numPages !== 1 ? 's' : ''}`;
+                fileInfoCard.classList.remove('hidden');
+                convertBtn.disabled = false;
+                convertBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                outputBox.classList.add('hidden');
+            } catch (err) {
+                console.error('PDF load error:', err);
+                showError('Could not read this PDF file. It may be corrupted or password-protected.');
+            }
+        }
+
+        function extractRowsFromItems(items, smartColumns) {
+            const valid = items.filter(it => it.str && it.str.trim().length > 0);
+            if (!valid.length) return [];
+
+            // Group text items into horizontal lines by Y coordinate
+            const sorted = valid.slice().sort((a, b) => {
+                const dy = b.transform[5] - a.transform[5];
+                if (Math.abs(dy) > 4) return dy;
+                return a.transform[4] - b.transform[4];
+            });
+
+            const lines = [];
+            for (const item of sorted) {
+                const y = item.transform[5];
+                let line = lines.find(l => Math.abs(l.y - y) <= 4);
+                if (!line) {
+                    line = { y, items: [] };
+                    lines.push(line);
+                }
+                line.items.push(item);
+            }
+
+            lines.sort((a, b) => b.y - a.y);
+
+            return lines.map(line => {
+                line.items.sort((a, b) => a.transform[4] - b.transform[4]);
+                if (!smartColumns) {
+                    return [line.items.map(it => it.str.trim()).join(' ')];
+                }
+                const cells = [];
+                let currentCell = '';
+                let prevEnd = null;
+                for (const it of line.items) {
+                    const x = it.transform[4];
+                    const width = it.width || 0;
+                    const text = it.str.trim();
+                    if (!text) continue;
+                    if (prevEnd !== null && (x - prevEnd) > 14) {
+                        cells.push(currentCell.trim());
+                        currentCell = text;
+                    } else {
+                        currentCell = currentCell ? currentCell + ' ' + text : text;
+                    }
+                    prevEnd = x + width;
+                }
+                if (currentCell.trim()) cells.push(currentCell.trim());
+                return cells;
+            }).filter(row => row.length > 0);
+        }
+
+        convertBtn.addEventListener('click', async () => {
+            if (!loadedPdf) return;
+            errorBox.classList.add('hidden');
+            outputBox.classList.add('hidden');
+            convertBtn.disabled = true;
+            convertBtn.innerHTML = '<span>Extracting Tables...</span>';
+
+            try {
+                const sheetMode = sheetModeEl.value;
+                const smartColumns = tableModeEl.value === 'smart';
+                const includeHeaders = includePageHeadersEl.checked;
+                const wb = XLSX.utils.book_new();
+
+                let totalRows = 0;
+                const combinedRows = [];
+                const previewRows = [];
+
+                for (let pageNum = 1; pageNum <= loadedPdf.numPages; pageNum++) {
+                    const page = await loadedPdf.getPage(pageNum);
+                    const content = await page.getTextContent();
+                    const pageRows = extractRowsFromItems(content.items, smartColumns);
+
+                    if (sheetMode === 'per-page') {
+                        const sheetData = includeHeaders
+                            ? [[`Page ${pageNum}`], ...pageRows]
+                            : pageRows;
+                        const ws = XLSX.utils.aoa_to_sheet(sheetData.length ? sheetData : [['']]);
+                        XLSX.utils.book_append_sheet(wb, ws, `Page ${pageNum}`);
+                        totalRows += sheetData.length;
+                        if (includeHeaders) previewRows.push([`--- Page ${pageNum} ---`]);
+                        pageRows.forEach(r => previewRows.push(r));
+                    } else {
+                        if (includeHeaders) {
+                            combinedRows.push([`Page ${pageNum}`]);
+                            previewRows.push([`--- Page ${pageNum} ---`]);
+                        }
+                        pageRows.forEach(r => {
+                            combinedRows.push(r);
+                            previewRows.push(r);
+                        });
+                    }
+                }
+
+                if (sheetMode === 'single') {
+                    const ws = XLSX.utils.aoa_to_sheet(combinedRows.length ? combinedRows : [['No text found']]);
+                    XLSX.utils.book_append_sheet(wb, ws, 'Extracted Data');
+                    totalRows = combinedRows.length;
+                }
+
+                generatedWorkbook = wb;
+                generatedTsv = previewRows.map(r => r.join('\t')).join('\n');
+
+                renderTablePreview(previewRows);
+                statPages.textContent = loadedPdf.numPages;
+                statRows.textContent = totalRows;
+                statSheets.textContent = wb.SheetNames.length;
+
+                copyBtn.disabled = false;
+                copyBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+
+                outputStatText.textContent = `Extracted ${totalRows} rows across ${wb.SheetNames.length} worksheet${wb.SheetNames.length !== 1 ? 's' : ''}.`;
+                outputBox.classList.remove('hidden');
+            } catch (err) {
+                console.error('Extraction error:', err);
+                showError('Failed to extract data: ' + err.message);
+            } finally {
+                convertBtn.disabled = false;
+                convertBtn.innerHTML = '<span>Extract to Excel (.xlsx)</span><svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>';
+            }
+        });
+
+        function renderTablePreview(rows) {
+            previewTbody.innerHTML = '';
+            if (!rows.length) {
+                previewTable.classList.add('hidden');
+                previewPlaceholder.textContent = 'No extractable text found in this PDF.';
+                previewPlaceholder.classList.remove('hidden');
+                return;
+            }
+            previewPlaceholder.classList.add('hidden');
+            previewTable.classList.remove('hidden');
+
+            const slice = rows.slice(0, 100);
+            slice.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-zinc-100/70 dark:hover:bg-zinc-900/70';
+                row.forEach(cell => {
+                    const td = document.createElement('td');
+                    td.className = 'px-2.5 py-1.5 border-r border-zinc-200/60 dark:border-zinc-800/60 whitespace-nowrap max-w-[240px] truncate';
+                    td.textContent = cell;
+                    tr.appendChild(td);
+                });
+                previewTbody.appendChild(tr);
+            });
+        }
+
+        copyBtn.addEventListener('click', async () => {
+            if (!generatedTsv) return;
+            await navigator.clipboard.writeText(generatedTsv);
+            const original = copyBtn.innerHTML;
+            copyBtn.innerHTML = '<span>Copied!</span>';
+            setTimeout(() => { copyBtn.innerHTML = original; }, 1500);
+        });
+
+        downloadBtn.addEventListener('click', () => {
+            if (!generatedWorkbook) return;
+            XLSX.writeFile(generatedWorkbook, outputFileName);
+        });
+
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function showError(msg) {
+            errorBox.textContent = msg;
+            errorBox.classList.remove('hidden');
+        }
+    </script>
+    <script type="module" src="/src/layout.js"></script>
+</body>
+</html>

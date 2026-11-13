@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Thumbnail Downloader & Previewer — OmniTools</title>
+    <meta name="description" content="Download YouTube video thumbnails in 4K, 1080p Full HD, and HQ resolutions instantly. 100% free and client-side.">
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="stylesheet" href="/src/input.css">
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col justify-between transition-colors">
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+        <!-- Tool Header -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20">
+                        YouTube Utilities
+                    </span>
+                    <span class="privacy-badge">🔒 100% Client-Side Privacy</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">YouTube Thumbnail Downloader</h1>
+                <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">Extract original Full HD (1080p), High Quality (720p), and Standard cover art from any YouTube video.</p>
+            </div>
+        </div>
+
+        <!-- Split 2-Column Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            
+            <!-- Left Column: Video Link Input -->
+            <div class="workspace-panel space-y-5">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                    <span>🎬</span> Video Source
+                </h2>
+
+                <div class="space-y-4">
+                    <div>
+                        <label for="video-url" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">YouTube Video or Shorts URL</label>
+                        <div class="relative">
+                            <input type="text" id="video-url" value="https://www.youtube.com/watch?v=dQw4w9WgXcQ" placeholder="https://www.youtube.com/watch?v=..." class="w-full px-4 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-sm focus:ring-2 focus:ring-rose-500 focus:outline-none">
+                        </div>
+                    </div>
+
+                    <!-- Resolution Quality Selector -->
+                    <div>
+                        <label class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Select Resolution Tier</label>
+                        <div class="grid grid-cols-2 gap-2" id="res-pills">
+                            <button type="button" data-quality="maxresdefault" class="res-pill py-2.5 rounded-xl text-xs font-bold bg-rose-600 text-white shadow-xs">Full HD (1080p / MaxRes)</button>
+                            <button type="button" data-quality="hqdefault" class="res-pill py-2.5 rounded-xl text-xs font-bold border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:border-rose-500">High Quality (720p)</button>
+                            <button type="button" data-quality="mqdefault" class="res-pill py-2.5 rounded-xl text-xs font-bold border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:border-rose-500">Medium (480p)</button>
+                            <button type="button" data-quality="default" class="res-pill py-2.5 rounded-xl text-xs font-bold border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:border-rose-500">Standard (120p)</button>
+                        </div>
+                    </div>
+
+                    <button type="button" id="fetch-btn" class="btn-primary w-full !py-3 text-sm font-semibold !bg-rose-600 hover:!bg-rose-700 flex items-center justify-center gap-2">
+                        <span>Fetch Thumbnail Art</span>
+                    </button>
+                </div>
+
+                <div class="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950/40 border border-zinc-200/60 dark:border-zinc-800 text-xs text-zinc-500 dark:text-zinc-400">
+                    <p class="font-semibold text-zinc-700 dark:text-zinc-300 mb-1">💡 Supported YouTube Link Formats</p>
+                    <ul class="text-[11px] leading-relaxed list-disc pl-4 space-y-1 text-zinc-500">
+                        <li><code>youtube.com/watch?v=ID</code> (Desktop links)</li>
+                        <li><code>youtu.be/ID</code> (Mobile share shortlinks)</li>
+                        <li><code>youtube.com/shorts/ID</code> (YouTube Shorts)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Right Column: Live Thumbnail & Download -->
+            <div class="workspace-panel space-y-6">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                        <span>🖼️</span> Thumbnail Output
+                    </h2>
+                    <span id="video-id-badge" class="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-rose-500/10 text-rose-600 border border-rose-500/20">ID: dQw4w9WgXcQ</span>
+                </div>
+
+                <!-- Preview Image Frame -->
+                <div class="p-2 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center overflow-hidden aspect-video relative group">
+                    <img id="thumb-preview" src="https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg" alt="YouTube Thumbnail" class="w-full h-full object-cover rounded-xl shadow-md">
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="grid grid-cols-2 gap-3">
+                    <button type="button" id="copy-url-btn" class="btn-secondary !py-3 text-xs font-semibold flex items-center justify-center gap-2">
+                        <span>🔗</span>
+                        <span id="copy-label">Copy Direct Link</span>
+                    </button>
+                    <a id="download-link" href="https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg" target="_blank" download="youtube-thumbnail.jpg" class="btn-primary !py-3 text-xs font-semibold !bg-rose-600 hover:!bg-rose-700 flex items-center justify-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                        <span>Download Artwork</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="/src/layout.js"></script>
+    <script>
+        let currentQuality = 'maxresdefault';
+        let currentVideoId = 'dQw4w9WgXcQ';
+
+        const videoUrl = document.getElementById('video-url');
+        const resPills = document.querySelectorAll('.res-pill');
+        const fetchBtn = document.getElementById('fetch-btn');
+        const thumbPreview = document.getElementById('thumb-preview');
+        const videoIdBadge = document.getElementById('video-id-badge');
+        const downloadLink = document.getElementById('download-link');
+        const copyUrlBtn = document.getElementById('copy-url-btn');
+        const copyLabel = document.getElementById('copy-label');
+
+        resPills.forEach(pill => {
+            pill.addEventListener('click', () => {
+                resPills.forEach(p => {
+                    p.className = 'res-pill py-2.5 rounded-xl text-xs font-bold border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:border-rose-500';
+                });
+                pill.className = 'res-pill py-2.5 rounded-xl text-xs font-bold bg-rose-600 text-white shadow-xs';
+                currentQuality = pill.dataset.quality;
+                updateThumbnail();
+            });
+        });
+
+        function extractVideoId(url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|shorts\/)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+
+        function updateThumbnail() {
+            const url = videoUrl.value.trim();
+            const id = extractVideoId(url);
+            if (!id) {
+                alert('Please enter a valid YouTube video URL or ID.');
+                return;
+            }
+
+            currentVideoId = id;
+            videoIdBadge.textContent = `ID: ${id}`;
+
+            const thumbUrl = `https://img.youtube.com/vi/${id}/${currentQuality}.jpg`;
+            thumbPreview.src = thumbUrl;
+            downloadLink.href = thumbUrl;
+            downloadLink.download = `yt-thumb-${id}-${currentQuality}.jpg`;
+        }
+
+        fetchBtn.addEventListener('click', updateThumbnail);
+        videoUrl.addEventListener('change', updateThumbnail);
+
+        copyUrlBtn.addEventListener('click', () => {
+            const thumbUrl = `https://img.youtube.com/vi/${currentVideoId}/${currentQuality}.jpg`;
+            navigator.clipboard.writeText(thumbUrl).then(() => {
+                copyLabel.textContent = "Copied Link!";
+                setTimeout(() => { copyLabel.textContent = "Copy Direct Link"; }, 2000);
+            });
+        });
+
+        // Initialize
+        updateThumbnail();
+    </script>
+</body>
+</html>

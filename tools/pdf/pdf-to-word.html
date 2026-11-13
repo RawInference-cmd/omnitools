@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF to Word Converter — OmniTools</title>
+    <meta name="description" content="Convert PDF documents to editable Microsoft Word (.doc) files directly in your browser. 100% private, client-side, zero server uploads.">
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="stylesheet" href="/src/input.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col justify-between transition-colors">
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+        <!-- Tool Header -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20">
+                        PDF Suite
+                    </span>
+                    <span class="privacy-badge">🔒 100% Client-Side Privacy</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">PDF to Word Converter</h1>
+                <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">Extract text, structure, and paragraphs from PDF files into editable Word (.doc) documents.</p>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700">
+                    Client-Side Word Export
+                </span>
+            </div>
+        </div>
+
+        <!-- Split 2-Column Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+            <!-- Left Column: Input & Controls -->
+            <div class="workspace-panel space-y-6">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                    <span>📤</span> Select PDF Document
+                </h2>
+
+                <!-- Modern Dropzone -->
+                <div id="dropzone" class="modern-dropzone p-8 text-center cursor-pointer transition-all group">
+                    <input type="file" id="pdf-input" accept="application/pdf,.pdf" class="hidden">
+                    <div class="flex flex-col items-center justify-center space-y-3">
+                        <div class="w-14 h-14 rounded-2xl bg-rose-500/10 text-rose-600 dark:text-rose-400 flex items-center justify-center group-hover:scale-105 transition-transform">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold text-zinc-800 dark:text-zinc-200">Drag &amp; drop your PDF here, or <span class="text-indigo-600 dark:text-indigo-400 underline">browse</span></p>
+                            <p class="text-xs text-zinc-400 mt-1">Supports standard PDF files processed locally in memory</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Selected File Info -->
+                <div id="file-info" class="hidden items-center justify-between p-4 rounded-xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200/80 dark:border-zinc-700/60 text-xs">
+                    <div class="flex items-center gap-3 min-w-0 flex-1">
+                        <span class="w-9 h-9 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 flex items-center justify-center font-bold text-xs flex-shrink-0">
+                            PDF
+                        </span>
+                        <div class="min-w-0 flex-1">
+                            <p id="file-name" class="font-semibold text-zinc-900 dark:text-zinc-100 truncate">document.pdf</p>
+                            <p id="file-size" class="text-[11px] text-zinc-400 mt-0.5">0 KB</p>
+                        </div>
+                    </div>
+                    <button type="button" id="remove-file-btn" class="p-1.5 rounded-lg hover:bg-rose-100 dark:hover:bg-rose-950 text-rose-500 transition-colors ml-3" title="Remove file">✕</button>
+                </div>
+
+                <!-- Options -->
+                <div class="space-y-3 p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-950/40 border border-zinc-200/60 dark:border-zinc-800">
+                    <p class="text-xs font-bold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Word Formatting Options</p>
+                    <label class="flex items-center gap-2.5 text-xs text-zinc-700 dark:text-zinc-300 cursor-pointer select-none">
+                        <input type="checkbox" id="include-page-headings" checked class="w-4 h-4 rounded border-zinc-300 dark:border-zinc-700 text-indigo-600 focus:ring-indigo-500">
+                        <span>Include Page N section headings &amp; page breaks</span>
+                    </label>
+                </div>
+
+                <!-- Action Button -->
+                <button id="convert-button" type="button" disabled class="btn-primary w-full !py-3.5 text-sm font-semibold opacity-50 cursor-not-allowed">
+                    <span>Extract &amp; Convert to Word</span>
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                </button>
+
+                <!-- Status & Progress -->
+                <div id="status-message" class="hidden space-y-2">
+                    <div class="flex items-center justify-between text-xs text-zinc-500 dark:text-zinc-400">
+                        <span id="status-text" class="font-medium">Extracting text...</span>
+                        <span id="progress-percent" class="font-mono">0%</span>
+                    </div>
+                    <div class="w-full bg-zinc-200 dark:bg-zinc-800 rounded-full h-2 overflow-hidden">
+                        <div id="progress-bar" class="bg-indigo-600 h-2 rounded-full transition-all duration-200" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Error Display -->
+                <div id="error-message" class="hidden p-4 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-xs text-rose-700 dark:text-rose-400">
+                    <p id="error-text"></p>
+                </div>
+            </div>
+
+            <!-- Right Column: Live Output & Download -->
+            <div class="workspace-panel space-y-6">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                    <span>📄</span> Converted Document Output
+                </h2>
+
+                <!-- Idle State Placeholder -->
+                <div id="idle-output" class="text-center py-12 px-4 rounded-2xl border border-dashed border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-950/30">
+                    <div class="w-12 h-12 mx-auto mb-3 rounded-2xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-xl text-zinc-400">
+                        📝
+                    </div>
+                    <p class="text-sm font-semibold text-zinc-700 dark:text-zinc-300">No Document Generated Yet</p>
+                    <p class="text-xs text-zinc-400 mt-1 max-w-xs mx-auto">Upload a PDF on the left and click "Extract &amp; Convert to Word" to generate an editable Word document.</p>
+                </div>
+
+                <!-- Complete State Output -->
+                <div id="output-container" class="hidden space-y-4">
+                    <div class="p-5 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/80 text-center space-y-2">
+                        <div class="w-12 h-12 mx-auto rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <h3 class="text-base font-bold text-emerald-900 dark:text-emerald-200">Conversion Complete!</h3>
+                        <p id="page-count-info" class="text-xs text-emerald-700 dark:text-emerald-300"></p>
+                    </div>
+
+                    <div class="space-y-2">
+                        <span class="text-xs font-semibold text-zinc-600 dark:text-zinc-400">Extracted Text Preview</span>
+                        <pre id="word-preview" class="result-box h-44 overflow-auto whitespace-pre-wrap break-words text-xs leading-relaxed text-zinc-600 dark:text-zinc-300"></pre>
+                    </div>
+
+                    <a id="download-link" href="#" download="converted.doc" class="btn-accent w-full !py-3.5 text-sm font-semibold flex items-center justify-center gap-2 shadow-lg">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                        <span>Download Word Document (.doc)</span>
+                    </a>
+                </div>
+
+                <!-- Security Assurance -->
+                <div class="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950/40 border border-zinc-200/60 dark:border-zinc-800 text-xs text-zinc-500 dark:text-zinc-400 space-y-1.5">
+                    <p class="font-semibold text-zinc-700 dark:text-zinc-300 flex items-center gap-1.5">
+                        <span>🛡️</span> Client-Side Processing Assurance
+                    </p>
+                    <p class="text-[11px] leading-relaxed">Text extraction and Word document construction execute strictly within your local browser memory. No data is transmitted over the internet.</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.worker.min.js';
+
+        const dropzone = document.getElementById('dropzone');
+        const pdfInput = document.getElementById('pdf-input');
+        const fileInfo = document.getElementById('file-info');
+        const fileNameEl = document.getElementById('file-name');
+        const fileSizeEl = document.getElementById('file-size');
+        const removeFileBtn = document.getElementById('remove-file-btn');
+        const includePageHeadingsEl = document.getElementById('include-page-headings');
+        const convertButton = document.getElementById('convert-button');
+        const outputContainer = document.getElementById('output-container');
+        const idleOutput = document.getElementById('idle-output');
+        const wordPreview = document.getElementById('word-preview');
+        const downloadLink = document.getElementById('download-link');
+        const statusMessage = document.getElementById('status-message');
+        const statusText = document.getElementById('status-text');
+        const progressBar = document.getElementById('progress-bar');
+        const progressPercent = document.getElementById('progress-percent');
+        const pageCountInfo = document.getElementById('page-count-info');
+        const errorMessage = document.getElementById('error-message');
+        const errorText = document.getElementById('error-text');
+
+        let selectedFile = null;
+        let currentBlobUrl = null;
+
+        dropzone.addEventListener('click', () => pdfInput.click());
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.classList.add('border-rose-500', 'bg-rose-50/20');
+        });
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.classList.remove('border-rose-500', 'bg-rose-50/20');
+        });
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('border-rose-500', 'bg-rose-50/20');
+            if (e.dataTransfer.files.length > 0) {
+                handleFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        pdfInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        function handleFile(file) {
+            errorMessage.classList.add('hidden');
+            if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+                showError('Please select a valid PDF file.');
+                return;
+            }
+            selectedFile = file;
+            fileNameEl.textContent = file.name;
+            fileSizeEl.textContent = formatBytes(file.size);
+            fileInfo.classList.remove('hidden');
+            fileInfo.classList.add('flex');
+            convertButton.disabled = false;
+            convertButton.classList.remove('opacity-50', 'cursor-not-allowed');
+            outputContainer.classList.add('hidden');
+            idleOutput.classList.remove('hidden');
+        }
+
+        removeFileBtn.addEventListener('click', () => {
+            selectedFile = null;
+            pdfInput.value = '';
+            if (currentBlobUrl) {
+                URL.revokeObjectURL(currentBlobUrl);
+                currentBlobUrl = null;
+            }
+            fileInfo.classList.add('hidden');
+            fileInfo.classList.remove('flex');
+            convertButton.disabled = true;
+            convertButton.classList.add('opacity-50', 'cursor-not-allowed');
+            statusMessage.classList.add('hidden');
+            errorMessage.classList.add('hidden');
+            outputContainer.classList.add('hidden');
+            idleOutput.classList.remove('hidden');
+        });
+
+        function extractLinesFromItems(items) {
+            const valid = items.filter(it => it.str && it.str.trim().length > 0);
+            if (!valid.length) return [];
+
+            const sorted = valid.slice().sort((a, b) => {
+                const dy = b.transform[5] - a.transform[5];
+                if (Math.abs(dy) > 4) return dy;
+                return a.transform[4] - b.transform[4];
+            });
+
+            const lines = [];
+            for (const item of sorted) {
+                const y = item.transform[5];
+                let line = lines.find(l => Math.abs(l.y - y) <= 4);
+                if (!line) {
+                    line = { y, items: [] };
+                    lines.push(line);
+                }
+                line.items.push(item);
+            }
+            lines.sort((a, b) => b.y - a.y);
+
+            return lines.map(line => {
+                line.items.sort((a, b) => a.transform[4] - b.transform[4]);
+                return line.items.map(it => it.str.trim()).join(' ').replace(/\s+/g, ' ').trim();
+            }).filter(Boolean);
+        }
+
+        convertButton.addEventListener('click', async () => {
+            if (!selectedFile) {
+                showError('Please select a valid PDF file.');
+                return;
+            }
+
+            convertButton.disabled = true;
+            convertButton.classList.add('opacity-50', 'cursor-not-allowed');
+            statusMessage.classList.remove('hidden');
+            outputContainer.classList.add('hidden');
+            idleOutput.classList.add('hidden');
+            errorMessage.classList.add('hidden');
+            progressBar.style.width = '5%';
+            progressPercent.textContent = '5%';
+            statusText.textContent = 'Reading PDF file...';
+
+            try {
+                const arrayBuffer = await selectedFile.arrayBuffer();
+                const pdfDoc = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                const numPages = pdfDoc.numPages;
+                const includeHeadings = includePageHeadingsEl.checked;
+
+                const pageSections = [];
+                const previewTextParts = [];
+
+                for (let i = 1; i <= numPages; i++) {
+                    const pct = Math.round((i / numPages) * 90);
+                    progressBar.style.width = pct + '%';
+                    progressPercent.textContent = pct + '%';
+                    statusText.textContent = `Extracting page ${i} of ${numPages}...`;
+
+                    const page = await pdfDoc.getPage(i);
+                    const textContent = await page.getTextContent();
+                    const lines = extractLinesFromItems(textContent.items);
+
+                    const pTags = lines.length
+                        ? lines.map(line => '\x3Cp>' + escapeHtml(line) + '\x3C/p>').join('\n')
+                        : '\x3Cp>\x3Cem>(No text detected on this page)\x3C/em>\x3C/p>';
+
+                    const headingTag = includeHeadings
+                        ? '\x3Ch2>' + `Page ${i} of ${numPages}` + '\x3C/h2>\n'
+                        : '';
+
+                    pageSections.push('\x3Cdiv class="page">\n' + headingTag + pTags + '\n\x3C/div>');
+                    previewTextParts.push((includeHeadings ? `--- Page ${i} ---\n` : '') + lines.join('\n'));
+                }
+
+                progressBar.style.width = '100%';
+                progressPercent.textContent = '100%';
+                statusText.textContent = 'Generating Word Document...';
+
+                const docTitle = escapeHtml(selectedFile.name.replace(/\.pdf$/i, ''));
+                const wordDocContent = [
+                    '\x3Chtml xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">',
+                    '\x3Chead>',
+                    '\x3Cmeta charset="utf-8">',
+                    '\x3Ctitle>' + docTitle + '\x3C/title>',
+                    '\x3Cstyle>',
+                    'body { font-family: Calibri, Arial, sans-serif; font-size: 11pt; line-height: 1.5; margin: 1in; }',
+                    '.page { page-break-after: always; margin-bottom: 24pt; }',
+                    'h2 { color: #1E3A8A; font-size: 13pt; margin-top: 14pt; border-bottom: 1px solid #E5E7EB; padding-bottom: 4pt; }',
+                    'p { margin: 6pt 0; text-align: justify; }',
+                    '\x3C/style>',
+                    '\x3C/head>',
+                    '\x3Cbody>',
+                    pageSections.join('\n'),
+                    '\x3C/body>',
+                    '\x3C/html>'
+                ].join('\n');
+
+                if (currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);
+                const blob = new Blob(['\ufeff', wordDocContent], { type: 'application/msword' });
+                currentBlobUrl = URL.createObjectURL(blob);
+
+                const outFileName = selectedFile.name.replace(/\.[^/.]+$/, '') + '.doc';
+                downloadLink.href = currentBlobUrl;
+                downloadLink.download = outFileName;
+                pageCountInfo.textContent = `Successfully extracted ${numPages} page${numPages !== 1 ? 's' : ''} into editable Word document (${formatBytes(blob.size)}).`;
+                wordPreview.textContent = previewTextParts.join('\n\n').trim() || '(No extractable text found in this PDF)';
+
+                statusMessage.classList.add('hidden');
+                outputContainer.classList.remove('hidden');
+            } catch (err) {
+                console.error('Error converting PDF to Word:', err);
+                statusMessage.classList.add('hidden');
+                idleOutput.classList.remove('hidden');
+                showError('Could not read PDF. Ensure the file is not password-protected or corrupted.');
+            } finally {
+                convertButton.disabled = false;
+                convertButton.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+        });
+
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function showError(message) {
+            errorText.textContent = message;
+            errorMessage.classList.remove('hidden');
+        }
+    </script>
+    <script type="module" src="/src/layout.js"></script>
+</body>
+</html>

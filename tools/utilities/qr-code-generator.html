@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator — OmniTools</title>
+    <meta name="description" content="Generate customizable, high-resolution QR codes for links, text, and Wi-Fi credentials. 100% free and client-side.">
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="stylesheet" href="/src/input.css">
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col justify-between transition-colors">
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+        <!-- Tool Header -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
+                        Utilities
+                    </span>
+                    <span class="privacy-badge">🔒 100% Client-Side Privacy</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">QR Code Generator</h1>
+                <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">Create customized high-definition QR codes with instant live preview and colors.</p>
+            </div>
+        </div>
+
+        <!-- Split 2-Column Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            
+            <!-- Left Column: Content & Style Customization -->
+            <div class="workspace-panel space-y-5">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                    <span>⚙️</span> QR Content & Style
+                </h2>
+
+                <div class="space-y-4">
+                    <!-- Type Selector Pills -->
+                    <div>
+                        <label class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Data Type</label>
+                        <div class="grid grid-cols-3 gap-2" id="type-pills">
+                            <button type="button" data-type="url" class="type-pill py-2 rounded-xl text-xs font-bold bg-amber-500 text-white shadow-xs">URL / Link</button>
+                            <button type="button" data-type="text" class="type-pill py-2 rounded-xl text-xs font-bold border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:border-amber-500">Plain Text</button>
+                            <button type="button" data-type="wifi" class="type-pill py-2 rounded-xl text-xs font-bold border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:border-amber-500">Wi-Fi Access</button>
+                        </div>
+                    </div>
+
+                    <!-- URL / Text Input -->
+                    <div id="url-input-block">
+                        <label for="url" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5" id="input-label">Destination URL</label>
+                        <input type="text" id="url" value="https://omnitools.app" placeholder="https://example.com" class="w-full px-4 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                    </div>
+
+                    <!-- Wi-Fi Form Block (hidden initially) -->
+                    <div id="wifi-input-block" class="space-y-3 hidden">
+                        <div>
+                            <label for="wifi-ssid" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">Network Name (SSID)</label>
+                            <input type="text" id="wifi-ssid" placeholder="MyHomeNetwork" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-xs">
+                        </div>
+                        <div>
+                            <label for="wifi-pass" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">Password</label>
+                            <input type="password" id="wifi-pass" placeholder="Network password" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-xs">
+                        </div>
+                    </div>
+
+                    <!-- Styling Customization -->
+                    <div class="grid grid-cols-2 gap-4 pt-2 border-t border-zinc-200 dark:border-zinc-800">
+                        <div>
+                            <label class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Foreground Color</label>
+                            <input type="color" id="qr-color-dark" value="#09090b" class="w-full h-10 rounded-xl border border-zinc-200 dark:border-zinc-700 cursor-pointer bg-white dark:bg-zinc-800 p-1">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Background Color</label>
+                            <input type="color" id="qr-color-light" value="#ffffff" class="w-full h-10 rounded-xl border border-zinc-200 dark:border-zinc-700 cursor-pointer bg-white dark:bg-zinc-800 p-1">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="qr-size" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Resolution Size</label>
+                        <select id="qr-size" class="w-full px-3.5 py-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-xs font-semibold">
+                            <option value="200">Standard (200 × 200 px)</option>
+                            <option value="300" selected>High Resolution (300 × 300 px)</option>
+                            <option value="500">Ultra Print (500 × 500 px)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950/40 border border-zinc-200/60 dark:border-zinc-800 text-xs text-zinc-500 dark:text-zinc-400">
+                    <p class="font-semibold text-zinc-700 dark:text-zinc-300 mb-1">💡 Contrast Tip</p>
+                    <p class="text-[11px] leading-relaxed">Always maintain high visual contrast between your foreground pattern and background color to ensure fast smartphone camera scanning.</p>
+                </div>
+            </div>
+
+            <!-- Right Column: Live Output & Download -->
+            <div class="workspace-panel space-y-6">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 mb-2 flex items-center gap-2">
+                    <span>📱</span> Live QR Code Preview
+                </h2>
+
+                <!-- QR Container Card -->
+                <div class="p-8 rounded-2xl bg-zinc-100 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800 flex flex-col items-center justify-center min-h-[300px]">
+                    <div id="qrcode" class="p-4 bg-white rounded-2xl shadow-md inline-block"></div>
+                    <span class="mt-4 text-xs font-medium text-zinc-400">Scan with any iOS or Android camera app</span>
+                </div>
+
+                <button type="button" id="downloadBtn" class="btn-accent w-full !py-3 text-sm font-semibold flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                    <span>Download PNG Image</span>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="/src/layout.js"></script>
+    <script>
+        let currentType = 'url';
+        let qrcodeInstance = null;
+
+        const typePills = document.querySelectorAll('.type-pill');
+        const urlInputBlock = document.getElementById('url-input-block');
+        const wifiInputBlock = document.getElementById('wifi-input-block');
+        const inputLabel = document.getElementById('input-label');
+        const urlInput = document.getElementById('url');
+        const wifiSsid = document.getElementById('wifi-ssid');
+        const wifiPass = document.getElementById('wifi-pass');
+        const colorDark = document.getElementById('qr-color-dark');
+        const colorLight = document.getElementById('qr-color-light');
+        const qrSize = document.getElementById('qr-size');
+        const qrcodeDiv = document.getElementById('qrcode');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        typePills.forEach(pill => {
+            pill.addEventListener('click', () => {
+                typePills.forEach(p => {
+                    p.className = 'type-pill py-2 rounded-xl text-xs font-bold border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:border-amber-500';
+                });
+                pill.className = 'type-pill py-2 rounded-xl text-xs font-bold bg-amber-500 text-white shadow-xs';
+                currentType = pill.dataset.type;
+
+                if (currentType === 'wifi') {
+                    urlInputBlock.classList.add('hidden');
+                    wifiInputBlock.classList.remove('hidden');
+                } else {
+                    wifiInputBlock.classList.add('hidden');
+                    urlInputBlock.classList.remove('hidden');
+                    inputLabel.textContent = currentType === 'url' ? 'Destination URL' : 'Plain Text Message';
+                    urlInput.placeholder = currentType === 'url' ? 'https://example.com' : 'Enter your text...';
+                }
+                generateQR();
+            });
+        });
+
+        function getPayload() {
+            if (currentType === 'wifi') {
+                const ssid = wifiSsid.value.trim() || 'MyNetwork';
+                const pass = wifiPass.value.trim();
+                return `WIFI:T:WPA;S:${ssid};P:${pass};;`;
+            }
+            return urlInput.value.trim() || 'https://omnitools.app';
+        }
+
+        function generateQR() {
+            const text = getPayload();
+            const size = parseInt(qrSize.value) || 300;
+            const dark = colorDark.value;
+            const light = colorLight.value;
+
+            qrcodeDiv.innerHTML = '';
+            qrcodeInstance = new QRCode(qrcodeDiv, {
+                text: text,
+                width: size,
+                height: size,
+                colorDark: dark,
+                colorLight: light,
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        }
+
+        [urlInput, wifiSsid, wifiPass, colorDark, colorLight, qrSize].forEach(el => {
+            el.addEventListener('input', generateQR);
+            el.addEventListener('change', generateQR);
+        });
+
+        downloadBtn.addEventListener('click', () => {
+            const canvas = qrcodeDiv.querySelector('canvas');
+            if (!canvas) return;
+            const link = document.createElement('a');
+            link.download = `qrcode-${Date.now()}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        });
+
+        // Initial generation
+        generateQR();
+    </script>
+</body>
+</html>

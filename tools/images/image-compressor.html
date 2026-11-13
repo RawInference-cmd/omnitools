@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Compressor — OmniTools</title>
+    <meta name="description"
+        content="Compress JPG, PNG, and WebP images client-side with zero loss in visual clarity. Fast, private, and 100% free.">
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="stylesheet" href="/src/input.css">
+</head>
+
+<body
+    class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col justify-between transition-colors">
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+        <!-- Tool Header -->
+        <div
+            class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span
+                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20">
+                        Images
+                    </span>
+                    <span class="privacy-badge">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                        100% Client-Side Privacy
+                    </span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">Image Compressor</h1>
+                <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">Reduce image file size significantly
+                    without losing visual quality using in-memory HTML5 Canvas rendering.</p>
+            </div>
+        </div>
+
+        <!-- Split 2-Column Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+            <!-- Left Column: Upload & Options -->
+            <div class="workspace-panel space-y-6">
+                <div>
+                    <h2
+                        class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 mb-3 flex items-center gap-2">
+                        <svg class="w-4 h-4 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        Upload Image
+                    </h2>
+
+                    <!-- Modern Dropzone -->
+                    <div id="dropzone" class="modern-dropzone group">
+                        <input type="file" id="image-input" accept="image/jpeg,image/png,image/webp" class="hidden">
+                        <div
+                            class="w-12 h-12 rounded-2xl bg-sky-500/10 text-sky-600 dark:text-sky-400 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <p class="text-sm font-semibold text-zinc-800 dark:text-zinc-200">Drag &amp; drop image here,
+                            or <span class="text-sky-600 dark:text-sky-400 underline">browse</span></p>
+                        <p class="text-xs text-zinc-400 mt-1">Supports PNG, JPG, JPEG, and WebP</p>
+                    </div>
+
+                    <!-- Selected Image Preview & Info -->
+                    <div id="file-info"
+                        class="mt-4 p-3.5 rounded-xl bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/60 hidden items-center justify-between">
+                        <div class="flex items-center gap-3 truncate">
+                            <img id="thumb-preview"
+                                class="w-10 h-10 object-cover rounded-lg border border-zinc-300 dark:border-zinc-700"
+                                alt="Thumbnail">
+                            <div class="truncate">
+                                <p id="file-name"
+                                    class="text-xs font-semibold text-zinc-800 dark:text-zinc-200 truncate">photo.jpg
+                                </p>
+                                <p id="original-size" class="text-[10px] text-zinc-400">0 KB</p>
+                            </div>
+                        </div>
+                        <button id="remove-btn" type="button"
+                            class="p-1.5 rounded-lg hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-400 hover:text-red-500 transition-colors"
+                            aria-label="Remove selected image">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Compression Settings -->
+                <div class="space-y-4 pt-3 border-t border-zinc-200/80 dark:border-zinc-800">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <label for="compress-range"
+                                class="text-xs font-semibold text-zinc-700 dark:text-zinc-300">Compression
+                                Quality</label>
+                            <span id="compress-value"
+                                class="text-xs font-bold px-2 py-0.5 rounded-md bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20">75%</span>
+                        </div>
+                        <input type="range" id="compress-range" min="5" max="95" value="75"
+                            class="w-full h-2 bg-zinc-200 dark:bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-sky-600">
+                        <div class="flex justify-between text-[10px] text-zinc-400 mt-1">
+                            <span>Maximum Compression (Smaller)</span>
+                            <span>Highest Quality (Larger)</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="output-format"
+                            class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Output
+                            Format</label>
+                        <select id="output-format"
+                            class="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-xs font-semibold focus:ring-2 focus:ring-sky-500 focus:outline-none">
+                            <option value="auto" selected>Auto (Best Compression — JPEG / WebP)</option>
+                            <option value="image/jpeg">JPEG (.jpg)</option>
+                            <option value="image/webp">WebP (.webp)</option>
+                            <option value="image/png">PNG (Lossless)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Action Button -->
+                <button id="compress-button" type="button"
+                    class="btn-primary w-full !py-3 text-sm font-semibold !bg-sky-600 hover:!bg-sky-700" disabled>
+                    <span>Compress &amp; Optimize</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Right Column: Results & Comparison -->
+            <div class="workspace-panel space-y-6">
+                <h2
+                    class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                    <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                    Compressed Result
+                </h2>
+
+                <!-- Idle State -->
+                <div id="idle-output"
+                    class="text-center py-12 px-4 rounded-2xl border border-dashed border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-950/30">
+                    <div
+                        class="w-12 h-12 mx-auto mb-3 rounded-2xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-400">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                        </svg>
+                    </div>
+                    <p class="text-sm font-semibold text-zinc-700 dark:text-zinc-300">No Image Compressed Yet</p>
+                    <p class="text-xs text-zinc-400 mt-1 max-w-xs mx-auto">Upload an image on the left and click
+                        "Compress &amp; Optimize".</p>
+                </div>
+
+                <!-- Active Output Section -->
+                <div id="output-container" class="hidden space-y-5">
+                    <!-- Image Preview Card -->
+                    <div
+                        class="p-3 bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/60 rounded-2xl text-center overflow-hidden">
+                        <img id="output-image" class="mx-auto max-h-64 rounded-xl object-contain shadow-xs"
+                            alt="Compressed Preview">
+                    </div>
+
+                    <!-- Size Comparison Bento -->
+                    <div class="grid grid-cols-3 gap-3">
+                        <div
+                            class="p-3 rounded-xl bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/60 text-center">
+                            <span class="text-[10px] uppercase font-bold text-zinc-400">Original</span>
+                            <p class="text-xs sm:text-sm font-bold text-zinc-800 dark:text-zinc-200 mt-0.5"
+                                id="stat-orig">-</p>
+                        </div>
+                        <div
+                            class="p-3 rounded-xl bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/60 text-center">
+                            <span class="text-[10px] uppercase font-bold text-zinc-400">Compressed</span>
+                            <p class="text-xs sm:text-sm font-bold text-emerald-600 dark:text-emerald-400 mt-0.5"
+                                id="compressed-size">-</p>
+                        </div>
+                        <div class="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-center">
+                            <span
+                                class="text-[10px] uppercase font-bold text-emerald-600 dark:text-emerald-400">Saved</span>
+                            <p class="text-xs sm:text-sm font-bold text-emerald-600 dark:text-emerald-400 mt-0.5"
+                                id="stat-saved">-</p>
+                        </div>
+                    </div>
+
+                    <!-- Download Action -->
+                    <a id="download-link"
+                        class="btn-accent w-full !py-3.5 text-sm font-semibold flex items-center justify-center gap-2 shadow-lg cursor-pointer">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                        <span>Download Compressed Image</span>
+                    </a>
+                </div>
+
+                <!-- Privacy Guarantee -->
+                <div
+                    class="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950/40 border border-zinc-200/60 dark:border-zinc-800 text-xs text-zinc-500 dark:text-zinc-400">
+                    <p class="font-semibold text-zinc-700 dark:text-zinc-300 mb-1">Local Browser Processing</p>
+                    <p class="text-[11px] leading-relaxed">Canvas operations run exclusively on your device's hardware.
+                        Your photos never leave your browser.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const dropzone = document.getElementById('dropzone');
+        const imageInput = document.getElementById('image-input');
+        const fileInfo = document.getElementById('file-info');
+        const thumbPreview = document.getElementById('thumb-preview');
+        const fileName = document.getElementById('file-name');
+        const originalSizeEl = document.getElementById('original-size');
+        const removeBtn = document.getElementById('remove-btn');
+        const compressRange = document.getElementById('compress-range');
+        const compressValue = document.getElementById('compress-value');
+        const outputFormat = document.getElementById('output-format');
+        const compressButton = document.getElementById('compress-button');
+        const idleOutput = document.getElementById('idle-output');
+        const outputContainer = document.getElementById('output-container');
+        const outputImage = document.getElementById('output-image');
+        const statOrig = document.getElementById('stat-orig');
+        const compressedSizeEl = document.getElementById('compressed-size');
+        const statSaved = document.getElementById('stat-saved');
+        const downloadLink = document.getElementById('download-link');
+
+        let selectedFile = null;
+        let currentObjectUrl = null;
+
+        function formatBytes(bytes, decimals = 2) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+        }
+
+        compressRange.addEventListener('input', () => {
+            compressValue.textContent = compressRange.value + '%';
+        });
+
+        dropzone.addEventListener('click', () => imageInput.click());
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.classList.add('border-sky-500');
+        });
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.classList.remove('border-sky-500');
+        });
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('border-sky-500');
+            if (e.dataTransfer.files.length > 0) {
+                handleFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        imageInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        function handleFile(file) {
+            if (!file.type.startsWith('image/')) {
+                alert('Please select a valid image file (PNG, JPG, or WebP).');
+                return;
+            }
+            selectedFile = file;
+            fileName.textContent = file.name;
+            const sizeStr = formatBytes(file.size);
+            originalSizeEl.textContent = sizeStr;
+            statOrig.textContent = sizeStr;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                thumbPreview.src = e.target.result;
+                fileInfo.classList.remove('hidden');
+                fileInfo.classList.add('flex');
+                compressButton.disabled = false;
+            };
+            reader.onerror = () => {
+                alert('Error reading file. Please try again.');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        removeBtn.addEventListener('click', () => {
+            selectedFile = null;
+            imageInput.value = '';
+            fileInfo.classList.add('hidden');
+            fileInfo.classList.remove('flex');
+            compressButton.disabled = true;
+            outputContainer.classList.add('hidden');
+            idleOutput.classList.remove('hidden');
+            if (currentObjectUrl) {
+                URL.revokeObjectURL(currentObjectUrl);
+                currentObjectUrl = null;
+            }
+        });
+
+        compressButton.addEventListener('click', () => {
+            if (!selectedFile) return;
+
+            const quality = parseInt(compressRange.value, 10) / 100;
+            const reader = new FileReader();
+
+            reader.onload = (event) => {
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+
+                    let mime = outputFormat.value;
+                    if (mime === 'auto') {
+                        mime = selectedFile.type === 'image/webp' ? 'image/webp' : 'image/jpeg';
+                    }
+
+                    const ctx = canvas.getContext('2d');
+                    if (mime === 'image/jpeg') {
+                        ctx.fillStyle = '#FFFFFF';
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    }
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                    canvas.toBlob((blob) => {
+                        if (!blob) {
+                            alert('Compression failed. Please try another image or format.');
+                            return;
+                        }
+                        if (currentObjectUrl) {
+                            URL.revokeObjectURL(currentObjectUrl);
+                        }
+                        currentObjectUrl = URL.createObjectURL(blob);
+                        outputImage.src = currentObjectUrl;
+                        compressedSizeEl.textContent = formatBytes(blob.size);
+
+                        const savedPct = Math.max(0, Math.round(((selectedFile.size - blob.size) / selectedFile.size) * 100));
+                        statSaved.textContent = `${savedPct}%`;
+
+                        const ext = mime === 'image/png' ? 'png' : mime === 'image/webp' ? 'webp' : 'jpg';
+                        const baseName = selectedFile.name.replace(/\.[^/.]+$/, '') || 'image';
+                        downloadLink.href = currentObjectUrl;
+                        downloadLink.download = `compressed-${baseName}.${ext}`;
+
+                        idleOutput.classList.add('hidden');
+                        outputContainer.classList.remove('hidden');
+                    }, mime, quality);
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(selectedFile);
+        });
+    </script>
+    <script type="module" src="/src/layout.js"></script>
+</body>
+
+</html>

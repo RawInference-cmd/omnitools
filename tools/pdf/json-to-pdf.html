@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON to PDF Converter — OmniTools</title>
+    <meta name="description" content="Convert JSON arrays and objects into structured PDF tables or formatted JSON documents directly in your browser. 100% private and client-side.">
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="stylesheet" href="/src/input.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col justify-between transition-colors">
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+        <!-- Tool Header -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20">
+                        PDF Suite
+                    </span>
+                    <span class="privacy-badge">🔒 100% Client-Side Privacy</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">JSON to PDF Converter</h1>
+                <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">Turn JSON arrays and objects into clean PDF tables or pretty-printed JSON reports directly in your browser.</p>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700">
+                    Smart Table &amp; Tree Export
+                </span>
+            </div>
+        </div>
+
+        <!-- Split 2-Column Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+            <!-- Left Column: Dropzone, JSON Editor & Options -->
+            <div class="workspace-panel space-y-6">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                        <span>{ }</span> JSON Input &amp; Settings
+                    </h2>
+                    <div class="flex items-center gap-3">
+                        <button type="button" id="sample-btn" class="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">Load Sample</button>
+                        <button type="button" id="format-btn" class="text-xs font-semibold text-zinc-600 dark:text-zinc-400 hover:underline">Format</button>
+                        <button type="button" id="clear-btn" class="text-xs font-semibold text-rose-500 hover:underline">Clear</button>
+                    </div>
+                </div>
+
+                <!-- Modern Dropzone -->
+                <div id="dropzone" class="modern-dropzone p-6 text-center cursor-pointer transition-all !min-h-[130px]">
+                    <input type="file" id="json-file-input" accept=".json,application/json" class="hidden">
+                    <div class="flex flex-col items-center justify-center space-y-2">
+                        <div class="w-11 h-11 rounded-2xl bg-rose-500/10 text-rose-600 dark:text-rose-400 flex items-center justify-center">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold text-zinc-800 dark:text-zinc-200">Click to upload or drag &amp; drop a .json file</p>
+                            <p class="text-xs text-zinc-400 mt-0.5" id="file-status">Or paste valid JSON in the editor below</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- JSON Editor -->
+                <div>
+                    <div class="flex items-center justify-between mb-1.5">
+                        <label for="json-input" class="block text-xs font-semibold text-zinc-600 dark:text-zinc-400">JSON Payload</label>
+                        <span id="json-validity" class="text-[11px] font-semibold text-zinc-400">Waiting for input</span>
+                    </div>
+                    <textarea id="json-input" rows="8" placeholder='[{"id": 1, "name": "Alice", "role": "Engineer"}]' class="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-xs font-mono text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+                </div>
+
+                <!-- Options -->
+                <div class="space-y-4">
+                    <div>
+                        <label for="doc-title" class="block text-xs font-semibold text-zinc-600 dark:text-zinc-400 mb-1.5">Document Title</label>
+                        <input type="text" id="doc-title" placeholder="JSON Data Export" class="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-sm text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div>
+                            <label for="render-mode" class="block text-xs font-semibold text-zinc-600 dark:text-zinc-400 mb-1.5">PDF Layout</label>
+                            <select id="render-mode" class="w-full px-3 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-sm text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="table" selected>Structured Table</option>
+                                <option value="pretty">Pretty JSON Text</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="orientation" class="block text-xs font-semibold text-zinc-600 dark:text-zinc-400 mb-1.5">Orientation</label>
+                            <select id="orientation" class="w-full px-3 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-sm text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="portrait" selected>Portrait</option>
+                                <option value="landscape">Landscape</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="font-size" class="block text-xs font-semibold text-zinc-600 dark:text-zinc-400 mb-1.5">Font Size</label>
+                            <select id="font-size" class="w-full px-3 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-sm text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="8">8 pt</option>
+                                <option value="9">9 pt</option>
+                                <option value="10" selected>10 pt</option>
+                                <option value="11">11 pt</option>
+                                <option value="12">12 pt</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Live Preview, Stats & Download -->
+            <div class="workspace-panel space-y-6">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                        <span>⚡</span> Live Data Preview &amp; Export
+                    </h2>
+                    <span id="preview-badge" class="text-[11px] font-medium text-zinc-400">No JSON parsed</span>
+                </div>
+
+                <!-- Statistics Grid -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div class="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200/80 dark:border-zinc-800">
+                        <span class="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider block">Rows / Keys</span>
+                        <span id="stat-items" class="text-xl font-extrabold text-zinc-900 dark:text-white font-mono">0</span>
+                    </div>
+                    <div class="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200/80 dark:border-zinc-800">
+                        <span class="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider block">Lines</span>
+                        <span id="stat-lines" class="text-xl font-extrabold text-zinc-900 dark:text-white font-mono">0</span>
+                    </div>
+                    <div class="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200/80 dark:border-zinc-800">
+                        <span class="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider block">Characters</span>
+                        <span id="stat-chars" class="text-xl font-extrabold text-zinc-900 dark:text-white font-mono">0</span>
+                    </div>
+                    <div class="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200/80 dark:border-zinc-800">
+                        <span class="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider block">Est. Pages</span>
+                        <span id="stat-pages" class="text-xl font-extrabold text-zinc-900 dark:text-white font-mono">0</span>
+                    </div>
+                </div>
+
+                <!-- Live Preview Box -->
+                <div class="rounded-2xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800 overflow-hidden">
+                    <div id="preview-empty" class="py-12 px-6 text-center text-xs text-zinc-400 italic">
+                        Upload or paste valid JSON on the left to preview the structured table or formatted output.
+                    </div>
+                    <div id="table-scroll" class="hidden max-h-[320px] overflow-auto">
+                        <table id="preview-table" class="w-full text-left border-collapse text-xs"></table>
+                    </div>
+                    <pre id="pretty-preview" class="hidden max-h-[320px] overflow-auto p-4 text-xs font-mono text-zinc-800 dark:text-zinc-200 whitespace-pre-wrap break-words"></pre>
+                </div>
+
+                <!-- Generate PDF Button -->
+                <button type="button" id="generate-btn" disabled class="btn-primary w-full !py-3.5 text-sm font-semibold opacity-50 cursor-not-allowed">
+                    <span>Generate PDF</span>
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                </button>
+
+                <!-- Output Box -->
+                <div id="output-box" class="hidden p-5 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/80 space-y-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-emerald-900 dark:text-emerald-200">PDF Ready!</h3>
+                            <p class="text-xs text-emerald-700 dark:text-emerald-400" id="output-stat-text">JSON exported to PDF.</p>
+                        </div>
+                    </div>
+                    <a id="download-btn" href="#" download="json-export.pdf" class="btn-secondary w-full !bg-emerald-600 hover:!bg-emerald-700 text-white !py-3 text-sm font-semibold text-center block">
+                        Download PDF
+                    </a>
+                </div>
+
+                <!-- Error Box -->
+                <div id="error-box" class="hidden p-4 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-xs text-rose-700 dark:text-rose-400"></div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        const { jsPDF } = window.jspdf;
+
+        const dropzone = document.getElementById('dropzone');
+        const jsonFileInput = document.getElementById('json-file-input');
+        const fileStatus = document.getElementById('file-status');
+        const jsonInput = document.getElementById('json-input');
+        const jsonValidity = document.getElementById('json-validity');
+        const docTitleInput = document.getElementById('doc-title');
+        const renderModeSelect = document.getElementById('render-mode');
+        const orientationSelect = document.getElementById('orientation');
+        const fontSizeSelect = document.getElementById('font-size');
+        const sampleBtn = document.getElementById('sample-btn');
+        const formatBtn = document.getElementById('format-btn');
+        const clearBtn = document.getElementById('clear-btn');
+
+        const statItems = document.getElementById('stat-items');
+        const statLines = document.getElementById('stat-lines');
+        const statChars = document.getElementById('stat-chars');
+        const statPages = document.getElementById('stat-pages');
+        const previewBadge = document.getElementById('preview-badge');
+        const previewEmpty = document.getElementById('preview-empty');
+        const tableScroll = document.getElementById('table-scroll');
+        const previewTable = document.getElementById('preview-table');
+        const prettyPreview = document.getElementById('pretty-preview');
+        const generateBtn = document.getElementById('generate-btn');
+        const outputBox = document.getElementById('output-box');
+        const downloadBtn = document.getElementById('download-btn');
+        const outputStatText = document.getElementById('output-stat-text');
+        const errorBox = document.getElementById('error-box');
+
+        let parsedJson = null;
+        let hasParsed = false;
+        let currentFilename = 'json-export';
+        let activeBlobUrl = null;
+
+        dropzone.addEventListener('click', () => jsonFileInput.click());
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.classList.add('border-rose-500', 'bg-rose-50/20');
+        });
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.classList.remove('border-rose-500', 'bg-rose-50/20');
+        });
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('border-rose-500', 'bg-rose-50/20');
+            if (e.dataTransfer.files.length) loadJsonFile(e.dataTransfer.files[0]);
+        });
+        jsonFileInput.addEventListener('change', () => {
+            if (jsonFileInput.files.length) loadJsonFile(jsonFileInput.files[0]);
+        });
+
+        sampleBtn.addEventListener('click', () => {
+            const sample = [
+                { id: 101, name: 'Elena Rostova', department: 'Engineering', role: 'Staff Architect', active: true },
+                { id: 102, name: 'Marcus Vance', department: 'Design', role: 'Principal UX', active: true },
+                { id: 103, name: 'Priya Nair', department: 'Platform', role: 'Security Lead', active: true },
+                { id: 104, name: 'Liam OConnor', department: 'Analytics', role: 'Data Engineer', active: false }
+            ];
+            jsonInput.value = JSON.stringify(sample, null, 2);
+            currentFilename = 'team-directory';
+            if (!docTitleInput.value.trim()) docTitleInput.value = 'Team Directory Export';
+            fileStatus.textContent = 'Sample JSON loaded';
+            processJson();
+        });
+
+        formatBtn.addEventListener('click', () => {
+            if (!jsonInput.value.trim()) return;
+            try {
+                const obj = JSON.parse(jsonInput.value);
+                jsonInput.value = JSON.stringify(obj, null, 2);
+                processJson();
+            } catch (err) {
+                showError('Cannot format invalid JSON: ' + err.message);
+            }
+        });
+
+        clearBtn.addEventListener('click', () => {
+            jsonFileInput.value = '';
+            jsonInput.value = '';
+            docTitleInput.value = '';
+            currentFilename = 'json-export';
+            fileStatus.textContent = 'Or paste valid JSON in the editor below';
+            outputBox.classList.add('hidden');
+            errorBox.classList.add('hidden');
+            processJson();
+        });
+
+        [jsonInput, renderModeSelect, orientationSelect, fontSizeSelect].forEach(el => {
+            el.addEventListener('input', processJson);
+            el.addEventListener('change', processJson);
+        });
+
+        async function loadJsonFile(file) {
+            errorBox.classList.add('hidden');
+            try {
+                const content = await file.text();
+                jsonInput.value = content;
+                currentFilename = file.name.replace(/\.[^.]+$/, '') || 'json-export';
+                fileStatus.textContent = `Loaded: ${file.name} (${formatBytes(file.size)})`;
+                if (!docTitleInput.value.trim()) docTitleInput.value = currentFilename;
+                processJson();
+            } catch (err) {
+                showError('Failed to read JSON file: ' + err.message);
+            }
+        }
+
+        function buildTableStructure(data) {
+            if (Array.isArray(data)) {
+                if (data.length === 0) return { headers: ['Status'], rows: [['Empty Array']] };
+                if (data.every(item => item !== null && typeof item === 'object' && !Array.isArray(item))) {
+                    const keySet = new Set();
+                    data.forEach(item => Object.keys(item).forEach(k => keySet.add(k)));
+                    const headers = Array.from(keySet);
+                    const rows = data.map(item => headers.map(h => formatCellValue(item[h])));
+                    return { headers, rows };
+                }
+                return {
+                    headers: ['Index', 'Value'],
+                    rows: data.map((v, i) => [String(i), formatCellValue(v)])
+                };
+            }
+            if (data !== null && typeof data === 'object') {
+                return {
+                    headers: ['Key', 'Value'],
+                    rows: Object.entries(data).map(([k, v]) => [k, formatCellValue(v)])
+                };
+            }
+            return {
+                headers: ['Value'],
+                rows: [[formatCellValue(data)]]
+            };
+        }
+
+        function formatCellValue(val) {
+            if (val === undefined) return '';
+            if (val === null) return 'null';
+            if (typeof val === 'object') return JSON.stringify(val);
+            return String(val);
+        }
+
+        function processJson() {
+            outputBox.classList.add('hidden');
+            errorBox.classList.add('hidden');
+
+            const raw = jsonInput.value.trim();
+            if (!raw) {
+                parsedJson = null;
+                hasParsed = false;
+                jsonValidity.textContent = 'Waiting for input';
+                jsonValidity.className = 'text-[11px] font-semibold text-zinc-400';
+                renderPreview();
+                return;
+            }
+
+            try {
+                parsedJson = JSON.parse(raw);
+                hasParsed = true;
+                jsonValidity.textContent = 'Valid JSON';
+                jsonValidity.className = 'text-[11px] font-semibold text-emerald-600 dark:text-emerald-400';
+            } catch (err) {
+                parsedJson = null;
+                hasParsed = false;
+                jsonValidity.textContent = 'Invalid JSON';
+                jsonValidity.className = 'text-[11px] font-semibold text-rose-500';
+                showError('JSON Parse Error: ' + err.message);
+            }
+
+            renderPreview();
+        }
+
+        function renderPreview() {
+            const raw = jsonInput.value;
+            const chars = raw.length;
+            const prettyText = hasParsed ? JSON.stringify(parsedJson, null, 2) : raw;
+            const lines = prettyText ? prettyText.split(/\r?\n/).length : 0;
+            const mode = renderModeSelect.value;
+            const fontSize = parseInt(fontSizeSelect.value, 10);
+            const orientation = orientationSelect.value;
+
+            statLines.textContent = lines;
+            statChars.textContent = chars.toLocaleString();
+
+            if (!hasParsed) {
+                statItems.textContent = '0';
+                statPages.textContent = '0';
+                tableScroll.classList.add('hidden');
+                prettyPreview.classList.add('hidden');
+                previewEmpty.classList.remove('hidden');
+                previewBadge.textContent = 'No JSON parsed';
+                generateBtn.disabled = true;
+                generateBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                return;
+            }
+
+            const tableData = buildTableStructure(parsedJson);
+            const itemCount = Array.isArray(parsedJson)
+                ? parsedJson.length
+                : (parsedJson && typeof parsedJson === 'object' ? Object.keys(parsedJson).length : 1);
+            statItems.textContent = itemCount;
+
+            const rowsPerPage = orientation === 'landscape' ? 24 : 36;
+            const estPages = mode === 'table'
+                ? Math.max(1, Math.ceil((tableData.rows.length + 1) / rowsPerPage))
+                : Math.max(1, Math.ceil(lines / Math.floor(45 * (10 / fontSize))));
+            statPages.textContent = estPages;
+
+            previewEmpty.classList.add('hidden');
+            generateBtn.disabled = false;
+            generateBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+
+            if (mode === 'table') {
+                prettyPreview.classList.add('hidden');
+                tableScroll.classList.remove('hidden');
+                renderTableDom(tableData.headers, tableData.rows.slice(0, 100));
+                previewBadge.textContent = `Table • ${tableData.rows.length} rows`;
+            } else {
+                tableScroll.classList.add('hidden');
+                prettyPreview.classList.remove('hidden');
+                prettyPreview.textContent = prettyText;
+                previewBadge.textContent = `Pretty JSON • ${lines} lines`;
+            }
+        }
+
+        function renderTableDom(headers, rows) {
+            previewTable.innerHTML = '';
+            const thead = document.createElement('thead');
+            thead.className = 'bg-zinc-100 dark:bg-zinc-900 sticky top-0 border-b border-zinc-200 dark:border-zinc-800';
+            const headTr = document.createElement('tr');
+            headers.forEach((h) => {
+                const th = document.createElement('th');
+                th.className = 'px-3 py-2 font-semibold text-zinc-700 dark:text-zinc-200 whitespace-nowrap border-r border-zinc-200/60 dark:border-zinc-800 last:border-r-0';
+                th.textContent = h;
+                headTr.appendChild(th);
+            });
+            thead.appendChild(headTr);
+            previewTable.appendChild(thead);
+
+            const tbody = document.createElement('tbody');
+            tbody.className = 'divide-y divide-zinc-200/70 dark:divide-zinc-800/70 bg-white dark:bg-zinc-950/30';
+            rows.forEach((row) => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-zinc-50 dark:hover:bg-zinc-900/50';
+                row.forEach((cell) => {
+                    const td = document.createElement('td');
+                    td.className = 'px-3 py-2 text-zinc-600 dark:text-zinc-300 whitespace-nowrap border-r border-zinc-200/40 dark:border-zinc-800/40 last:border-r-0';
+                    td.textContent = cell;
+                    tr.appendChild(td);
+                });
+                tbody.appendChild(tr);
+            });
+            previewTable.appendChild(tbody);
+        }
+
+        generateBtn.addEventListener('click', () => {
+            if (!hasParsed) return;
+            errorBox.classList.add('hidden');
+            outputBox.classList.add('hidden');
+
+            try {
+                const title = docTitleInput.value.trim() || 'JSON Data Export';
+                const mode = renderModeSelect.value;
+                const orientation = orientationSelect.value;
+                const fontSize = parseInt(fontSizeSelect.value, 10);
+
+                const doc = new jsPDF({
+                    orientation,
+                    unit: 'mm',
+                    format: 'a4'
+                });
+
+                const margin = 14;
+                const pageWidth = doc.internal.pageSize.getWidth();
+                const pageHeight = doc.internal.pageSize.getHeight();
+
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(14);
+                doc.text(title, margin, 16);
+
+                if (mode === 'table') {
+                    const tableData = buildTableStructure(parsedJson);
+                    doc.autoTable({
+                        head: [tableData.headers],
+                        body: tableData.rows,
+                        startY: 22,
+                        theme: 'striped',
+                        styles: {
+                            fontSize,
+                            cellPadding: 2.5,
+                            overflow: 'linebreak'
+                        },
+                        headStyles: {
+                            fillColor: [79, 70, 229],
+                            textColor: 255,
+                            fontStyle: 'bold'
+                        },
+                        margin: { top: 18, right: margin, bottom: 16, left: margin },
+                        didDrawPage: (data) => {
+                            doc.setFontSize(8);
+                            doc.setTextColor(150);
+                            doc.text(`Page ${data.pageNumber}`, pageWidth - margin, pageHeight - 8, { align: 'right' });
+                        }
+                    });
+                } else {
+                    doc.setFont('courier', 'normal');
+                    doc.setFontSize(fontSize);
+                    const pretty = JSON.stringify(parsedJson, null, 2);
+                    const maxWidth = pageWidth - margin * 2;
+                    const lineHeight = fontSize * 0.48;
+                    let y = 24;
+
+                    pretty.split(/\r?\n/).forEach((rawLine) => {
+                        const wrapped = doc.splitTextToSize(rawLine || ' ', maxWidth);
+                        wrapped.forEach((line) => {
+                            if (y + lineHeight > pageHeight - margin - 8) {
+                                doc.addPage();
+                                y = margin;
+                            }
+                            doc.text(line, margin, y);
+                            y += lineHeight;
+                        });
+                    });
+
+                    const totalPages = doc.getNumberOfPages();
+                    for (let p = 1; p <= totalPages; p++) {
+                        doc.setPage(p);
+                        doc.setFont('helvetica', 'normal');
+                        doc.setFontSize(8);
+                        doc.setTextColor(150);
+                        doc.text(`Page ${p} of ${totalPages}`, pageWidth - margin, pageHeight - 8, { align: 'right' });
+                    }
+                }
+
+                const blob = doc.output('blob');
+                if (activeBlobUrl) URL.revokeObjectURL(activeBlobUrl);
+                activeBlobUrl = URL.createObjectURL(blob);
+
+                downloadBtn.href = activeBlobUrl;
+                downloadBtn.download = `${currentFilename}.pdf`;
+                outputStatText.textContent = `Generated ${doc.getNumberOfPages()} page${doc.getNumberOfPages() > 1 ? 's' : ''} (${formatBytes(blob.size)}).`;
+                outputBox.classList.remove('hidden');
+            } catch (err) {
+                console.error('PDF generation error:', err);
+                showError('Failed to generate PDF: ' + err.message);
+            }
+        });
+
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function showError(msg) {
+            errorBox.textContent = msg;
+            errorBox.classList.remove('hidden');
+        }
+    </script>
+    <script type="module" src="/src/layout.js"></script>
+</body>
+</html>

@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech to PDF Converter — OmniTools</title>
+    <meta name="description" content="Dictate voice notes using your microphone and export live speech transcripts to formatted PDF documents directly in your browser.">
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="stylesheet" href="/src/input.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col justify-between transition-colors">
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+        <!-- Tool Header -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20">
+                        PDF Suite
+                    </span>
+                    <span class="privacy-badge">🔒 100% Client-Side Privacy</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">Speech to PDF Converter</h1>
+                <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">Dictate notes via Web Speech API, edit your transcript in real time, and export as a clean PDF.</p>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700">
+                    Web Speech Dictation
+                </span>
+            </div>
+        </div>
+
+        <!-- Split 2-Column Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+            <!-- Left Column: Microphone Dictation Controls & Transcript Editor -->
+            <div class="workspace-panel space-y-6">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                        <span>🎙️</span> Dictation Controls &amp; Transcript
+                    </h2>
+                    <div class="flex items-center gap-3">
+                        <button type="button" id="sample-btn" class="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">Load Sample</button>
+                        <button type="button" id="clear-btn" class="text-xs font-semibold text-rose-500 hover:underline">Clear</button>
+                    </div>
+                </div>
+
+                <!-- Microphone Panel -->
+                <div class="p-5 rounded-2xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800 space-y-4">
+                    <div class="flex flex-wrap items-center justify-between gap-3">
+                        <div class="flex items-center gap-2.5">
+                            <span id="status-dot" class="w-3 h-3 rounded-full bg-zinc-400"></span>
+                            <span id="status-label" class="text-xs font-semibold text-zinc-700 dark:text-zinc-300">Microphone Idle</span>
+                        </div>
+                        <select id="lang-select" class="px-3 py-1.5 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 text-xs font-medium text-zinc-800 dark:text-zinc-200 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option value="en-US" selected>English (US)</option>
+                            <option value="en-GB">English (UK)</option>
+                            <option value="es-ES">Spanish</option>
+                            <option value="fr-FR">French</option>
+                            <option value="de-DE">German</option>
+                            <option value="hi-IN">Hindi</option>
+                            <option value="ja-JP">Japanese</option>
+                            <option value="pt-BR">Portuguese (BR)</option>
+                            <option value="zh-CN">Chinese (Simplified)</option>
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <button type="button" id="start-btn" class="btn-primary w-full !py-2.5 text-xs font-semibold">
+                            <span>Start Recording</span>
+                        </button>
+                        <button type="button" id="stop-btn" disabled class="btn-secondary w-full !py-2.5 text-xs font-semibold opacity-50 cursor-not-allowed">
+                            <span>Stop Recording</span>
+                        </button>
+                    </div>
+
+                    <p id="interim-box" class="hidden text-xs italic text-indigo-600 dark:text-indigo-400 bg-indigo-50/70 dark:bg-indigo-950/40 px-3 py-2 rounded-lg border border-indigo-200/60 dark:border-indigo-800/60"></p>
+                    <p id="unsupported-msg" class="hidden text-[11px] text-amber-600 dark:text-amber-400">
+                        Live microphone dictation requires a browser with Web Speech API support (Chrome, Edge, or Safari). You can still type or paste a transcript below.
+                    </p>
+                </div>
+
+                <!-- Editable Transcript Textarea -->
+                <div>
+                    <div class="flex items-center justify-between mb-1.5">
+                        <label for="transcript-input" class="block text-xs font-semibold text-zinc-600 dark:text-zinc-400">Editable Transcript</label>
+                        <button type="button" id="timestamp-btn" class="text-[11px] font-semibold text-zinc-500 hover:text-indigo-600 dark:hover:text-indigo-400">+ Insert Timestamp</button>
+                    </div>
+                    <textarea id="transcript-input" rows="8" placeholder="Press 'Start Recording' to dictate speech, or type/edit your transcript directly here..." class="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-sm text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 leading-relaxed"></textarea>
+                </div>
+
+                <!-- PDF Options -->
+                <div class="space-y-4">
+                    <div>
+                        <label for="doc-title" class="block text-xs font-semibold text-zinc-600 dark:text-zinc-400 mb-1.5">Document Title</label>
+                        <input type="text" id="doc-title" value="Voice Dictation Transcript" class="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-sm text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="orientation" class="block text-xs font-semibold text-zinc-600 dark:text-zinc-400 mb-1.5">Orientation</label>
+                            <select id="orientation" class="w-full px-3 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-sm text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="portrait" selected>Portrait</option>
+                                <option value="landscape">Landscape</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="font-size" class="block text-xs font-semibold text-zinc-600 dark:text-zinc-400 mb-1.5">Font Size</label>
+                            <select id="font-size" class="w-full px-3 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-sm text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="10">10 pt</option>
+                                <option value="11">11 pt</option>
+                                <option value="12" selected>12 pt</option>
+                                <option value="14">14 pt</option>
+                                <option value="16">16 pt</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <label class="inline-flex items-center gap-2 text-xs text-zinc-600 dark:text-zinc-400 cursor-pointer">
+                        <input type="checkbox" id="include-meta" checked class="rounded border-zinc-300 dark:border-zinc-700 text-indigo-600 focus:ring-indigo-500">
+                        <span>Include recording date and language header in PDF</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Right Column: Live Transcript Preview, Stats & Download -->
+            <div class="workspace-panel space-y-6">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                        <span>⚡</span> Live Transcript Preview
+                    </h2>
+                    <span id="preview-badge" class="text-[11px] font-medium text-zinc-400">Ready</span>
+                </div>
+
+                <!-- Statistics Grid -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div class="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200/80 dark:border-zinc-800">
+                        <span class="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider block">Sentences</span>
+                        <span id="stat-sentences" class="text-xl font-extrabold text-zinc-900 dark:text-white font-mono">0</span>
+                    </div>
+                    <div class="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200/80 dark:border-zinc-800">
+                        <span class="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider block">Words</span>
+                        <span id="stat-words" class="text-xl font-extrabold text-zinc-900 dark:text-white font-mono">0</span>
+                    </div>
+                    <div class="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200/80 dark:border-zinc-800">
+                        <span class="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider block">Characters</span>
+                        <span id="stat-chars" class="text-xl font-extrabold text-zinc-900 dark:text-white font-mono">0</span>
+                    </div>
+                    <div class="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200/80 dark:border-zinc-800">
+                        <span class="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider block">Est. Pages</span>
+                        <span id="stat-pages" class="text-xl font-extrabold text-zinc-900 dark:text-white font-mono">0</span>
+                    </div>
+                </div>
+
+                <!-- Paper Preview -->
+                <div class="rounded-2xl bg-zinc-100/80 dark:bg-zinc-950/70 border border-zinc-200 dark:border-zinc-800 p-4">
+                    <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-6 min-h-[260px] max-h-[340px] overflow-y-auto shadow-xs space-y-3">
+                        <div id="preview-header" class="pb-3 border-b border-zinc-200 dark:border-zinc-800">
+                            <h3 id="preview-title" class="text-base font-bold text-zinc-900 dark:text-zinc-100">Voice Dictation Transcript</h3>
+                            <p id="preview-meta" class="text-[11px] text-zinc-400 mt-0.5"></p>
+                        </div>
+                        <p id="preview-empty" class="text-xs text-zinc-400 italic py-8 text-center">Start speaking or enter transcript text on the left to see the formatted document preview.</p>
+                        <pre id="preview-body" class="hidden whitespace-pre-wrap break-words text-zinc-800 dark:text-zinc-200 leading-relaxed font-sans text-sm"></pre>
+                    </div>
+                </div>
+
+                <!-- Generate PDF Button -->
+                <button type="button" id="generate-btn" disabled class="btn-primary w-full !py-3.5 text-sm font-semibold opacity-50 cursor-not-allowed">
+                    <span>Generate PDF</span>
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                </button>
+
+                <!-- Output Box -->
+                <div id="output-box" class="hidden p-5 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/80 space-y-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-emerald-900 dark:text-emerald-200">PDF Ready!</h3>
+                            <p class="text-xs text-emerald-700 dark:text-emerald-400" id="output-stat-text">Transcript exported to PDF.</p>
+                        </div>
+                    </div>
+                    <a id="download-btn" href="#" download="speech-transcript.pdf" class="btn-secondary w-full !bg-emerald-600 hover:!bg-emerald-700 text-white !py-3 text-sm font-semibold text-center block">
+                        Download PDF
+                    </a>
+                </div>
+
+                <!-- Error Box -->
+                <div id="error-box" class="hidden p-4 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-xs text-rose-700 dark:text-rose-400"></div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        const { jsPDF } = window.jspdf;
+
+        const startBtn = document.getElementById('start-btn');
+        const stopBtn = document.getElementById('stop-btn');
+        const langSelect = document.getElementById('lang-select');
+        const statusDot = document.getElementById('status-dot');
+        const statusLabel = document.getElementById('status-label');
+        const interimBox = document.getElementById('interim-box');
+        const unsupportedMsg = document.getElementById('unsupported-msg');
+
+        const transcriptInput = document.getElementById('transcript-input');
+        const docTitleInput = document.getElementById('doc-title');
+        const orientationSelect = document.getElementById('orientation');
+        const fontSizeSelect = document.getElementById('font-size');
+        const includeMetaCheckbox = document.getElementById('include-meta');
+        const sampleBtn = document.getElementById('sample-btn');
+        const clearBtn = document.getElementById('clear-btn');
+        const timestampBtn = document.getElementById('timestamp-btn');
+
+        const statSentences = document.getElementById('stat-sentences');
+        const statWords = document.getElementById('stat-words');
+        const statChars = document.getElementById('stat-chars');
+        const statPages = document.getElementById('stat-pages');
+        const previewBadge = document.getElementById('preview-badge');
+        const previewTitle = document.getElementById('preview-title');
+        const previewMeta = document.getElementById('preview-meta');
+        const previewEmpty = document.getElementById('preview-empty');
+        const previewBody = document.getElementById('preview-body');
+        const generateBtn = document.getElementById('generate-btn');
+        const outputBox = document.getElementById('output-box');
+        const downloadBtn = document.getElementById('download-btn');
+        const outputStatText = document.getElementById('output-stat-text');
+        const errorBox = document.getElementById('error-box');
+
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        let recognition = null;
+        let isRecording = false;
+        let activeBlobUrl = null;
+
+        if (!SpeechRecognition) {
+            unsupportedMsg.classList.remove('hidden');
+            startBtn.disabled = true;
+            startBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        }
+
+        startBtn.addEventListener('click', () => {
+            if (!SpeechRecognition || isRecording) return;
+            errorBox.classList.add('hidden');
+
+            try {
+                recognition = new SpeechRecognition();
+                recognition.continuous = true;
+                recognition.interimResults = true;
+                recognition.lang = langSelect.value;
+
+                recognition.onstart = () => {
+                    isRecording = true;
+                    statusDot.className = 'w-3 h-3 rounded-full bg-rose-500 animate-pulse';
+                    statusLabel.textContent = 'Listening... Speak into your microphone';
+                    startBtn.disabled = true;
+                    startBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                    stopBtn.disabled = false;
+                    stopBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                };
+
+                recognition.onresult = (event) => {
+                    let finalSegment = '';
+                    let interimSegment = '';
+
+                    for (let i = event.resultIndex; i < event.results.length; i++) {
+                        const result = event.results[i];
+                        if (result.isFinal) {
+                            finalSegment += result[0].transcript;
+                        } else {
+                            interimSegment += result[0].transcript;
+                        }
+                    }
+
+                    if (finalSegment) {
+                        const existing = transcriptInput.value;
+                        const spacer = existing && !existing.endsWith(' ') && !existing.endsWith('\n') ? ' ' : '';
+                        transcriptInput.value = existing + spacer + finalSegment.trim();
+                        updatePreview();
+                    }
+
+                    if (interimSegment) {
+                        interimBox.textContent = 'Hearing: ' + interimSegment;
+                        interimBox.classList.remove('hidden');
+                    } else {
+                        interimBox.classList.add('hidden');
+                    }
+                };
+
+                recognition.onerror = (event) => {
+                    showError('Speech recognition error: ' + event.error);
+                    stopRecordingUi();
+                };
+
+                recognition.onend = () => {
+                    stopRecordingUi();
+                };
+
+                recognition.start();
+            } catch (err) {
+                showError('Could not start microphone: ' + err.message);
+                stopRecordingUi();
+            }
+        });
+
+        stopBtn.addEventListener('click', () => {
+            if (recognition && isRecording) {
+                recognition.stop();
+            }
+            stopRecordingUi();
+        });
+
+        function stopRecordingUi() {
+            isRecording = false;
+            statusDot.className = 'w-3 h-3 rounded-full bg-zinc-400';
+            statusLabel.textContent = 'Microphone Idle';
+            interimBox.classList.add('hidden');
+            if (SpeechRecognition) {
+                startBtn.disabled = false;
+                startBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+            stopBtn.disabled = true;
+            stopBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        }
+
+        timestampBtn.addEventListener('click', () => {
+            const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            const prefix = transcriptInput.value && !transcriptInput.value.endsWith('\n') ? '\n' : '';
+            transcriptInput.value += `${prefix}[${now}] `;
+            transcriptInput.focus();
+            updatePreview();
+        });
+
+        sampleBtn.addEventListener('click', () => {
+            transcriptInput.value = [
+                '[09:30:00] Welcome everyone to the weekly product sync. Today we are reviewing the client-side PDF toolkit.',
+                '',
+                '[09:30:45] First item: all seven document converters now run completely in browser memory with zero backend uploads.',
+                '',
+                '[09:31:20] Action items for Friday: verify multi-page pagination, finalize dark mode polish, and publish the release notes.'
+            ].join('\n');
+            updatePreview();
+        });
+
+        clearBtn.addEventListener('click', () => {
+            transcriptInput.value = '';
+            outputBox.classList.add('hidden');
+            errorBox.classList.add('hidden');
+            updatePreview();
+        });
+
+        [transcriptInput, docTitleInput, orientationSelect, fontSizeSelect, langSelect, includeMetaCheckbox].forEach(el => {
+            el.addEventListener('input', updatePreview);
+            el.addEventListener('change', updatePreview);
+        });
+
+        function updatePreview() {
+            outputBox.classList.add('hidden');
+            errorBox.classList.add('hidden');
+
+            const text = transcriptInput.value;
+            const trimmed = text.trim();
+            const title = docTitleInput.value.trim() || 'Voice Dictation Transcript';
+            const fontSize = parseInt(fontSizeSelect.value, 10);
+            const orientation = orientationSelect.value;
+
+            const words = trimmed ? trimmed.split(/\s+/).length : 0;
+            const chars = text.length;
+            const sentences = trimmed ? trimmed.split(/[.!?]+/).filter(s => s.trim().length > 0).length : 0;
+            const charsPerPage = orientation === 'landscape'
+                ? Math.floor(2500 * (12 / fontSize))
+                : Math.floor(2100 * (12 / fontSize));
+            const estPages = trimmed ? Math.max(1, Math.ceil(chars / charsPerPage)) : 0;
+
+            statSentences.textContent = sentences;
+            statWords.textContent = words;
+            statChars.textContent = chars.toLocaleString();
+            statPages.textContent = estPages;
+
+            previewTitle.textContent = title;
+            if (includeMetaCheckbox.checked) {
+                const langText = langSelect.options[langSelect.selectedIndex].text;
+                previewMeta.textContent = `${new Date().toLocaleDateString()} • Language: ${langText}`;
+                previewMeta.classList.remove('hidden');
+            } else {
+                previewMeta.classList.add('hidden');
+            }
+
+            if (!trimmed) {
+                previewBody.classList.add('hidden');
+                previewEmpty.classList.remove('hidden');
+                previewBadge.textContent = 'Empty';
+                generateBtn.disabled = true;
+                generateBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            } else {
+                previewEmpty.classList.add('hidden');
+                previewBody.classList.remove('hidden');
+                previewBody.textContent = text;
+                previewBadge.textContent = `${words} words`;
+                generateBtn.disabled = false;
+                generateBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+        }
+
+        generateBtn.addEventListener('click', () => {
+            const text = transcriptInput.value.trim();
+            if (!text) return;
+            errorBox.classList.add('hidden');
+            outputBox.classList.add('hidden');
+
+            try {
+                const title = docTitleInput.value.trim() || 'Voice Dictation Transcript';
+                const orientation = orientationSelect.value;
+                const fontSize = parseInt(fontSizeSelect.value, 10);
+                const includeMeta = includeMetaCheckbox.checked;
+                const langText = langSelect.options[langSelect.selectedIndex].text;
+
+                const doc = new jsPDF({
+                    orientation,
+                    unit: 'mm',
+                    format: 'a4'
+                });
+
+                const margin = 16;
+                const pageWidth = doc.internal.pageSize.getWidth();
+                const pageHeight = doc.internal.pageSize.getHeight();
+                const maxWidth = pageWidth - margin * 2;
+                let y = margin;
+
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(fontSize + 5);
+                const titleLines = doc.splitTextToSize(title, maxWidth);
+                doc.text(titleLines, margin, y);
+                y += titleLines.length * ((fontSize + 5) * 0.45) + 2;
+
+                if (includeMeta) {
+                    doc.setFont('helvetica', 'normal');
+                    doc.setFontSize(9);
+                    doc.setTextColor(113, 113, 122);
+                    doc.text(`Recorded: ${new Date().toLocaleString()} • Language: ${langText}`, margin, y);
+                    y += 4;
+                    doc.setTextColor(24, 24, 27);
+                }
+
+                doc.setDrawColor(212, 212, 216);
+                doc.line(margin, y, pageWidth - margin, y);
+                y += 7;
+
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(fontSize);
+                const lineHeight = fontSize * 0.48;
+
+                transcriptInput.value.split(/\r?\n/).forEach(para => {
+                    if (!para.trim()) {
+                        y += lineHeight * 0.8;
+                        if (y > pageHeight - margin - 8) {
+                            doc.addPage();
+                            y = margin;
+                        }
+                        return;
+                    }
+                    const wrapped = doc.splitTextToSize(para, maxWidth);
+                    wrapped.forEach(line => {
+                        if (y + lineHeight > pageHeight - margin - 8) {
+                            doc.addPage();
+                            y = margin;
+                        }
+                        doc.text(line, margin, y);
+                        y += lineHeight;
+                    });
+                });
+
+                const totalPages = doc.getNumberOfPages();
+                for (let p = 1; p <= totalPages; p++) {
+                    doc.setPage(p);
+                    doc.setFont('helvetica', 'normal');
+                    doc.setFontSize(8);
+                    doc.setTextColor(150);
+                    doc.text(`Page ${p} of ${totalPages}`, pageWidth - margin, pageHeight - 8, { align: 'right' });
+                }
+
+                const blob = doc.output('blob');
+                if (activeBlobUrl) URL.revokeObjectURL(activeBlobUrl);
+                activeBlobUrl = URL.createObjectURL(blob);
+
+                downloadBtn.href = activeBlobUrl;
+                downloadBtn.download = 'speech-transcript.pdf';
+                outputStatText.textContent = `Generated ${totalPages} page${totalPages > 1 ? 's' : ''} (${formatBytes(blob.size)}).`;
+                outputBox.classList.remove('hidden');
+            } catch (err) {
+                console.error('PDF generation error:', err);
+                showError('Failed to generate PDF: ' + err.message);
+            }
+        });
+
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function showError(msg) {
+            errorBox.textContent = msg;
+            errorBox.classList.remove('hidden');
+        }
+
+        updatePreview();
+    </script>
+    <script type="module" src="/src/layout.js"></script>
+</body>
+</html>

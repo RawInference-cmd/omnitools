@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Tag & Embed Generator — OmniTools</title>
+    <meta name="description" content="Generate optimized YouTube SEO tags and custom responsive iframe embed codes with start time, mute, and player parameters. 100% free.">
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="stylesheet" href="/src/input.css">
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col justify-between transition-colors">
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+        <!-- Tool Header -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20">
+                        YouTube Utilities
+                    </span>
+                    <span class="privacy-badge">🔒 100% Client-Side Privacy</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">YouTube Tag & Embed Generator</h1>
+                <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">Generate high-ranking SEO tags, hashtags, and responsive iframe embed snippets.</p>
+            </div>
+        </div>
+
+        <!-- Split 2-Column Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            
+            <!-- Left Column: Parameters & Settings -->
+            <div class="workspace-panel space-y-5">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                    <span>🎬</span> Video Details & Embed Setup
+                </h2>
+
+                <div class="space-y-4">
+                    <div>
+                        <label for="video-url" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">YouTube Video URL</label>
+                        <input type="text" id="video-url" value="https://www.youtube.com/watch?v=dQw4w9WgXcQ" placeholder="https://www.youtube.com/watch?v=..." class="w-full px-4 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-sm focus:ring-2 focus:ring-rose-500 focus:outline-none">
+                    </div>
+
+                    <div>
+                        <label for="topic-keyword" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Target Topic or Keywords (for SEO Tags)</label>
+                        <input type="text" id="topic-keyword" value="web development, productivity tools, coding" placeholder="e.g. guitar lesson, gaming review" class="w-full px-4 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-sm focus:ring-2 focus:ring-rose-500 focus:outline-none">
+                    </div>
+
+                    <!-- Embed Parameters -->
+                    <div class="pt-2 border-t border-zinc-200 dark:border-zinc-800 space-y-2.5">
+                        <span class="block text-xs font-bold uppercase tracking-wider text-zinc-500">Iframe Player Attributes</span>
+                        <div class="grid grid-cols-2 gap-2 text-xs">
+                            <label class="flex items-center gap-2 p-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/40 cursor-pointer">
+                                <input type="checkbox" id="embed-autoplay" class="rounded border-zinc-300 text-rose-600 focus:ring-rose-500">
+                                <span class="font-medium text-zinc-700 dark:text-zinc-300">Autoplay Video</span>
+                            </label>
+                            <label class="flex items-center gap-2 p-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/40 cursor-pointer">
+                                <input type="checkbox" id="embed-mute" class="rounded border-zinc-300 text-rose-600 focus:ring-rose-500">
+                                <span class="font-medium text-zinc-700 dark:text-zinc-300">Mute Audio</span>
+                            </label>
+                            <label class="flex items-center gap-2 p-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/40 cursor-pointer">
+                                <input type="checkbox" id="embed-loop" class="rounded border-zinc-300 text-rose-600 focus:ring-rose-500">
+                                <span class="font-medium text-zinc-700 dark:text-zinc-300">Loop Playback</span>
+                            </label>
+                            <label class="flex items-center gap-2 p-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/40 cursor-pointer">
+                                <input type="checkbox" id="embed-controls" checked class="rounded border-zinc-300 text-rose-600 focus:ring-rose-500">
+                                <span class="font-medium text-zinc-700 dark:text-zinc-300">Show Controls</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950/40 border border-zinc-200/60 dark:border-zinc-800 text-xs text-zinc-500 dark:text-zinc-400">
+                    <p class="font-semibold text-zinc-700 dark:text-zinc-300 mb-1">🏷️ YouTube Tag Limit</p>
+                    <p class="text-[11px] leading-relaxed">YouTube Studio permits up to 500 characters of comma-separated video tags. Mix broad category terms with exact long-tail phrases.</p>
+                </div>
+            </div>
+
+            <!-- Right Column: Generated Code & Tags -->
+            <div class="workspace-panel space-y-6">
+                <!-- Tags Section -->
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Generated SEO Tags</span>
+                        <button type="button" id="copy-tags-btn" class="text-xs text-rose-600 dark:text-rose-400 hover:underline font-semibold">Copy Tags</button>
+                    </div>
+                    <div class="p-3.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-xs font-mono text-zinc-800 dark:text-zinc-200 leading-relaxed" id="tags-output">
+                        web development, productivity tools, coding, software, tech, modern tools, online utilities, omnitools
+                    </div>
+                </div>
+
+                <!-- Iframe Embed Code -->
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Responsive Embed Iframe</span>
+                        <button type="button" id="copy-iframe-btn" class="text-xs text-rose-600 dark:text-rose-400 hover:underline font-semibold">Copy Iframe</button>
+                    </div>
+                    <pre class="p-3.5 rounded-xl bg-zinc-900 text-zinc-200 font-mono text-xs overflow-x-auto border border-zinc-800"><code id="iframe-code"></code></pre>
+                </div>
+
+                <!-- Live Embed Preview Frame -->
+                <div class="space-y-2">
+                    <span class="text-xs font-bold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">Live Player Preview</span>
+                    <div class="aspect-video rounded-xl overflow-hidden bg-black shadow-md" id="preview-wrapper">
+                        <!-- Dynamic iframe -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="/src/layout.js"></script>
+    <script>
+        const videoUrl = document.getElementById('video-url');
+        const topicKeyword = document.getElementById('topic-keyword');
+        const embedAutoplay = document.getElementById('embed-autoplay');
+        const embedMute = document.getElementById('embed-mute');
+        const embedLoop = document.getElementById('embed-loop');
+        const embedControls = document.getElementById('embed-controls');
+
+        const tagsOutput = document.getElementById('tags-output');
+        const copyTagsBtn = document.getElementById('copy-tags-btn');
+        const iframeCode = document.getElementById('iframe-code');
+        const copyIframeBtn = document.getElementById('copy-iframe-btn');
+        const previewWrapper = document.getElementById('preview-wrapper');
+
+        function extractVideoId(url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|shorts\/)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : 'dQw4w9WgXcQ';
+        }
+
+        function updateAll() {
+            const id = extractVideoId(videoUrl.value.trim());
+
+            // Build Embed Params
+            const params = [];
+            if (embedAutoplay.checked) params.push('autoplay=1');
+            if (embedMute.checked) params.push('mute=1');
+            if (embedLoop.checked) params.push(`loop=1&playlist=${id}`);
+            if (!embedControls.checked) params.push('controls=0');
+
+            const query = params.length > 0 ? '?' + params.join('&') : '';
+            const embedSrc = `https://www.youtube.com/embed/${id}${query}`;
+
+            const html = `<iframe class="w-full h-full" src="${embedSrc}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+
+            iframeCode.textContent = html;
+            previewWrapper.innerHTML = html;
+
+            // Generate Tags
+            const rawTopic = topicKeyword.value.trim();
+            const terms = rawTopic ? rawTopic.split(/[,+]/).map(t => t.trim()).filter(Boolean) : ["youtube", "video"];
+            const expanded = [...terms];
+
+            terms.forEach(t => {
+                expanded.push(`${t} tutorial`);
+                expanded.push(`${t} guide`);
+                expanded.push(`how to ${t}`);
+            });
+            expanded.push("viral video", "shorts", "trending");
+
+            tagsOutput.textContent = [...new Set(expanded)].slice(0, 15).join(', ');
+        }
+
+        [videoUrl, topicKeyword, embedAutoplay, embedMute, embedLoop, embedControls].forEach(el => {
+            el.addEventListener('input', updateAll);
+            el.addEventListener('change', updateAll);
+        });
+
+        copyTagsBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(tagsOutput.textContent.trim()).then(() => {
+                copyTagsBtn.textContent = "Copied Tags!";
+                setTimeout(() => { copyTagsBtn.textContent = "Copy Tags"; }, 2000);
+            });
+        });
+
+        copyIframeBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(iframeCode.textContent.trim()).then(() => {
+                copyIframeBtn.textContent = "Copied Iframe!";
+                setTimeout(() => { copyIframeBtn.textContent = "Copy Iframe"; }, 2000);
+            });
+        });
+
+        // Initialize
+        updateAll();
+    </script>
+</body>
+</html>

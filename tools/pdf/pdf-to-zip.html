@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF to ZIP Converter — OmniTools</title>
+    <meta name="description" content="Package PDF files or split PDF pages into compressed ZIP archives directly in your browser. 100% private and client-side.">
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="stylesheet" href="/src/input.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col justify-between transition-colors">
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+        <!-- Tool Header -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20">
+                        PDF Suite
+                    </span>
+                    <span class="privacy-badge">🔒 100% Client-Side Privacy</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">PDF to ZIP Converter</h1>
+                <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">Compress one or multiple PDFs—or split every page into individual PDFs—inside a downloadable ZIP archive.</p>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700">
+                    JSZip DEFLATE Compression
+                </span>
+            </div>
+        </div>
+
+        <!-- Split 2-Column Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+            <!-- Left Column: Upload Queue & Compression Options -->
+            <div class="workspace-panel space-y-6">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                    <span>🗜️</span> Select PDFs &amp; Archive Settings
+                </h2>
+
+                <!-- Modern Dropzone -->
+                <div id="dropzone" class="modern-dropzone p-8 text-center cursor-pointer transition-all">
+                    <input type="file" id="pdf-input" accept="application/pdf,.pdf" multiple class="hidden">
+                    <div class="flex flex-col items-center justify-center space-y-3">
+                        <div class="w-14 h-14 rounded-2xl bg-rose-500/10 text-rose-600 dark:text-rose-400 flex items-center justify-center">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold text-zinc-800 dark:text-zinc-200">Click to upload or drag & drop PDFs</p>
+                            <p class="text-xs text-zinc-400 mt-1">Upload one or more PDF files to package into a ZIP</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- File Queue List -->
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between text-xs font-semibold text-zinc-600 dark:text-zinc-400">
+                        <span>Queued PDFs (<span id="file-count">0</span>)</span>
+                        <button type="button" id="clear-all-btn" class="text-rose-500 hover:underline hidden">Clear All</button>
+                    </div>
+                    <div id="file-list" class="space-y-2 max-h-48 overflow-y-auto pr-1">
+                        <p id="empty-list-msg" class="text-xs text-zinc-400 py-4 text-center italic">No PDF files uploaded yet.</p>
+                    </div>
+                </div>
+
+                <!-- Archive Options -->
+                <div class="space-y-4 p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-950/40 border border-zinc-200/60 dark:border-zinc-800">
+                    <p class="text-xs font-bold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">ZIP Archive Settings</p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="archive-mode" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Packaging Mode</label>
+                            <select id="archive-mode" class="w-full px-3 py-2 rounded-xl text-xs bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 text-zinc-800 dark:text-zinc-200 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="bundle">Bundle Uploaded PDFs</option>
+                                <option value="split-pages">Split Into Individual Page PDFs</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="compression-level" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Compression Level</label>
+                            <select id="compression-level" class="w-full px-3 py-2 rounded-xl text-xs bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 text-zinc-800 dark:text-zinc-200 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="6" selected>Level 6 — Balanced (Default)</option>
+                                <option value="9">Level 9 — Maximum Compression</option>
+                                <option value="1">Level 1 — Fast Compression</option>
+                                <option value="0">Store Only (No Compression)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="zip-filename" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Archive Filename</label>
+                        <input type="text" id="zip-filename" value="omnitools-pdfs" placeholder="omnitools-pdfs" class="w-full px-3 py-2 rounded-xl text-xs bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 text-zinc-800 dark:text-zinc-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono">
+                    </div>
+                </div>
+
+                <!-- Convert Action Button -->
+                <button type="button" id="convert-btn" disabled class="btn-primary w-full !py-3.5 text-sm font-semibold opacity-50 cursor-not-allowed">
+                    <span>Create ZIP Archive</span>
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                </button>
+
+                <!-- Error Display -->
+                <div id="error-box" class="hidden p-4 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-xs text-rose-700 dark:text-rose-400"></div>
+            </div>
+
+            <!-- Right Column: Manifest Preview & Download -->
+            <div class="workspace-panel space-y-6">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                    <span>⚡</span> Archive Manifest &amp; Download
+                </h2>
+
+                <!-- Stats -->
+                <div class="p-5 rounded-2xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800">
+                    <div class="grid grid-cols-3 gap-3">
+                        <div class="p-3 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200/70 dark:border-zinc-800">
+                            <span class="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider block mb-1">Entries</span>
+                            <span id="stat-entries" class="text-xl font-extrabold text-zinc-900 dark:text-white font-mono">0</span>
+                        </div>
+                        <div class="p-3 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200/70 dark:border-zinc-800">
+                            <span class="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider block mb-1">Source Pages</span>
+                            <span id="stat-pages" class="text-xl font-extrabold text-zinc-900 dark:text-white font-mono">0</span>
+                        </div>
+                        <div class="p-3 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200/70 dark:border-zinc-800">
+                            <span class="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider block mb-1">ZIP Size</span>
+                            <span id="stat-zip-size" class="text-xl font-extrabold text-zinc-900 dark:text-white font-mono">0 KB</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Manifest Preview Box -->
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-semibold text-zinc-600 dark:text-zinc-400">Archive Manifest Preview</span>
+                        <button type="button" id="copy-btn" disabled class="btn-secondary !py-1.5 !px-3 text-xs opacity-50 cursor-not-allowed">
+                            <span>Copy Manifest</span>
+                        </button>
+                    </div>
+                    <pre id="manifest-preview" class="result-box h-64 overflow-auto whitespace-pre text-xs leading-relaxed text-zinc-600 dark:text-zinc-300">Add one or more PDF files and click Create ZIP Archive to inspect archive contents.</pre>
+                </div>
+
+                <!-- Download Box -->
+                <div id="output-box" class="hidden p-5 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/80 space-y-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-emerald-900 dark:text-emerald-200">ZIP Archive Ready!</h3>
+                            <p class="text-xs text-emerald-700 dark:text-emerald-400" id="output-stat-text">Archive compressed successfully.</p>
+                        </div>
+                    </div>
+                    <a id="download-btn" href="#" download="omnitools-pdfs.zip" class="btn-accent w-full !py-3 text-sm font-semibold text-center block">
+                        Download ZIP (.zip)
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        const dropzone = document.getElementById('dropzone');
+        const pdfInput = document.getElementById('pdf-input');
+        const fileList = document.getElementById('file-list');
+        const emptyListMsg = document.getElementById('empty-list-msg');
+        const fileCountEl = document.getElementById('file-count');
+        const clearAllBtn = document.getElementById('clear-all-btn');
+        const archiveModeEl = document.getElementById('archive-mode');
+        const compressionLevelEl = document.getElementById('compression-level');
+        const zipFilenameEl = document.getElementById('zip-filename');
+        const convertBtn = document.getElementById('convert-btn');
+        const errorBox = document.getElementById('error-box');
+
+        const statEntries = document.getElementById('stat-entries');
+        const statPages = document.getElementById('stat-pages');
+        const statZipSize = document.getElementById('stat-zip-size');
+        const copyBtn = document.getElementById('copy-btn');
+        const manifestPreview = document.getElementById('manifest-preview');
+        const outputBox = document.getElementById('output-box');
+        const outputStatText = document.getElementById('output-stat-text');
+        const downloadBtn = document.getElementById('download-btn');
+
+        let queuedFiles = []; // { name, size, pageCount, arrayBuffer }
+        let manifestText = '';
+        let currentBlobUrl = null;
+
+        dropzone.addEventListener('click', () => pdfInput.click());
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.classList.add('border-rose-500', 'bg-rose-50/20');
+        });
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.classList.remove('border-rose-500', 'bg-rose-50/20');
+        });
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('border-rose-500', 'bg-rose-50/20');
+            if (e.dataTransfer.files.length) handleFiles(e.dataTransfer.files);
+        });
+        pdfInput.addEventListener('change', () => {
+            if (pdfInput.files.length) handleFiles(pdfInput.files);
+        });
+
+        clearAllBtn.addEventListener('click', () => {
+            queuedFiles = [];
+            renderQueue();
+        });
+
+        async function handleFiles(files) {
+            errorBox.classList.add('hidden');
+            for (const file of Array.from(files)) {
+                if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) continue;
+                try {
+                    const arrayBuffer = await file.arrayBuffer();
+                    const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer, { ignoreEncryption: true });
+                    queuedFiles.push({
+                        name: file.name,
+                        size: file.size,
+                        pageCount: pdfDoc.getPageCount(),
+                        arrayBuffer
+                    });
+                } catch (err) {
+                    console.error('Error loading PDF:', err);
+                    showError(`Could not read "${file.name}". It may be corrupted or encrypted.`);
+                }
+            }
+            renderQueue();
+            pdfInput.value = '';
+        }
+
+        function renderQueue() {
+            outputBox.classList.add('hidden');
+            fileList.innerHTML = '';
+
+            if (queuedFiles.length === 0) {
+                fileList.appendChild(emptyListMsg);
+                emptyListMsg.classList.remove('hidden');
+                clearAllBtn.classList.add('hidden');
+                convertBtn.disabled = true;
+                convertBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                fileCountEl.textContent = '0';
+                statPages.textContent = '0';
+                statEntries.textContent = '0';
+                statZipSize.textContent = '0 KB';
+                manifestText = '';
+                copyBtn.disabled = true;
+                copyBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                manifestPreview.textContent = 'Add one or more PDF files and click Create ZIP Archive to inspect archive contents.';
+                return;
+            }
+
+            emptyListMsg.classList.add('hidden');
+            clearAllBtn.classList.remove('hidden');
+
+            let totalPages = 0;
+            queuedFiles.forEach((item, index) => {
+                totalPages += item.pageCount;
+                const row = document.createElement('div');
+                row.className = 'flex items-center justify-between p-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200/80 dark:border-zinc-700/60 text-xs';
+
+                const left = document.createElement('div');
+                left.className = 'flex items-center gap-3 min-w-0 flex-1';
+
+                const badge = document.createElement('span');
+                badge.className = 'w-6 h-6 rounded-lg bg-rose-500/10 text-rose-600 dark:text-rose-400 flex items-center justify-center font-bold text-[11px] flex-shrink-0';
+                badge.textContent = String(index + 1);
+
+                const info = document.createElement('div');
+                info.className = 'min-w-0 flex-1';
+                const titleP = document.createElement('p');
+                titleP.className = 'font-semibold text-zinc-900 dark:text-zinc-100 truncate';
+                titleP.textContent = item.name;
+                const metaP = document.createElement('p');
+                metaP.className = 'text-[10px] text-zinc-400 mt-0.5';
+                metaP.textContent = `${formatBytes(item.size)} • ${item.pageCount} page${item.pageCount !== 1 ? 's' : ''}`;
+                info.appendChild(titleP);
+                info.appendChild(metaP);
+
+                left.appendChild(badge);
+                left.appendChild(info);
+
+                const removeBtn = document.createElement('button');
+                removeBtn.type = 'button';
+                removeBtn.className = 'p-1.5 rounded-lg hover:bg-rose-100 dark:hover:bg-rose-950 text-rose-500 transition-colors ml-3';
+                removeBtn.title = 'Remove';
+                removeBtn.textContent = '✕';
+                removeBtn.addEventListener('click', () => {
+                    queuedFiles.splice(index, 1);
+                    renderQueue();
+                });
+
+                row.appendChild(left);
+                row.appendChild(removeBtn);
+                fileList.appendChild(row);
+            });
+
+            fileCountEl.textContent = queuedFiles.length;
+            statPages.textContent = totalPages;
+            convertBtn.disabled = false;
+            convertBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+
+        convertBtn.addEventListener('click', async () => {
+            if (!queuedFiles.length) return;
+            errorBox.classList.add('hidden');
+            outputBox.classList.add('hidden');
+            convertBtn.disabled = true;
+            convertBtn.innerHTML = '<span>Compressing ZIP...</span>';
+
+            try {
+                const mode = archiveModeEl.value;
+                const level = parseInt(compressionLevelEl.value, 10);
+                const rawName = (zipFilenameEl.value || 'omnitools-pdfs').trim().replace(/\.zip$/i, '');
+                const archiveName = (rawName || 'omnitools-pdfs') + '.zip';
+
+                const zip = new JSZip();
+                const manifestLines = [];
+                let totalSourceBytes = 0;
+                let entryCount = 0;
+
+                if (mode === 'bundle') {
+                    const usedNames = new Map();
+                    for (const item of queuedFiles) {
+                        let entryName = item.name;
+                        const count = usedNames.get(entryName) || 0;
+                        usedNames.set(entryName, count + 1);
+                        if (count > 0) {
+                            entryName = entryName.replace(/(\.pdf)$/i, `-${count + 1}$1`);
+                        }
+                        zip.file(entryName, item.arrayBuffer);
+                        totalSourceBytes += item.size;
+                        entryCount++;
+                        manifestLines.push(`${String(entryCount).padStart(3, '0')}  ${entryName}  (${formatBytes(item.size)}, ${item.pageCount}p)`);
+                    }
+                } else {
+                    for (const item of queuedFiles) {
+                        const baseName = item.name.replace(/\.pdf$/i, '');
+                        const srcDoc = await PDFLib.PDFDocument.load(item.arrayBuffer, { ignoreEncryption: true });
+                        const pageCount = srcDoc.getPageCount();
+                        const folderPrefix = queuedFiles.length > 1 ? `${baseName}/` : '';
+
+                        for (let i = 0; i < pageCount; i++) {
+                            const singleDoc = await PDFLib.PDFDocument.create();
+                            const [copiedPage] = await singleDoc.copyPages(srcDoc, [i]);
+                            singleDoc.addPage(copiedPage);
+                            const bytes = await singleDoc.save();
+                            const entryName = `${folderPrefix}${baseName}_page_${String(i + 1).padStart(3, '0')}.pdf`;
+                            zip.file(entryName, bytes);
+                            totalSourceBytes += bytes.byteLength;
+                            entryCount++;
+                            manifestLines.push(`${String(entryCount).padStart(3, '0')}  ${entryName}  (${formatBytes(bytes.byteLength)})`);
+                        }
+                    }
+                }
+
+                const zipOptions = {
+                    type: 'blob',
+                    compression: level === 0 ? 'STORE' : 'DEFLATE',
+                    compressionOptions: level === 0 ? undefined : { level }
+                };
+
+                const zipBlob = await zip.generateAsync(zipOptions);
+                const savingsPct = totalSourceBytes > 0
+                    ? Math.max(0, Math.round((1 - zipBlob.size / totalSourceBytes) * 100))
+                    : 0;
+
+                manifestText = [
+                    `Archive: ${archiveName}`,
+                    `Mode: ${mode === 'bundle' ? 'Bundle Uploaded PDFs' : 'Split Individual Page PDFs'}`,
+                    `Compression: ${level === 0 ? 'STORE (0)' : 'DEFLATE (Level ' + level + ')'}`,
+                    `Entries: ${entryCount}`,
+                    `Uncompressed: ${formatBytes(totalSourceBytes)} -> ZIP: ${formatBytes(zipBlob.size)} (${savingsPct}% smaller)`,
+                    '------------------------------------------------------------',
+                    ...manifestLines
+                ].join('\n');
+
+                manifestPreview.textContent = manifestText;
+                statEntries.textContent = entryCount;
+                statZipSize.textContent = formatBytes(zipBlob.size);
+
+                copyBtn.disabled = false;
+                copyBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+
+                if (currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);
+                currentBlobUrl = URL.createObjectURL(zipBlob);
+                downloadBtn.href = currentBlobUrl;
+                downloadBtn.download = archiveName;
+
+                outputStatText.textContent = `Packaged ${entryCount} PDF file${entryCount !== 1 ? 's' : ''} into ${archiveName} (${formatBytes(zipBlob.size)}).`;
+                outputBox.classList.remove('hidden');
+            } catch (err) {
+                console.error('ZIP creation error:', err);
+                showError('Failed to build ZIP archive: ' + err.message);
+            } finally {
+                convertBtn.disabled = false;
+                convertBtn.innerHTML = '<span>Create ZIP Archive</span><svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>';
+            }
+        });
+
+        copyBtn.addEventListener('click', async () => {
+            if (!manifestText) return;
+            await navigator.clipboard.writeText(manifestText);
+            const original = copyBtn.innerHTML;
+            copyBtn.innerHTML = '<span>Copied!</span>';
+            setTimeout(() => { copyBtn.innerHTML = original; }, 1500);
+        });
+
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function showError(msg) {
+            errorBox.textContent = msg;
+            errorBox.classList.remove('hidden');
+        }
+    </script>
+    <script type="module" src="/src/layout.js"></script>
+</body>
+</html>

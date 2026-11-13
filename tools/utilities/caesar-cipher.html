@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caesar & ROT13 Cipher — OmniTools</title>
+    <meta name="description" content="Encrypt and decrypt secret messages using the classical Caesar shift cipher and ROT13. 100% free and client-side.">
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="stylesheet" href="/src/input.css">
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col justify-between transition-colors">
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+        <!-- Tool Header -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
+                        Utilities
+                    </span>
+                    <span class="privacy-badge">🔒 100% Client-Side Privacy</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">Caesar & ROT13 Cipher</h1>
+                <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">Encode and decode classical monoalphabetic substitution ciphers with live key rotation.</p>
+            </div>
+        </div>
+
+        <!-- Split 2-Column Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            
+            <!-- Left Column: Source Message & Shift Key -->
+            <div class="workspace-panel space-y-5">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                        <span>🔐</span> Message & Key
+                    </h2>
+                    <!-- Quick Presets -->
+                    <div class="flex items-center gap-1.5">
+                        <button type="button" id="btn-rot13" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-amber-500/10 text-amber-600 border border-amber-500/20">ROT13</button>
+                        <button type="button" id="btn-caesar" class="px-2.5 py-1 rounded-lg text-xs font-semibold border border-zinc-200 dark:border-zinc-700 hover:border-amber-500">Caesar (+3)</button>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <!-- Shift Mode -->
+                    <div class="grid grid-cols-2 gap-2 p-1 bg-zinc-100 dark:bg-zinc-800/80 rounded-xl text-xs font-semibold">
+                        <button type="button" id="mode-encode" class="py-2.5 rounded-lg bg-white dark:bg-zinc-700 text-zinc-900 dark:text-white shadow-xs transition-all text-center">
+                            Encrypt (Shift Forward)
+                        </button>
+                        <button type="button" id="mode-decode" class="py-2.5 rounded-lg text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-all text-center">
+                            Decrypt (Shift Backward)
+                        </button>
+                    </div>
+
+                    <!-- Shift Slider -->
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <label for="shift-slider" class="text-xs font-semibold text-zinc-700 dark:text-zinc-300">Alphabet Shift Key</label>
+                            <span id="shift-label" class="text-xs font-mono font-bold text-amber-600">Shift: +3</span>
+                        </div>
+                        <input type="range" id="shift-slider" min="1" max="25" value="3" class="w-full accent-amber-500">
+                    </div>
+
+                    <!-- Text input -->
+                    <div>
+                        <label for="inputText" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Original Message</label>
+                        <textarea id="inputText" rows="6" placeholder="Type plain text to encrypt, or secret ciphertext to decrypt..." class="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none transition-all leading-relaxed"></textarea>
+                    </div>
+                </div>
+
+                <div class="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950/40 border border-zinc-200/60 dark:border-zinc-800 text-xs text-zinc-500 dark:text-zinc-400">
+                    <p class="font-semibold text-zinc-700 dark:text-zinc-300 mb-1">📜 Classical Cryptography</p>
+                    <p class="text-[11px] leading-relaxed">Julius Caesar used a shift of 3 letters to protect military communications. Punctuation, symbols, and spaces remain unchanged.</p>
+                </div>
+            </div>
+
+            <!-- Right Column: Ciphertext Result & Mapping -->
+            <div class="workspace-panel space-y-6">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                        <span>📜</span> Ciphertext Result
+                    </h2>
+                    <span id="status-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/10 text-amber-600 border border-amber-500/20">Encrypted</span>
+                </div>
+
+                <!-- Ciphertext output -->
+                <div class="p-5 rounded-2xl bg-zinc-900 text-white border border-zinc-800 space-y-3">
+                    <div class="p-4 rounded-xl bg-zinc-950/80 border border-zinc-800 min-h-[140px] max-h-56 overflow-y-auto">
+                        <p id="outputText" class="font-mono text-sm leading-relaxed break-all select-all text-amber-400">
+                            Khoor Zruog!
+                        </p>
+                    </div>
+
+                    <button type="button" id="copy-btn" class="btn-accent w-full !py-2.5 text-xs font-semibold flex items-center justify-center gap-2">
+                        <span>📋</span>
+                        <span id="copy-label">Copy Ciphered Text</span>
+                    </button>
+                </div>
+
+                <!-- Alphabet Mapping Sample -->
+                <div class="space-y-1.5">
+                    <span class="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Alphabet Shift Mapping</span>
+                    <div class="p-3 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 font-mono text-xs overflow-x-auto space-y-1">
+                        <div class="text-zinc-400 tracking-widest" id="orig-alphabet">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z</div>
+                        <div class="text-amber-500 font-bold tracking-widest" id="shift-alphabet">D E F G H I J K L M N O P Q R S T U V W X Y Z A B C</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="/src/layout.js"></script>
+    <script>
+        let isEncode = true;
+
+        const inputText = document.getElementById('inputText');
+        const shiftSlider = document.getElementById('shift-slider');
+        const shiftLabel = document.getElementById('shift-label');
+        const modeEncode = document.getElementById('mode-encode');
+        const modeDecode = document.getElementById('mode-decode');
+        const btnRot13 = document.getElementById('btn-rot13');
+        const btnCaesar = document.getElementById('btn-caesar');
+
+        const outputText = document.getElementById('outputText');
+        const statusBadge = document.getElementById('status-badge');
+        const copyBtn = document.getElementById('copy-btn');
+        const copyLabel = document.getElementById('copy-label');
+        const shiftAlphabet = document.getElementById('shift-alphabet');
+
+        function updateCipher() {
+            const shift = parseInt(shiftSlider.value) || 3;
+            shiftLabel.textContent = `Shift: ${isEncode ? '+' : '-'}${shift}`;
+
+            const text = inputText.value;
+            let result = "";
+
+            const effShift = isEncode ? shift : (26 - (shift % 26));
+
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+                if (char >= 'A' && char <= 'Z') {
+                    result += String.fromCharCode(((char.charCodeAt(0) - 65 + effShift) % 26) + 65);
+                } else if (char >= 'a' && char <= 'z') {
+                    result += String.fromCharCode(((char.charCodeAt(0) - 97 + effShift) % 26) + 97);
+                } else {
+                    result += char;
+                }
+            }
+
+            outputText.textContent = result || "Enter text to view cipher output...";
+            statusBadge.textContent = isEncode ? `Encrypted (+${shift})` : `Decrypted (-${shift})`;
+
+            // Update alphabet mapping preview
+            const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            let mapped = "";
+            for (let i = 0; i < 26; i++) {
+                const targetCode = ((i + (isEncode ? shift : 26 - shift)) % 26);
+                mapped += alphabet[targetCode] + " ";
+            }
+            shiftAlphabet.textContent = mapped.trim();
+        }
+
+        modeEncode.addEventListener('click', () => {
+            isEncode = true;
+            modeEncode.className = "py-2.5 rounded-lg bg-white dark:bg-zinc-700 text-zinc-900 dark:text-white shadow-xs transition-all text-center";
+            modeDecode.className = "py-2.5 rounded-lg text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-all text-center";
+            updateCipher();
+        });
+
+        modeDecode.addEventListener('click', () => {
+            isEncode = false;
+            modeDecode.className = "py-2.5 rounded-lg bg-white dark:bg-zinc-700 text-zinc-900 dark:text-white shadow-xs transition-all text-center";
+            modeEncode.className = "py-2.5 rounded-lg text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-all text-center";
+            updateCipher();
+        });
+
+        shiftSlider.addEventListener('input', updateCipher);
+        inputText.addEventListener('input', updateCipher);
+
+        btnRot13.addEventListener('click', () => {
+            shiftSlider.value = 13;
+            updateCipher();
+        });
+
+        btnCaesar.addEventListener('click', () => {
+            shiftSlider.value = 3;
+            updateCipher();
+        });
+
+        copyBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(outputText.textContent.trim()).then(() => {
+                copyLabel.textContent = "Copied!";
+                setTimeout(() => { copyLabel.textContent = "Copy Ciphered Text"; }, 2000);
+            });
+        });
+
+        // Initialize
+        inputText.value = "Hello World! OmniTools provides 100% private client-side utilities.";
+        updateCipher();
+    </script>
+</body>
+</html>

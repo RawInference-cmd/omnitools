@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF to XML Converter — OmniTools</title>
+    <meta name="description" content="Convert PDF documents into well-formed, escaped XML trees directly in your browser. 100% private and client-side.">
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="stylesheet" href="/src/input.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col justify-between transition-colors">
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+        <!-- Tool Header -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20">
+                        PDF Suite
+                    </span>
+                    <span class="privacy-badge">🔒 100% Client-Side Privacy</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">PDF to XML Converter</h1>
+                <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">Transform PDF pages and lines into valid, entity-escaped XML documents.</p>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700">
+                    Valid XML Serialization
+                </span>
+            </div>
+        </div>
+
+        <!-- Split 2-Column Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+            <!-- Left Column: Upload & XML Options -->
+            <div class="workspace-panel space-y-6">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                    <span>🏷️</span> Upload PDF &amp; XML Options
+                </h2>
+
+                <!-- Modern Dropzone -->
+                <div id="dropzone" class="modern-dropzone p-8 text-center cursor-pointer transition-all">
+                    <input type="file" id="pdf-input" accept="application/pdf,.pdf" class="hidden">
+                    <div class="flex flex-col items-center justify-center space-y-3">
+                        <div class="w-14 h-14 rounded-2xl bg-rose-500/10 text-rose-600 dark:text-rose-400 flex items-center justify-center">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold text-zinc-800 dark:text-zinc-200">Click to upload or drag & drop a PDF</p>
+                            <p class="text-xs text-zinc-400 mt-1">All XML generation happens locally in your browser</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- File Info Card -->
+                <div id="file-info-card" class="hidden flex items-center justify-between p-4 rounded-xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200/80 dark:border-zinc-700/60 text-xs">
+                    <div class="flex items-center gap-3 min-w-0 flex-1">
+                        <span class="w-9 h-9 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 flex items-center justify-center font-bold text-xs flex-shrink-0">
+                            PDF
+                        </span>
+                        <div class="min-w-0 flex-1">
+                            <p id="file-name" class="font-semibold text-zinc-900 dark:text-zinc-100 truncate">document.pdf</p>
+                            <p id="file-meta" class="text-[11px] text-zinc-400 mt-0.5">0 KB • 0 pages</p>
+                        </div>
+                    </div>
+                    <button type="button" id="clear-file-btn" class="p-1.5 rounded-lg hover:bg-rose-100 dark:hover:bg-rose-950 text-rose-500 transition-colors ml-3" title="Remove file">✕</button>
+                </div>
+
+                <!-- XML Options -->
+                <div class="space-y-4 p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-950/40 border border-zinc-200/60 dark:border-zinc-800">
+                    <p class="text-xs font-bold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">XML Structure Settings</p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="indent-select" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Indentation</label>
+                            <select id="indent-select" class="w-full px-3 py-2 rounded-xl text-xs bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 text-zinc-800 dark:text-zinc-200 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="2">2 Spaces (Pretty)</option>
+                                <option value="4">4 Spaces (Expanded)</option>
+                                <option value="0">Minified (Single Line)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="root-tag-input" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Root Element Name</label>
+                            <input type="text" id="root-tag-input" value="document" placeholder="document" class="w-full px-3 py-2 rounded-xl text-xs bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 text-zinc-800 dark:text-zinc-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono">
+                        </div>
+                    </div>
+
+                    <div class="space-y-2 pt-1">
+                        <label class="flex items-center gap-2.5 text-xs text-zinc-700 dark:text-zinc-300 cursor-pointer select-none">
+                            <input type="checkbox" id="line-nodes" checked class="w-4 h-4 rounded border-zinc-300 dark:border-zinc-700 text-indigo-600 focus:ring-indigo-500">
+                            <span>Split page text into individual line elements</span>
+                        </label>
+                        <label class="flex items-center gap-2.5 text-xs text-zinc-700 dark:text-zinc-300 cursor-pointer select-none">
+                            <input type="checkbox" id="include-decl" checked class="w-4 h-4 rounded border-zinc-300 dark:border-zinc-700 text-indigo-600 focus:ring-indigo-500">
+                            <span>Include XML prolog declaration &amp; metadata attributes</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Convert Action Button -->
+                <button type="button" id="convert-btn" disabled class="btn-primary w-full !py-3.5 text-sm font-semibold opacity-50 cursor-not-allowed">
+                    <span>Convert to XML</span>
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                </button>
+
+                <!-- Error Display -->
+                <div id="error-box" class="hidden p-4 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-xs text-rose-700 dark:text-rose-400"></div>
+            </div>
+
+            <!-- Right Column: Live XML Preview & Download -->
+            <div class="workspace-panel space-y-6">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                    <span>⚡</span> Live XML Preview &amp; Export
+                </h2>
+
+                <!-- Stats -->
+                <div class="p-5 rounded-2xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800">
+                    <div class="grid grid-cols-3 gap-3">
+                        <div class="p-3 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200/70 dark:border-zinc-800">
+                            <span class="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider block mb-1">Pages</span>
+                            <span id="stat-pages" class="text-xl font-extrabold text-zinc-900 dark:text-white font-mono">0</span>
+                        </div>
+                        <div class="p-3 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200/70 dark:border-zinc-800">
+                            <span class="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider block mb-1">Nodes</span>
+                            <span id="stat-nodes" class="text-xl font-extrabold text-zinc-900 dark:text-white font-mono">0</span>
+                        </div>
+                        <div class="p-3 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200/70 dark:border-zinc-800">
+                            <span class="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider block mb-1">Chars</span>
+                            <span id="stat-chars" class="text-xl font-extrabold text-zinc-900 dark:text-white font-mono">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preview Box -->
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-semibold text-zinc-600 dark:text-zinc-400">XML Output Preview</span>
+                        <button type="button" id="copy-btn" disabled class="btn-secondary !py-1.5 !px-3 text-xs opacity-50 cursor-not-allowed">
+                            <span>Copy XML</span>
+                        </button>
+                    </div>
+                    <pre id="xml-preview" class="result-box h-64 overflow-auto whitespace-pre text-xs leading-relaxed text-zinc-600 dark:text-zinc-300">Upload a PDF and click Convert to preview XML output here.</pre>
+                </div>
+
+                <!-- Download Box -->
+                <div id="output-box" class="hidden p-5 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/80 space-y-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold text-emerald-900 dark:text-emerald-200">XML Ready!</h3>
+                            <p class="text-xs text-emerald-700 dark:text-emerald-400" id="output-stat-text">XML document generated locally.</p>
+                        </div>
+                    </div>
+                    <a id="download-btn" href="#" download="converted.xml" class="btn-accent w-full !py-3 text-sm font-semibold text-center block">
+                        Download XML (.xml)
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.worker.min.js';
+
+        const dropzone = document.getElementById('dropzone');
+        const pdfInput = document.getElementById('pdf-input');
+        const fileInfoCard = document.getElementById('file-info-card');
+        const fileNameEl = document.getElementById('file-name');
+        const fileMetaEl = document.getElementById('file-meta');
+        const clearFileBtn = document.getElementById('clear-file-btn');
+        const indentSelect = document.getElementById('indent-select');
+        const rootTagInput = document.getElementById('root-tag-input');
+        const lineNodesEl = document.getElementById('line-nodes');
+        const includeDeclEl = document.getElementById('include-decl');
+        const convertBtn = document.getElementById('convert-btn');
+        const errorBox = document.getElementById('error-box');
+
+        const statPages = document.getElementById('stat-pages');
+        const statNodes = document.getElementById('stat-nodes');
+        const statChars = document.getElementById('stat-chars');
+        const copyBtn = document.getElementById('copy-btn');
+        const xmlPreview = document.getElementById('xml-preview');
+        const outputBox = document.getElementById('output-box');
+        const outputStatText = document.getElementById('output-stat-text');
+        const downloadBtn = document.getElementById('download-btn');
+
+        let loadedPdf = null;
+        let currentFile = null;
+        let currentFileName = 'converted.xml';
+        let generatedXml = '';
+        let currentBlobUrl = null;
+
+        dropzone.addEventListener('click', () => pdfInput.click());
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.classList.add('border-rose-500', 'bg-rose-50/20');
+        });
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.classList.remove('border-rose-500', 'bg-rose-50/20');
+        });
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('border-rose-500', 'bg-rose-50/20');
+            if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+        });
+        pdfInput.addEventListener('change', () => {
+            if (pdfInput.files.length) handleFile(pdfInput.files[0]);
+        });
+
+        clearFileBtn.addEventListener('click', resetWorkspace);
+
+        function resetWorkspace() {
+            loadedPdf = null;
+            currentFile = null;
+            generatedXml = '';
+            pdfInput.value = '';
+            if (currentBlobUrl) {
+                URL.revokeObjectURL(currentBlobUrl);
+                currentBlobUrl = null;
+            }
+            fileInfoCard.classList.add('hidden');
+            outputBox.classList.add('hidden');
+            errorBox.classList.add('hidden');
+            xmlPreview.textContent = 'Upload a PDF and click Convert to preview XML output here.';
+            convertBtn.disabled = true;
+            convertBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            copyBtn.disabled = true;
+            copyBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            statPages.textContent = '0';
+            statNodes.textContent = '0';
+            statChars.textContent = '0';
+        }
+
+        async function handleFile(file) {
+            errorBox.classList.add('hidden');
+            if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+                showError('Please select a valid PDF file.');
+                return;
+            }
+            try {
+                const buffer = await file.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
+                loadedPdf = pdf;
+                currentFile = file;
+                currentFileName = file.name.replace(/\.pdf$/i, '') + '.xml';
+                fileNameEl.textContent = file.name;
+                fileMetaEl.textContent = `${formatBytes(file.size)} • ${pdf.numPages} page${pdf.numPages !== 1 ? 's' : ''}`;
+                fileInfoCard.classList.remove('hidden');
+                convertBtn.disabled = false;
+                convertBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                outputBox.classList.add('hidden');
+            } catch (err) {
+                console.error('PDF load error:', err);
+                showError('Could not read this PDF file. It may be corrupted or password-protected.');
+            }
+        }
+
+        function escapeXml(str) {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&apos;');
+        }
+
+        function sanitizeXmlTag(raw) {
+            const cleaned = String(raw || '').trim().replace(/[^a-zA-Z0-9_-]/g, '_');
+            if (!cleaned || /^[^a-zA-Z_]/.test(cleaned)) return 'document';
+            return cleaned;
+        }
+
+        function buildOpenTag(name, attrs) {
+            let attrStr = '';
+            if (attrs) {
+                for (const [k, v] of Object.entries(attrs)) {
+                    attrStr += ' ' + k + '="' + escapeXml(v) + '"';
+                }
+            }
+            return '\x3C' + name + attrStr + '>';
+        }
+
+        function buildCloseTag(name) {
+            return '\x3C/' + name + '>';
+        }
+
+        function extractLinesFromItems(items) {
+            const valid = items.filter(it => it.str && it.str.trim().length > 0);
+            if (!valid.length) return [];
+
+            const sorted = valid.slice().sort((a, b) => {
+                const dy = b.transform[5] - a.transform[5];
+                if (Math.abs(dy) > 4) return dy;
+                return a.transform[4] - b.transform[4];
+            });
+
+            const lines = [];
+            for (const item of sorted) {
+                const y = item.transform[5];
+                let line = lines.find(l => Math.abs(l.y - y) <= 4);
+                if (!line) {
+                    line = { y, items: [] };
+                    lines.push(line);
+                }
+                line.items.push(item);
+            }
+            lines.sort((a, b) => b.y - a.y);
+
+            return lines.map(line => {
+                line.items.sort((a, b) => a.transform[4] - b.transform[4]);
+                return line.items.map(it => it.str.trim()).join(' ').replace(/\s+/g, ' ').trim();
+            }).filter(Boolean);
+        }
+
+        convertBtn.addEventListener('click', async () => {
+            if (!loadedPdf) return;
+            errorBox.classList.add('hidden');
+            outputBox.classList.add('hidden');
+            convertBtn.disabled = true;
+            convertBtn.innerHTML = '<span>Converting to XML...</span>';
+
+            try {
+                const indentSize = parseInt(indentSelect.value, 10);
+                const indentUnit = indentSize > 0 ? ' '.repeat(indentSize) : '';
+                const nl = indentSize > 0 ? '\n' : '';
+                const rootTag = sanitizeXmlTag(rootTagInput.value);
+                const splitLines = lineNodesEl.checked;
+                const includeDecl = includeDeclEl.checked;
+
+                const parts = [];
+                let nodeCount = 1; // root
+
+                if (includeDecl) {
+                    parts.push('\x3C?xml version="1.0" encoding="UTF-8"?>');
+                }
+
+                const rootAttrs = includeDecl
+                    ? { source: currentFile ? currentFile.name : 'document.pdf', pages: loadedPdf.numPages }
+                    : null;
+                parts.push(buildOpenTag(rootTag, rootAttrs));
+
+                for (let pageNum = 1; pageNum <= loadedPdf.numPages; pageNum++) {
+                    const page = await loadedPdf.getPage(pageNum);
+                    const content = await page.getTextContent();
+                    const lines = extractLinesFromItems(content.items);
+                    nodeCount++;
+
+                    const pageAttrs = includeDecl ? { number: pageNum, lines: lines.length } : { number: pageNum };
+                    if (splitLines) {
+                        parts.push(indentUnit + buildOpenTag('page', pageAttrs));
+                        for (let idx = 0; idx < lines.length; idx++) {
+                            nodeCount++;
+                            const lineOpen = buildOpenTag('line', { index: idx + 1 });
+                            const lineClose = buildCloseTag('line');
+                            parts.push(indentUnit + indentUnit + lineOpen + escapeXml(lines[idx]) + lineClose);
+                        }
+                        parts.push(indentUnit + buildCloseTag('page'));
+                    } else {
+                        const pageOpen = buildOpenTag('page', pageAttrs);
+                        const pageClose = buildCloseTag('page');
+                        parts.push(indentUnit + pageOpen + escapeXml(lines.join(' ')) + pageClose);
+                    }
+                }
+
+                parts.push(buildCloseTag(rootTag));
+                generatedXml = parts.join(nl);
+
+                xmlPreview.textContent = generatedXml;
+                statPages.textContent = loadedPdf.numPages;
+                statNodes.textContent = nodeCount.toLocaleString();
+                statChars.textContent = generatedXml.length.toLocaleString();
+
+                copyBtn.disabled = false;
+                copyBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+
+                if (currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);
+                const blob = new Blob([generatedXml], { type: 'application/xml;charset=utf-8;' });
+                currentBlobUrl = URL.createObjectURL(blob);
+                downloadBtn.href = currentBlobUrl;
+                downloadBtn.download = currentFileName;
+
+                outputStatText.textContent = `Generated ${nodeCount.toLocaleString()} XML nodes (${formatBytes(blob.size)}).`;
+                outputBox.classList.remove('hidden');
+            } catch (err) {
+                console.error('XML conversion error:', err);
+                showError('Failed to convert PDF to XML: ' + err.message);
+            } finally {
+                convertBtn.disabled = false;
+                convertBtn.innerHTML = '<span>Convert to XML</span><svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>';
+            }
+        });
+
+        copyBtn.addEventListener('click', async () => {
+            if (!generatedXml) return;
+            await navigator.clipboard.writeText(generatedXml);
+            const original = copyBtn.innerHTML;
+            copyBtn.innerHTML = '<span>Copied!</span>';
+            setTimeout(() => { copyBtn.innerHTML = original; }, 1500);
+        });
+
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function showError(msg) {
+            errorBox.textContent = msg;
+            errorBox.classList.remove('hidden');
+        }
+    </script>
+    <script type="module" src="/src/layout.js"></script>
+</body>
+</html>

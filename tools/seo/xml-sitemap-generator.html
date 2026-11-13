@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XML Sitemap Generator — OmniTools</title>
+    <meta name="description" content="Generate standards-compliant XML sitemaps for Google, Bing, and search engine crawlers. Fast, free, and client-side.">
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="stylesheet" href="/src/input.css">
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col justify-between transition-colors">
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+        <!-- Tool Header -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20">
+                        SEO Tools
+                    </span>
+                    <span class="privacy-badge">🔒 100% Client-Side Privacy</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">XML Sitemap Generator</h1>
+                <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">Create sitemaps.org compliant XML index feeds with change frequencies and priorities.</p>
+            </div>
+        </div>
+
+        <!-- Split 2-Column Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            
+            <!-- Left Column: URL List & Configuration -->
+            <div class="workspace-panel space-y-5">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                        <span>📋</span> Pages & Directives
+                    </h2>
+                    <span id="url-count-badge" class="text-xs font-mono text-zinc-400">0 URLs</span>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <label for="base-domain" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Root Domain</label>
+                        <input type="url" id="base-domain" value="https://omnitools.app" placeholder="https://example.com" class="w-full px-4 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none">
+                    </div>
+
+                    <div>
+                        <label for="urls-input" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Page Paths or Full URLs (One per line)</label>
+                        <textarea id="urls-input" rows="7" placeholder="/&#10;/about&#10;/contact&#10;/tools/pdf/merge-pdf&#10;/tools/images/image-compressor" class="w-full px-4 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-xs font-mono focus:ring-2 focus:ring-purple-500 focus:outline-none"></textarea>
+                    </div>
+
+                    <!-- Sitemap parameters -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label for="change-freq" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Change Frequency</label>
+                            <select id="change-freq" class="w-full px-3 py-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-xs font-semibold">
+                                <option value="daily">daily</option>
+                                <option value="weekly" selected>weekly</option>
+                                <option value="monthly">monthly</option>
+                                <option value="yearly">yearly</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="priority" class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">Default Priority</label>
+                            <select id="priority" class="w-full px-3 py-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-xs font-semibold">
+                                <option value="1.0">1.0 (Critical Pages)</option>
+                                <option value="0.8" selected>0.8 (Main Features)</option>
+                                <option value="0.6">0.6 (Standard Posts)</option>
+                                <option value="0.4">0.4 (Archive Pages)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <input type="checkbox" id="include-lastmod" checked class="rounded border-zinc-300 text-purple-600 focus:ring-purple-500">
+                        <label for="include-lastmod" class="text-xs font-medium text-zinc-700 dark:text-zinc-300">Include current ISO date in &lt;lastmod&gt;</label>
+                    </div>
+
+                    <button type="button" id="generate-btn" class="btn-primary w-full !py-3 text-sm font-semibold !bg-purple-600 hover:!bg-purple-700">
+                        Generate XML Sitemap
+                    </button>
+                </div>
+
+                <div class="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950/40 border border-zinc-200/60 dark:border-zinc-800 text-xs text-zinc-500 dark:text-zinc-400">
+                    <p class="font-semibold text-zinc-700 dark:text-zinc-300 mb-1">💡 Submission Checklist</p>
+                    <p class="text-[11px] leading-relaxed">Upload the exported <code>sitemap.xml</code> file to your domain root, then submit the URL inside Google Search Console & Bing Webmaster Tools.</p>
+                </div>
+            </div>
+
+            <!-- Right Column: Live XML Preview & Download -->
+            <div class="workspace-panel space-y-6">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                        <span>📄</span> Generated sitemap.xml
+                    </h2>
+                    <span class="text-xs font-mono text-zinc-400">sitemaps.org 0.9</span>
+                </div>
+
+                <!-- Stats summary -->
+                <div class="grid grid-cols-3 gap-3 text-center">
+                    <div class="p-3 rounded-xl bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/60">
+                        <span class="text-[10px] uppercase font-bold text-zinc-400 block mb-0.5">URLs</span>
+                        <p class="text-sm font-bold text-zinc-800 dark:text-zinc-200" id="stat-total-urls">5</p>
+                    </div>
+                    <div class="p-3 rounded-xl bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/60">
+                        <span class="text-[10px] uppercase font-bold text-purple-600 dark:text-purple-400 block mb-0.5">Size</span>
+                        <p class="text-sm font-bold text-purple-600 dark:text-purple-400" id="stat-filesize">-- KB</p>
+                    </div>
+                    <div class="p-3 rounded-xl bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/60">
+                        <span class="text-[10px] uppercase font-bold text-emerald-600 dark:text-emerald-400 block mb-0.5">Status</span>
+                        <p class="text-sm font-bold text-emerald-600 dark:text-emerald-400">Valid XML</p>
+                    </div>
+                </div>
+
+                <!-- XML Output Block -->
+                <pre class="p-4 rounded-xl bg-zinc-900 text-zinc-200 font-mono text-xs overflow-x-auto max-h-72 border border-zinc-800 leading-relaxed"><code id="xml-output"></code></pre>
+
+                <!-- Actions -->
+                <div class="grid grid-cols-2 gap-3">
+                    <button type="button" id="copy-btn" class="btn-secondary !py-3 text-xs font-semibold flex items-center justify-center gap-2">
+                        <span>📋</span>
+                        <span id="copy-label">Copy XML</span>
+                    </button>
+                    <button type="button" id="download-btn" class="btn-primary !py-3 text-xs font-semibold !bg-purple-600 hover:!bg-purple-700 flex items-center justify-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                        <span>Download sitemap.xml</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="/src/layout.js"></script>
+    <script>
+        const baseDomain = document.getElementById('base-domain');
+        const urlsInput = document.getElementById('urls-input');
+        const changeFreq = document.getElementById('change-freq');
+        const priority = document.getElementById('priority');
+        const includeLastmod = document.getElementById('include-lastmod');
+        const generateBtn = document.getElementById('generate-btn');
+        const urlCountBadge = document.getElementById('url-count-badge');
+
+        const statTotalUrls = document.getElementById('stat-total-urls');
+        const statFilesize = document.getElementById('stat-filesize');
+        const xmlOutput = document.getElementById('xml-output');
+        const copyBtn = document.getElementById('copy-btn');
+        const copyLabel = document.getElementById('copy-label');
+        const downloadBtn = document.getElementById('download-btn');
+
+        function generateSitemap() {
+            let base = baseDomain.value.trim();
+            if (!base) base = 'https://example.com';
+            if (!base.startsWith('http://') && !base.startsWith('https://')) {
+                base = 'https://' + base;
+            }
+            if (base.endsWith('/')) base = base.slice(0, -1);
+
+            const lines = urlsInput.value.split('\n')
+                .map(l => l.trim())
+                .filter(l => l.length > 0);
+
+            const fullUrls = lines.map(line => {
+                if (line.startsWith('http://') || line.startsWith('https://')) return line;
+                return base + (line.startsWith('/') ? line : '/' + line);
+            });
+
+            urlCountBadge.textContent = `${fullUrls.length} URLs`;
+            statTotalUrls.textContent = fullUrls.length;
+
+            const now = new Date().toISOString().split('T')[0];
+            const freq = changeFreq.value;
+            const prio = priority.value;
+            const hasMod = includeLastmod.checked;
+
+            let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
+            xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
+
+            fullUrls.forEach(u => {
+                xml += `  <url>\n`;
+                xml += `    <loc>${escapeXml(u)}</loc>\n`;
+                if (hasMod) xml += `    <lastmod>${now}</lastmod>\n`;
+                xml += `    <changefreq>${freq}</changefreq>\n`;
+                xml += `    <priority>${prio}</priority>\n`;
+                xml += `  </url>\n`;
+            });
+
+            xml += `</urlset>`;
+
+            xmlOutput.textContent = xml;
+            statFilesize.textContent = (new Blob([xml]).size / 1024).toFixed(1) + ' KB';
+        }
+
+        function escapeXml(unsafe) {
+            return unsafe.replace(/[<>&'"]/g, function (c) {
+                switch (c) {
+                    case '<': return '&lt;';
+                    case '>': return '&gt;';
+                    case '&': return '&amp;';
+                    case '\'': return '&apos;';
+                    case '"': return '&quot;';
+                }
+            });
+        }
+
+        urlsInput.addEventListener('input', generateSitemap);
+        baseDomain.addEventListener('input', generateSitemap);
+        changeFreq.addEventListener('change', generateSitemap);
+        priority.addEventListener('change', generateSitemap);
+        includeLastmod.addEventListener('change', generateSitemap);
+        generateBtn.addEventListener('click', generateSitemap);
+
+        copyBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(xmlOutput.textContent).then(() => {
+                copyLabel.textContent = "Copied!";
+                setTimeout(() => { copyLabel.textContent = "Copy XML"; }, 2000);
+            });
+        });
+
+        downloadBtn.addEventListener('click', () => {
+            const blob = new Blob([xmlOutput.textContent], { type: 'application/xml' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'sitemap.xml';
+            a.click();
+        });
+
+        // Initialize with default paths
+        urlsInput.value = "/\n/tools/pdf/pdf-to-word\n/tools/images/image-compressor\n/tools/calculators/age-calculator\n/tools/utilities/youtube-video-downloader";
+        generateSitemap();
+    </script>
+</body>
+</html>

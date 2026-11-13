@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe — OmniTools</title>
+    <meta name="description" content="Play classic Tic Tac Toe against a friend or a smart client-side AI opponent. Modern, fast, and completely free.">
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="stylesheet" href="/src/input.css">
+    <style>
+        .ttt-cell {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: 800;
+            border-radius: 1rem;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            user-select: none;
+        }
+        @media (min-width: 640px) {
+            .ttt-cell {
+                font-size: 3.5rem;
+            }
+        }
+        .ttt-cell.x-cell {
+            color: #6366f1;
+        }
+        .ttt-cell.o-cell {
+            color: #10b981;
+        }
+        .ttt-cell.winning-cell {
+            background-color: rgba(99, 102, 241, 0.2) !important;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col justify-between transition-colors">
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+        <!-- Tool Header -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20">
+                        Games & Fun
+                    </span>
+                    <span class="privacy-badge">🔒 100% Client-Side Privacy</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">Tic Tac Toe</h1>
+                <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">Play the timeless 3x3 strategy game against an intelligent AI or challenge a friend locally.</p>
+            </div>
+            <div class="flex items-center gap-2">
+                <div id="turn-badge" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800/80">
+                    <span class="w-2 h-2 rounded-full bg-indigo-500 animate-ping"></span>
+                    <span>Turn: Player X</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Split 2-Column Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            
+            <!-- Left Column: Settings, Scoreboard & Controls -->
+            <div class="space-y-6">
+                <!-- Scoreboard Panel -->
+                <div class="workspace-panel space-y-4">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                        <span>🏆</span> Scoreboard
+                    </h2>
+
+                    <div class="grid grid-cols-3 gap-3 text-center">
+                        <div class="p-4 rounded-xl bg-indigo-50/60 dark:bg-indigo-950/30 border border-indigo-100 dark:border-indigo-900/40">
+                            <span class="text-xs font-semibold text-indigo-600 dark:text-indigo-400 block mb-1">Player X</span>
+                            <span id="score-x" class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white font-mono">0</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-zinc-100/70 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700">
+                            <span class="text-xs font-semibold text-zinc-500 dark:text-zinc-400 block mb-1">Ties</span>
+                            <span id="score-tie" class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white font-mono">0</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-emerald-50/60 dark:bg-emerald-950/30 border border-emerald-100 dark:border-emerald-900/40">
+                            <span id="label-player-o" class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 block mb-1">Player O</span>
+                            <span id="score-o" class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white font-mono">0</span>
+                        </div>
+                    </div>
+
+                    <button type="button" id="reset-scores-btn" class="text-xs text-zinc-500 dark:text-zinc-400 hover:text-rose-500 dark:hover:text-rose-400 underline transition-colors">
+                        Reset All Scores
+                    </button>
+                </div>
+
+                <!-- Match Setup Panel -->
+                <div class="workspace-panel space-y-5">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                        <span>⚙️</span> Game Mode
+                    </h2>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-2">Opponent Type:</label>
+                            <div class="grid grid-cols-2 gap-3">
+                                <button type="button" id="mode-pvp" class="mode-btn px-4 py-2.5 rounded-xl border-2 border-indigo-500 bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 text-xs font-bold transition-all">
+                                    👥 Two Players
+                                </button>
+                                <button type="button" id="mode-ai" class="mode-btn px-4 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 hover:border-indigo-500 text-zinc-700 dark:text-zinc-300 text-xs font-bold transition-all">
+                                    🤖 vs Smart AI
+                                </button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-2">AI Difficulty:</label>
+                            <select id="ai-difficulty" disabled class="w-full px-3 py-2 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white text-xs font-medium focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all disabled:opacity-40">
+                                <option value="medium">Medium (Smart)</option>
+                                <option value="unbeatable">Unbeatable (Minimax)</option>
+                                <option value="easy">Casual (Relaxed)</option>
+                            </select>
+                        </div>
+
+                        <div class="flex gap-3 pt-2">
+                            <button type="button" id="reset-board-btn" class="btn-primary flex-1 !py-2.5 text-xs font-semibold">
+                                <span>Reset Board</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Interactive Game Grid -->
+            <div class="workspace-panel flex flex-col items-center justify-center p-6 sm:p-8">
+                
+                <!-- Winner Announcement Banner -->
+                <div id="status-banner" class="w-full mb-6 p-4 rounded-xl text-center font-bold text-sm transition-all hidden">
+                    <span id="status-message">Winner: Player X! 🎉</span>
+                </div>
+
+                <!-- 3x3 Grid -->
+                <div id="board" class="grid grid-cols-3 gap-3 sm:gap-4 w-full max-w-[340px] sm:max-w-[400px] p-3 sm:p-4 rounded-2xl bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-inner">
+                    <button class="ttt-cell bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-700 border border-zinc-200/80 dark:border-zinc-700/60 shadow-xs" data-idx="0"></button>
+                    <button class="ttt-cell bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-700 border border-zinc-200/80 dark:border-zinc-700/60 shadow-xs" data-idx="1"></button>
+                    <button class="ttt-cell bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-700 border border-zinc-200/80 dark:border-zinc-700/60 shadow-xs" data-idx="2"></button>
+                    
+                    <button class="ttt-cell bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-700 border border-zinc-200/80 dark:border-zinc-700/60 shadow-xs" data-idx="3"></button>
+                    <button class="ttt-cell bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-700 border border-zinc-200/80 dark:border-zinc-700/60 shadow-xs" data-idx="4"></button>
+                    <button class="ttt-cell bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-700 border border-zinc-200/80 dark:border-zinc-700/60 shadow-xs" data-idx="5"></button>
+                    
+                    <button class="ttt-cell bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-700 border border-zinc-200/80 dark:border-zinc-700/60 shadow-xs" data-idx="6"></button>
+                    <button class="ttt-cell bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-700 border border-zinc-200/80 dark:border-zinc-700/60 shadow-xs" data-idx="7"></button>
+                    <button class="ttt-cell bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-700 border border-zinc-200/80 dark:border-zinc-700/60 shadow-xs" data-idx="8"></button>
+                </div>
+
+                <div class="mt-6 flex items-center justify-center gap-4 text-xs text-zinc-500 dark:text-zinc-400">
+                    <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-indigo-500 inline-block"></span> X plays first</span>
+                    <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span> O plays second</span>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        const cells = document.querySelectorAll('.ttt-cell');
+        const turnBadge = document.getElementById('turn-badge');
+        const statusBanner = document.getElementById('status-banner');
+        const statusMessage = document.getElementById('status-message');
+        const scoreXEl = document.getElementById('score-x');
+        const scoreOEl = document.getElementById('score-o');
+        const scoreTieEl = document.getElementById('score-tie');
+        const labelPlayerO = document.getElementById('label-player-o');
+        const modePvPBtn = document.getElementById('mode-pvp');
+        const modeAIBtn = document.getElementById('mode-ai');
+        const aiDifficulty = document.getElementById('ai-difficulty');
+        const resetBoardBtn = document.getElementById('reset-board-btn');
+        const resetScoresBtn = document.getElementById('reset-scores-btn');
+
+        let boardState = ["", "", "", "", "", "", "", "", ""];
+        let currentPlayer = "X";
+        let isGameActive = true;
+        let isAiMode = false;
+        let scores = { X: 0, O: 0, ties: 0 };
+
+        const winningCombinations = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+            [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+            [0, 4, 8], [2, 4, 6]             // Diagonals
+        ];
+
+        function handleCellClick(e) {
+            const index = parseInt(e.target.dataset.idx);
+            if (boardState[index] !== "" || !isGameActive) return;
+
+            makeMove(index, currentPlayer);
+
+            if (isGameActive && isAiMode && currentPlayer === "O") {
+                // Short AI thinking delay
+                setTimeout(makeAIMove, 300);
+            }
+        }
+
+        function makeMove(index, player) {
+            boardState[index] = player;
+            const cell = cells[index];
+            cell.textContent = player;
+            cell.classList.add(player === "X" ? "x-cell" : "o-cell");
+
+            const winningCombo = checkWin(player);
+            if (winningCombo) {
+                endGame(player, winningCombo);
+            } else if (boardState.every(cell => cell !== "")) {
+                endGame("tie");
+            } else {
+                currentPlayer = currentPlayer === "X" ? "O" : "X";
+                updateTurnBadge();
+            }
+        }
+
+        function updateTurnBadge() {
+            const playerLabel = (isAiMode && currentPlayer === "O") ? "AI (O)" : `Player ${currentPlayer}`;
+            turnBadge.innerHTML = `
+                <span class="w-2 h-2 rounded-full ${currentPlayer === 'X' ? 'bg-indigo-500' : 'bg-emerald-500'} animate-ping"></span>
+                <span>Turn: ${playerLabel}</span>
+            `;
+        }
+
+        function checkWin(player) {
+            return winningCombinations.find(combo => {
+                return combo.every(index => boardState[index] === player);
+            });
+        }
+
+        function endGame(result, winningCombo = null) {
+            isGameActive = false;
+            statusBanner.classList.remove('hidden');
+
+            if (result === "tie") {
+                scores.ties++;
+                scoreTieEl.textContent = scores.ties;
+                statusBanner.className = "w-full mb-6 p-4 rounded-xl text-center font-bold text-sm bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700";
+                statusMessage.textContent = "🤝 It's a Draw!";
+            } else {
+                scores[result]++;
+                if (result === "X") scoreXEl.textContent = scores.X;
+                if (result === "O") scoreOEl.textContent = scores.O;
+
+                winningCombo.forEach(idx => {
+                    cells[idx].classList.add('winning-cell');
+                });
+
+                const winnerName = (isAiMode && result === "O") ? "AI Opponent" : `Player ${result}`;
+                statusBanner.className = "w-full mb-6 p-4 rounded-xl text-center font-bold text-sm bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800";
+                statusMessage.textContent = `🎉 ${winnerName} Wins the Match!`;
+            }
+        }
+
+        function makeAIMove() {
+            if (!isGameActive) return;
+
+            const diff = aiDifficulty.value;
+            let move;
+
+            if (diff === "easy") {
+                move = getRandomMove();
+            } else if (diff === "unbeatable") {
+                move = getBestMoveMinimax();
+            } else {
+                // Medium: 60% chance best move, 40% random
+                move = Math.random() < 0.6 ? getBestMoveMinimax() : getRandomMove();
+            }
+
+            if (move !== null && move !== undefined) {
+                makeMove(move, "O");
+            }
+        }
+
+        function getRandomMove() {
+            const available = [];
+            boardState.forEach((val, idx) => {
+                if (val === "") available.push(idx);
+            });
+            if (available.length === 0) return null;
+            return available[Math.floor(Math.random() * available.length)];
+        }
+
+        function getBestMoveMinimax() {
+            // Check winning move for AI first
+            for (let i = 0; i < 9; i++) {
+                if (boardState[i] === "") {
+                    boardState[i] = "O";
+                    if (checkWin("O")) {
+                        boardState[i] = "";
+                        return i;
+                    }
+                    boardState[i] = "";
+                }
+            }
+            // Block player X winning move
+            for (let i = 0; i < 9; i++) {
+                if (boardState[i] === "") {
+                    boardState[i] = "X";
+                    if (checkWin("X")) {
+                        boardState[i] = "";
+                        return i;
+                    }
+                    boardState[i] = "";
+                }
+            }
+            // Take center if open
+            if (boardState[4] === "") return 4;
+            // Take corners
+            const corners = [0, 2, 6, 8].filter(idx => boardState[idx] === "");
+            if (corners.length > 0) return corners[Math.floor(Math.random() * corners.length)];
+            return getRandomMove();
+        }
+
+        function resetBoard() {
+            boardState = ["", "", "", "", "", "", "", "", ""];
+            isGameActive = true;
+            currentPlayer = "X";
+            statusBanner.classList.add('hidden');
+            cells.forEach(cell => {
+                cell.textContent = "";
+                cell.className = "ttt-cell bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-700 border border-zinc-200/80 dark:border-zinc-700/60 shadow-xs";
+            });
+            updateTurnBadge();
+        }
+
+        function resetScores() {
+            scores = { X: 0, O: 0, ties: 0 };
+            scoreXEl.textContent = "0";
+            scoreOEl.textContent = "0";
+            scoreTieEl.textContent = "0";
+            resetBoard();
+        }
+
+        // Mode Toggles
+        modePvPBtn.addEventListener('click', () => {
+            isAiMode = false;
+            modePvPBtn.className = "mode-btn px-4 py-2.5 rounded-xl border-2 border-indigo-500 bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 text-xs font-bold transition-all";
+            modeAIBtn.className = "mode-btn px-4 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 hover:border-indigo-500 text-zinc-700 dark:text-zinc-300 text-xs font-bold transition-all";
+            labelPlayerO.textContent = "Player O";
+            aiDifficulty.disabled = true;
+            resetBoard();
+        });
+
+        modeAIBtn.addEventListener('click', () => {
+            isAiMode = true;
+            modeAIBtn.className = "mode-btn px-4 py-2.5 rounded-xl border-2 border-indigo-500 bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 text-xs font-bold transition-all";
+            modePvPBtn.className = "mode-btn px-4 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 hover:border-indigo-500 text-zinc-700 dark:text-zinc-300 text-xs font-bold transition-all";
+            labelPlayerO.textContent = "AI Opponent";
+            aiDifficulty.disabled = false;
+            resetBoard();
+        });
+
+        cells.forEach(cell => cell.addEventListener('click', handleCellClick));
+        resetBoardBtn.addEventListener('click', resetBoard);
+        resetScoresBtn.addEventListener('click', resetScores);
+    </script>
+    <script type="module" src="/src/layout.js"></script>
+</body>
+</html>

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Picker & Converter — OmniTools</title>
+    <meta name="description" content="Pick, convert, and explore color codes between HEX, RGB, HSL, and CMYK with real-time contrast checks and tints. 100% free.">
+    <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+    <link rel="stylesheet" href="/src/input.css">
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col justify-between transition-colors">
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+        <!-- Tool Header -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
+                        Utilities
+                    </span>
+                    <span class="privacy-badge">🔒 100% Client-Side Privacy</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">Color Picker & Converter</h1>
+                <p class="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">Convert between HEX, RGB, HSL, and CMYK color spaces with instant contrast validation.</p>
+            </div>
+        </div>
+
+        <!-- Split 2-Column Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            
+            <!-- Left Column: Color Controls & Sliders -->
+            <div class="workspace-panel space-y-5">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
+                        <span>🎨</span> Color Controls
+                    </h2>
+                    <button type="button" id="random-btn" class="text-xs text-amber-600 dark:text-amber-400 hover:underline font-semibold flex items-center gap-1">
+                        <span>🎲 Randomize</span>
+                    </button>
+                </div>
+
+                <div class="space-y-4">
+                    <!-- Native Picker -->
+                    <div class="flex items-center gap-3">
+                        <input type="color" id="colorPicker" value="#6366f1" class="w-14 h-12 rounded-xl border border-zinc-200 dark:border-zinc-700 cursor-pointer bg-white dark:bg-zinc-800 p-1 shadow-xs">
+                        <div class="flex-1">
+                            <label class="block text-[11px] font-semibold text-zinc-400 uppercase">HEX Input</label>
+                            <input type="text" id="hexInput" value="#6366F1" maxlength="7" class="w-full px-3 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-sm font-mono font-bold focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                        </div>
+                    </div>
+
+                    <!-- Channel Sliders -->
+                    <div class="space-y-3 pt-2 border-t border-zinc-200 dark:border-zinc-800">
+                        <!-- Red -->
+                        <div>
+                            <div class="flex items-center justify-between text-xs mb-1">
+                                <span class="font-semibold text-rose-500">Red (R)</span>
+                                <span id="val-r" class="font-mono font-bold">99</span>
+                            </div>
+                            <input type="range" id="slider-r" min="0" max="255" value="99" class="w-full accent-rose-500">
+                        </div>
+                        <!-- Green -->
+                        <div>
+                            <div class="flex items-center justify-between text-xs mb-1">
+                                <span class="font-semibold text-emerald-500">Green (G)</span>
+                                <span id="val-g" class="font-mono font-bold">102</span>
+                            </div>
+                            <input type="range" id="slider-g" min="0" max="255" value="102" class="w-full accent-emerald-500">
+                        </div>
+                        <!-- Blue -->
+                        <div>
+                            <div class="flex items-center justify-between text-xs mb-1">
+                                <span class="font-semibold text-blue-500">Blue (B)</span>
+                                <span id="val-b" class="font-mono font-bold">241</span>
+                            </div>
+                            <input type="range" id="slider-b" min="0" max="255" value="241" class="w-full accent-blue-500">
+                        </div>
+                    </div>
+
+                    <!-- Popular Preset Swatches -->
+                    <div>
+                        <span class="block text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-2">Preset Swatches</span>
+                        <div class="flex items-center gap-2" id="preset-swatches">
+                            <button type="button" data-color="#6366f1" class="w-7 h-7 rounded-lg shadow-xs hover:scale-110 transition-transform" style="background:#6366f1;"></button>
+                            <button type="button" data-color="#10b981" class="w-7 h-7 rounded-lg shadow-xs hover:scale-110 transition-transform" style="background:#10b981;"></button>
+                            <button type="button" data-color="#f59e0b" class="w-7 h-7 rounded-lg shadow-xs hover:scale-110 transition-transform" style="background:#f59e0b;"></button>
+                            <button type="button" data-color="#ef4444" class="w-7 h-7 rounded-lg shadow-xs hover:scale-110 transition-transform" style="background:#ef4444;"></button>
+                            <button type="button" data-color="#0ea5e9" class="w-7 h-7 rounded-lg shadow-xs hover:scale-110 transition-transform" style="background:#0ea5e9;"></button>
+                            <button type="button" data-color="#8b5cf6" class="w-7 h-7 rounded-lg shadow-xs hover:scale-110 transition-transform" style="background:#8b5cf6;"></button>
+                            <button type="button" data-color="#18181b" class="w-7 h-7 rounded-lg shadow-xs hover:scale-110 transition-transform" style="background:#18181b;"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Swatch Display & Formats Bento -->
+            <div class="workspace-panel space-y-6">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 mb-2 flex items-center gap-2">
+                    <span>👁️</span> Swatch & Format Codes
+                </h2>
+
+                <!-- Large Color Preview Card -->
+                <div id="swatch-card" class="h-32 rounded-2xl p-4 flex flex-col justify-between shadow-md transition-colors" style="background-color: #6366f1;">
+                    <div class="flex items-center justify-between text-xs font-bold">
+                        <span class="text-white drop-shadow-sm">White Text Sample</span>
+                        <span class="text-black drop-shadow-sm">Dark Text Sample</span>
+                    </div>
+                    <div class="text-center font-mono font-black text-2xl text-white drop-shadow-md" id="hero-hex">
+                        #6366F1
+                    </div>
+                    <div class="text-[10px] text-right font-semibold text-white/80 drop-shadow-sm" id="contrast-label">
+                        Light text recommended
+                    </div>
+                </div>
+
+                <!-- 4 Format Bento Cards -->
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="p-3 rounded-xl bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/60 flex items-center justify-between">
+                        <div>
+                            <span class="text-[10px] uppercase font-bold text-zinc-400">HEX</span>
+                            <p class="text-xs font-mono font-bold text-zinc-800 dark:text-zinc-200" id="code-hex">#6366F1</p>
+                        </div>
+                        <button type="button" data-copy="code-hex" class="copy-btn text-xs text-amber-600 dark:text-amber-400 hover:underline font-semibold">Copy</button>
+                    </div>
+
+                    <div class="p-3 rounded-xl bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/60 flex items-center justify-between">
+                        <div>
+                            <span class="text-[10px] uppercase font-bold text-zinc-400">RGB</span>
+                            <p class="text-xs font-mono font-bold text-zinc-800 dark:text-zinc-200" id="code-rgb">rgb(99, 102, 241)</p>
+                        </div>
+                        <button type="button" data-copy="code-rgb" class="copy-btn text-xs text-amber-600 dark:text-amber-400 hover:underline font-semibold">Copy</button>
+                    </div>
+
+                    <div class="p-3 rounded-xl bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/60 flex items-center justify-between">
+                        <div>
+                            <span class="text-[10px] uppercase font-bold text-zinc-400">HSL</span>
+                            <p class="text-xs font-mono font-bold text-zinc-800 dark:text-zinc-200" id="code-hsl">hsl(239, 84%, 67%)</p>
+                        </div>
+                        <button type="button" data-copy="code-hsl" class="copy-btn text-xs text-amber-600 dark:text-amber-400 hover:underline font-semibold">Copy</button>
+                    </div>
+
+                    <div class="p-3 rounded-xl bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/60 flex items-center justify-between">
+                        <div>
+                            <span class="text-[10px] uppercase font-bold text-zinc-400">CMYK</span>
+                            <p class="text-xs font-mono font-bold text-zinc-800 dark:text-zinc-200" id="code-cmyk">59, 58, 0, 5</p>
+                        </div>
+                        <button type="button" data-copy="code-cmyk" class="copy-btn text-xs text-amber-600 dark:text-amber-400 hover:underline font-semibold">Copy</button>
+                    </div>
+                </div>
+
+                <!-- Tints & Shades strip -->
+                <div class="space-y-1.5">
+                    <span class="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Tints & Shades Palette</span>
+                    <div class="grid grid-cols-7 h-7 rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 shadow-xs" id="tints-strip">
+                        <!-- Dynamic cells -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="/src/layout.js"></script>
+    <script>
+        const colorPicker = document.getElementById('colorPicker');
+        const hexInput = document.getElementById('hexInput');
+        const sliderR = document.getElementById('slider-r');
+        const sliderG = document.getElementById('slider-g');
+        const sliderB = document.getElementById('slider-b');
+        const valR = document.getElementById('val-r');
+        const valG = document.getElementById('val-g');
+        const valB = document.getElementById('val-b');
+        const randomBtn = document.getElementById('random-btn');
+
+        const swatchCard = document.getElementById('swatch-card');
+        const heroHex = document.getElementById('hero-hex');
+        const contrastLabel = document.getElementById('contrast-label');
+        const codeHex = document.getElementById('code-hex');
+        const codeRgb = document.getElementById('code-rgb');
+        const codeHsl = document.getElementById('code-hsl');
+        const codeCmyk = document.getElementById('code-cmyk');
+        const tintsStrip = document.getElementById('tints-strip');
+        const copyBtns = document.querySelectorAll('.copy-btn');
+        const presetSwatches = document.querySelectorAll('#preset-swatches button');
+
+        function updateFromRGB(r, g, b) {
+            valR.textContent = r;
+            valG.textContent = g;
+            valB.textContent = b;
+            sliderR.value = r;
+            sliderG.value = g;
+            sliderB.value = b;
+
+            const hex = rgbToHex(r, g, b);
+            colorPicker.value = hex;
+            hexInput.value = hex.toUpperCase();
+            heroHex.textContent = hex.toUpperCase();
+            codeHex.textContent = hex.toUpperCase();
+            codeRgb.textContent = `rgb(${r}, ${g}, ${b})`;
+
+            swatchCard.style.backgroundColor = hex;
+
+            // HSL
+            const hsl = rgbToHsl(r, g, b);
+            codeHsl.textContent = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+
+            // CMYK
+            const cmyk = rgbToCmyk(r, g, b);
+            codeCmyk.textContent = `${cmyk.c}%, ${cmyk.m}%, ${cmyk.y}%, ${cmyk.k}%`;
+
+            // Contrast check (YIQ)
+            const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+            contrastLabel.textContent = yiq >= 128 ? "Dark text recommended" : "Light text recommended";
+
+            // Render Tints
+            renderTints(r, g, b);
+        }
+
+        function rgbToHex(r, g, b) {
+            return "#" + [r, g, b].map(x => {
+                const hex = Number(x).toString(16);
+                return hex.length === 1 ? "0" + hex : hex;
+            }).join('');
+        }
+
+        function hexToRgb(hex) {
+            let clean = hex.replace('#', '');
+            if (clean.length === 3) clean = clean.split('').map(c => c + c).join('');
+            const num = parseInt(clean, 16);
+            return {
+                r: (num >> 16) & 255,
+                g: (num >> 8) & 255,
+                b: num & 255
+            };
+        }
+
+        function rgbToHsl(r, g, b) {
+            r /= 255; g /= 255; b /= 255;
+            const max = Math.max(r, g, b), min = Math.min(r, g, b);
+            let h, s, l = (max + min) / 2;
+
+            if (max === min) {
+                h = s = 0;
+            } else {
+                const d = max - min;
+                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                switch(max) {
+                    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                    case g: h = (b - r) / d + 2; break;
+                    case b: h = (r - g) / d + 4; break;
+                }
+                h /= 6;
+            }
+            return { h: Math.round(h * 360), s: Math.round(s * 100), l: Math.round(l * 100) };
+        }
+
+        function rgbToCmyk(r, g, b) {
+            let c = 1 - (r / 255);
+            let m = 1 - (g / 255);
+            let y = 1 - (b / 255);
+            let k = Math.min(c, Math.min(m, y));
+
+            if (k === 1) return { c: 0, m: 0, y: 0, k: 100 };
+            return {
+                c: Math.round(((c - k) / (1 - k)) * 100),
+                m: Math.round(((m - k) / (1 - k)) * 100),
+                y: Math.round(((y - k) / (1 - k)) * 100),
+                k: Math.round(k * 100)
+            };
+        }
+
+        function renderTints(r, g, b) {
+            tintsStrip.innerHTML = '';
+            const factors = [0.3, 0.5, 0.7, 1.0, 1.3, 1.6, 1.8];
+            factors.forEach(f => {
+                let tr, tg, tb;
+                if (f <= 1) {
+                    tr = Math.round(r * f);
+                    tg = Math.round(g * f);
+                    tb = Math.round(b * f);
+                } else {
+                    const tint = f - 1;
+                    tr = Math.round(r + (255 - r) * tint);
+                    tg = Math.round(g + (255 - g) * tint);
+                    tb = Math.round(b + (255 - b) * tint);
+                }
+                const div = document.createElement('div');
+                div.style.backgroundColor = rgbToHex(Math.min(255, tr), Math.min(255, tg), Math.min(255, tb));
+                div.className = "cursor-pointer hover:opacity-80 transition-opacity";
+                div.title = rgbToHex(Math.min(255, tr), Math.min(255, tg), Math.min(255, tb));
+                div.addEventListener('click', () => {
+                    updateFromRGB(Math.min(255, tr), Math.min(255, tg), Math.min(255, tb));
+                });
+                tintsStrip.appendChild(div);
+            });
+        }
+
+        colorPicker.addEventListener('input', () => {
+            const rgb = hexToRgb(colorPicker.value);
+            updateFromRGB(rgb.r, rgb.g, rgb.b);
+        });
+
+        hexInput.addEventListener('input', () => {
+            if (/^#?[0-9A-Fa-f]{6}$/.test(hexInput.value)) {
+                const rgb = hexToRgb(hexInput.value);
+                updateFromRGB(rgb.r, rgb.g, rgb.b);
+            }
+        });
+
+        [sliderR, sliderG, sliderB].forEach(slider => {
+            slider.addEventListener('input', () => {
+                updateFromRGB(parseInt(sliderR.value), parseInt(sliderG.value), parseInt(sliderB.value));
+            });
+        });
+
+        presetSwatches.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const rgb = hexToRgb(btn.dataset.color);
+                updateFromRGB(rgb.r, rgb.g, rgb.b);
+            });
+        });
+
+        randomBtn.addEventListener('click', () => {
+            const r = Math.floor(Math.random() * 256);
+            const g = Math.floor(Math.random() * 256);
+            const b = Math.floor(Math.random() * 256);
+            updateFromRGB(r, g, b);
+        });
+
+        copyBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const targetId = btn.dataset.copy;
+                const text = document.getElementById(targetId).textContent;
+                navigator.clipboard.writeText(text).then(() => {
+                    const orig = btn.textContent;
+                    btn.textContent = "Copied!";
+                    setTimeout(() => { btn.textContent = orig; }, 1500);
+                });
+            });
+        });
+
+        // Initialize with default
+        updateFromRGB(99, 102, 241);
+    </script>
+</body>
+</html>

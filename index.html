@@ -1,0 +1,1847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OmniTools 2.0 — 64 Free Client-Side Productivity &amp; Developer Utilities</title>
+  <meta name="description" content="OmniTools 2.0 is a fast, privacy-first portal of 64 free client-side productivity tools. Convert PDFs, compress images, calculate investments, audit SEO, and format code directly in your browser with zero server uploads.">
+  <meta name="keywords" content="client-side tools, online pdf converter, merge pdf, split pdf, image compressor, compress image to 100kb, sip calculator, bmi calculator, seo analyzer, json formatter, qr code generator, privacy-first utilities, offline pwa tools, omnitools">
+  <meta name="author" content="OmniTools">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#4f46e5">
+  <link rel="canonical" href="https://YOUR_DOMAIN.com/">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+
+  <!-- OpenGraph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="OmniTools">
+  <meta property="og:title" content="OmniTools 2.0 — 64 Free Client-Side Productivity Tools">
+  <meta property="og:description" content="Convert PDFs, optimize images, calculate finances, and run SEO &amp; developer utilities 100% locally in your browser with zero server uploads.">
+  <meta property="og:image" content="https://YOUR_DOMAIN.com/images/og-banner.svg">
+  <meta property="og:image:alt" content="OmniTools 2.0 — 64 Free Client-Side Productivity Tools">
+  <meta property="og:url" content="https://YOUR_DOMAIN.com/">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="OmniTools 2.0 — 64 Free Client-Side Productivity Tools">
+  <meta name="twitter:description" content="64 fast, privacy-first browser utilities for PDFs, images, finance, SEO, and developers. Zero server uploads.">
+  <meta name="twitter:image" content="https://YOUR_DOMAIN.com/images/og-banner.svg">
+
+  <link rel="stylesheet" href="/src/input.css">
+
+  <!-- Structured Data (JSON-LD) for SEO & AEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://YOUR_DOMAIN.com/#website",
+        "url": "https://YOUR_DOMAIN.com/",
+        "name": "OmniTools",
+        "description": "64 free, client-side productivity, PDF, image, calculator, SEO, finance, and developer utilities running 100% inside your browser.",
+        "publisher": {
+          "@id": "https://YOUR_DOMAIN.com/#organization"
+        },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://YOUR_DOMAIN.com/?q={search_term_string}"
+          },
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://YOUR_DOMAIN.com/#organization",
+        "name": "OmniTools",
+        "url": "https://YOUR_DOMAIN.com/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://YOUR_DOMAIN.com/images/logo.svg"
+        }
+      },
+      {
+        "@type": "ItemList",
+        "@id": "https://YOUR_DOMAIN.com/#tools",
+        "name": "OmniTools 2.0 — 64 Client-Side Productivity Tools",
+        "numberOfItems": 64,
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "PDF to Word", "url": "https://YOUR_DOMAIN.com/tools/pdf/pdf-to-word.html", "description": "Convert PDF files into editable Word (.doc) documents client-side." },
+          { "@type": "ListItem", "position": 2, "name": "PDF to Excel", "url": "https://YOUR_DOMAIN.com/tools/pdf/pdf-to-excel.html", "description": "Extract PDF data tables into editable Excel (.xlsx) spreadsheets." },
+          { "@type": "ListItem", "position": 3, "name": "PDF to CSV", "url": "https://YOUR_DOMAIN.com/tools/pdf/pdf-to-csv.html", "description": "Extract tabular PDF contents into clean CSV spreadsheets." },
+          { "@type": "ListItem", "position": 4, "name": "PDF to HTML", "url": "https://YOUR_DOMAIN.com/tools/pdf/pdf-to-html.html", "description": "Convert PDFs to clean HTML code preserving text and formatting." },
+          { "@type": "ListItem", "position": 5, "name": "PDF to Text", "url": "https://YOUR_DOMAIN.com/tools/pdf/pdf-to-text.html", "description": "Extract raw text from PDF documents with instant copy and download." },
+          { "@type": "ListItem", "position": 6, "name": "PDF to JPG", "url": "https://YOUR_DOMAIN.com/tools/pdf/pdf-to-jpg.html", "description": "Render and export PDF pages as high-quality JPG images." },
+          { "@type": "ListItem", "position": 7, "name": "PDF to PNG", "url": "https://YOUR_DOMAIN.com/tools/pdf/pdf-to-png.html", "description": "Convert PDF pages to lossless PNG images with transparent support." },
+          { "@type": "ListItem", "position": 8, "name": "PDF to WebP", "url": "https://YOUR_DOMAIN.com/tools/pdf/pdf-to-webp.html", "description": "Convert PDF pages into lightweight, modern WebP images." },
+          { "@type": "ListItem", "position": 9, "name": "PDF to XML", "url": "https://YOUR_DOMAIN.com/tools/pdf/pdf-to-xml.html", "description": "Parse and structure PDF text into formatted XML hierarchy." },
+          { "@type": "ListItem", "position": 10, "name": "PDF to JSON", "url": "https://YOUR_DOMAIN.com/tools/pdf/pdf-to-json.html", "description": "Extract PDF text and page metadata into structured JSON." },
+          { "@type": "ListItem", "position": 11, "name": "PDF to ZIP", "url": "https://YOUR_DOMAIN.com/tools/pdf/pdf-to-zip.html", "description": "Package and compress PDF documents into secure ZIP archives." },
+          { "@type": "ListItem", "position": 12, "name": "Merge PDF", "url": "https://YOUR_DOMAIN.com/tools/pdf/merge-pdf.html", "description": "Combine multiple PDF files into a single unified document." },
+          { "@type": "ListItem", "position": 13, "name": "PDF Splitter", "url": "https://YOUR_DOMAIN.com/tools/pdf/pdf-splitter.html", "description": "Split multi-page PDFs into separate documents by page range." },
+          { "@type": "ListItem", "position": 14, "name": "PDF Watermark", "url": "https://YOUR_DOMAIN.com/tools/pdf/pdf-watermark.html", "description": "Add custom text watermarks to your PDF pages securely." },
+          { "@type": "ListItem", "position": 15, "name": "PNG to PDF", "url": "https://YOUR_DOMAIN.com/tools/pdf/png-to-pdf.html", "description": "Convert PNG images into a clean, downloadable PDF document." },
+          { "@type": "ListItem", "position": 16, "name": "JPEG to PDF", "url": "https://YOUR_DOMAIN.com/tools/pdf/jpeg-to-pdf.html", "description": "Turn JPG/JPEG photos into professional PDF documents." },
+          { "@type": "ListItem", "position": 17, "name": "WebP to PDF", "url": "https://YOUR_DOMAIN.com/tools/pdf/webp-to-pdf.html", "description": "Convert modern WebP graphics into standard PDF format." },
+          { "@type": "ListItem", "position": 18, "name": "Text to PDF", "url": "https://YOUR_DOMAIN.com/tools/pdf/text-to-pdf.html", "description": "Convert plain text and notes into formatted PDF documents." },
+          { "@type": "ListItem", "position": 19, "name": "HTML to PDF", "url": "https://YOUR_DOMAIN.com/tools/pdf/html-to-pdf.html", "description": "Render HTML code or web snippets directly into PDF pages." },
+          { "@type": "ListItem", "position": 20, "name": "Excel to PDF", "url": "https://YOUR_DOMAIN.com/tools/pdf/excel-to-pdf.html", "description": "Convert Excel spreadsheets (.xlsx) into clean printable PDFs." },
+          { "@type": "ListItem", "position": 21, "name": "CSV to PDF", "url": "https://YOUR_DOMAIN.com/tools/pdf/csv-to-pdf.html", "description": "Transform CSV datasets into formatted table PDF reports." },
+          { "@type": "ListItem", "position": 22, "name": "JSON to PDF", "url": "https://YOUR_DOMAIN.com/tools/pdf/json-to-pdf.html", "description": "Convert JSON tree datasets into readable PDF documents." },
+          { "@type": "ListItem", "position": 23, "name": "XML to PDF", "url": "https://YOUR_DOMAIN.com/tools/pdf/xml-to-pdf.html", "description": "Render XML files into structured, printable PDF files." },
+          { "@type": "ListItem", "position": 24, "name": "Speech to PDF", "url": "https://YOUR_DOMAIN.com/tools/pdf/speech-to-pdf.html", "description": "Transcribe your voice in real-time and export directly as PDF." },
+          { "@type": "ListItem", "position": 25, "name": "Image Compressor", "url": "https://YOUR_DOMAIN.com/tools/images/image-compressor.html", "description": "Reduce image file size with zero quality loss using HTML5 Canvas." },
+          { "@type": "ListItem", "position": 26, "name": "Image Resizer", "url": "https://YOUR_DOMAIN.com/tools/images/image-resizer.html", "description": "Resize images by width, height, or aspect ratio with instant preview." },
+          { "@type": "ListItem", "position": 27, "name": "Compress to 100KB", "url": "https://YOUR_DOMAIN.com/tools/images/image-100kb.html", "description": "Optimize photos to strictly under 100KB for portals and forms." },
+          { "@type": "ListItem", "position": 28, "name": "Image Watermark Adder", "url": "https://YOUR_DOMAIN.com/tools/images/image-watermark.html", "description": "Add repeated or positioned text watermarks over images." },
+          { "@type": "ListItem", "position": 29, "name": "JPG to PNG Converter", "url": "https://YOUR_DOMAIN.com/tools/images/jpg-to-png.html", "description": "Convert JPG photos to PNG format with lossless compression." },
+          { "@type": "ListItem", "position": 30, "name": "PNG to JPG Converter", "url": "https://YOUR_DOMAIN.com/tools/images/png-to-jpg.html", "description": "Convert transparent PNG files into high-speed JPG format." },
+          { "@type": "ListItem", "position": 31, "name": "Age Calculator", "url": "https://YOUR_DOMAIN.com/tools/calculators/age-calculator.html", "description": "Calculate your exact age in years, months, days, and total hours." },
+          { "@type": "ListItem", "position": 32, "name": "BMI Calculator", "url": "https://YOUR_DOMAIN.com/tools/calculators/bmi-calculator.html", "description": "Evaluate body mass index and healthy weight ranges with charts." },
+          { "@type": "ListItem", "position": 33, "name": "Compound Interest", "url": "https://YOUR_DOMAIN.com/tools/calculators/compound-interest.html", "description": "Calculate future investment growth with compound interest charts." },
+          { "@type": "ListItem", "position": 34, "name": "GST Calculator", "url": "https://YOUR_DOMAIN.com/tools/calculators/gst-calculator.html", "description": "Quickly compute inclusive and exclusive Goods and Services Tax." },
+          { "@type": "ListItem", "position": 35, "name": "SIP Calculator", "url": "https://YOUR_DOMAIN.com/tools/calculators/sip-calculator.html", "description": "Plan mutual fund systematic investments with interactive projection graphs." },
+          { "@type": "ListItem", "position": 36, "name": "Unit Converter", "url": "https://YOUR_DOMAIN.com/tools/calculators/unit-converter.html", "description": "Convert length, weight, temperature, area, and volume instantly." },
+          { "@type": "ListItem", "position": 37, "name": "SEO & Speed Analyzer", "url": "https://YOUR_DOMAIN.com/tools/seo/seo-analyzer.html", "description": "Run Google PageSpeed performance and SEO audits on any URL." },
+          { "@type": "ListItem", "position": 38, "name": "Extract Meta Tags", "url": "https://YOUR_DOMAIN.com/tools/seo/extract-meta-tags.html", "description": "Inspect OpenGraph, Twitter Cards, and SEO meta tags of any site." },
+          { "@type": "ListItem", "position": 39, "name": "Meta Tag Generator", "url": "https://YOUR_DOMAIN.com/tools/seo/meta-tag-generator.html", "description": "Build Google and social media meta tags with live SERP preview." },
+          { "@type": "ListItem", "position": 40, "name": "Robots.txt Generator", "url": "https://YOUR_DOMAIN.com/tools/seo/robots-txt-generator.html", "description": "Configure crawl permissions and bot rules with visual controls." },
+          { "@type": "ListItem", "position": 41, "name": "XML Sitemap Generator", "url": "https://YOUR_DOMAIN.com/tools/seo/xml-sitemap-generator.html", "description": "Crawl internal links and generate search engine XML sitemaps." },
+          { "@type": "ListItem", "position": 42, "name": "Website Speed Test", "url": "https://YOUR_DOMAIN.com/tools/seo/website-speed-test.html", "description": "Benchmark page load metrics, Core Web Vitals, and DNS timing." },
+          { "@type": "ListItem", "position": 43, "name": "Keyword Density", "url": "https://YOUR_DOMAIN.com/tools/seo/keyword-density.html", "description": "Analyze word frequency and keyword optimization percentages in text." },
+          { "@type": "ListItem", "position": 44, "name": "YouTube Media Hub", "url": "https://YOUR_DOMAIN.com/tools/utilities/youtube-video-downloader.html", "description": "Watch videos in a private player, get embed codes and download HD thumbnails." },
+          { "@type": "ListItem", "position": 45, "name": "Thumbnail Downloader", "url": "https://YOUR_DOMAIN.com/tools/utilities/thumbnail-downloader.html", "description": "Extract and download YouTube thumbnails in 1080p, 720p, and 480p." },
+          { "@type": "ListItem", "position": 46, "name": "YouTube Tag Generator", "url": "https://YOUR_DOMAIN.com/tools/utilities/youtube-tag-generator.html", "description": "Generate high-ranking SEO tags and keywords for YouTube videos." },
+          { "@type": "ListItem", "position": 47, "name": "Screenshot Taker", "url": "https://YOUR_DOMAIN.com/tools/utilities/website-screenshot-taker.html", "description": "Capture any tab, window, or display screen directly in high definition." },
+          { "@type": "ListItem", "position": 48, "name": "QR Code Generator", "url": "https://YOUR_DOMAIN.com/tools/utilities/qr-code-generator.html", "description": "Generate custom QR codes for URLs, WiFi, emails, and texts." },
+          { "@type": "ListItem", "position": 49, "name": "Password Generator", "url": "https://YOUR_DOMAIN.com/tools/utilities/password-generator.html", "description": "Generate cryptographically strong, customizable secure passwords." },
+          { "@type": "ListItem", "position": 50, "name": "JSON Formatter & Validator", "url": "https://YOUR_DOMAIN.com/tools/utilities/json-formatter.html", "description": "Prettify, minify, validate, and inspect JSON payloads with syntax highlighting." },
+          { "@type": "ListItem", "position": 51, "name": "MD5 Hash Generator", "url": "https://YOUR_DOMAIN.com/tools/utilities/md5-hash-generator.html", "description": "Compute client-side cryptographic MD5 hashes from any string." },
+          { "@type": "ListItem", "position": 52, "name": "Notes App & Scratchpad", "url": "https://YOUR_DOMAIN.com/tools/utilities/notes-app.html", "description": "Write, edit, and persist notes locally in browser storage." },
+          { "@type": "ListItem", "position": 53, "name": "Internet Speed Test", "url": "https://YOUR_DOMAIN.com/tools/utilities/netspeed-test.html", "description": "Test real-time ping, latency, and download throughput." },
+          { "@type": "ListItem", "position": 54, "name": "Word & Character Counter", "url": "https://YOUR_DOMAIN.com/tools/utilities/word-counter.html", "description": "Count words, characters, sentences, paragraphs, and reading time." },
+          { "@type": "ListItem", "position": 55, "name": "Caesar Cipher", "url": "https://YOUR_DOMAIN.com/tools/utilities/caesar-cipher.html", "description": "Encrypt and decrypt text messages using classic shift cryptography." },
+          { "@type": "ListItem", "position": 56, "name": "Color Code Picker", "url": "https://YOUR_DOMAIN.com/tools/utilities/color-code.html", "description": "Pick colors and copy HEX, RGB, HSL, and CMYK formats." },
+          { "@type": "ListItem", "position": 57, "name": "CSS Gradient Generator", "url": "https://YOUR_DOMAIN.com/tools/utilities/css-gradient-generator.html", "description": "Design linear and radial CSS gradients with 1-click CSS code export." },
+          { "@type": "ListItem", "position": 58, "name": "Number to Word", "url": "https://YOUR_DOMAIN.com/tools/utilities/number-to-word.html", "description": "Spell numbers out into English words for checks and invoices." },
+          { "@type": "ListItem", "position": 59, "name": "Lorem Ipsum Generator", "url": "https://YOUR_DOMAIN.com/tools/utilities/lorem-ipsum.html", "description": "Generate custom dummy placeholder text for mockups and designs." },
+          { "@type": "ListItem", "position": 60, "name": "Logo Maker", "url": "https://YOUR_DOMAIN.com/tools/utilities/logo-maker.html", "description": "Craft simple brand marks and typography logos client-side." },
+          { "@type": "ListItem", "position": 61, "name": "Privacy Policy Generator", "url": "https://YOUR_DOMAIN.com/tools/utilities/privacy-policy-generator.html", "description": "Generate compliant privacy policies for websites and apps." },
+          { "@type": "ListItem", "position": 62, "name": "Currency Converter", "url": "https://YOUR_DOMAIN.com/tools/finance/currency-converter/index.html", "description": "Convert 160+ world currencies with real-time live exchange rates." },
+          { "@type": "ListItem", "position": 63, "name": "Flappy Bird Game", "url": "https://YOUR_DOMAIN.com/tools/games/bird-game.html", "description": "Play the classic flying bird obstacle arcade game in WebGL." },
+          { "@type": "ListItem", "position": 64, "name": "Tic Tac Toe Game", "url": "https://YOUR_DOMAIN.com/tools/games/tic-tac-toe.html", "description": "Play interactive Tic Tac Toe against a friend or smart AI." }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://YOUR_DOMAIN.com/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How does OmniTools 2.0 guarantee 100% client-side privacy and zero server uploads?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Every PDF conversion, image compression, financial calculation, and developer utility on OmniTools executes strictly inside your browser's local memory using HTML5 Web APIs (Canvas, FileReader, Blob, Web Crypto) and client-side libraries. Your files never touch an external server."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I use OmniTools offline as a Progressive Web App (PWA)?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. OmniTools 2.0 includes a Web App Manifest and Service Worker that cache static assets and tool interfaces so you can install it on desktop or mobile and run offline-capable utilities without an active internet connection."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What file formats are supported across the PDF and image tools?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "OmniTools supports bidirectional conversions across PDF, DOC/Word, XLSX/Excel, CSV, HTML, TXT, JSON, XML, ZIP, PNG, JPG/JPEG, and WebP, along with lossless/lossy resizing, 100KB target compression, merging, splitting, and watermarking."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Are all 64 tools completely free with no account or paywalls?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. All 64 utilities are 100% free with zero ads, zero registration walls, and no arbitrary daily file limits—bounded only by your browser's available device memory."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which browsers are supported by OmniTools 2.0?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "OmniTools supports all modern evergreen browsers including Google Chrome, Microsoft Edge, Mozilla Firefox, and Apple Safari on desktop and mobile devices."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do bookmarks, recent tools, and Ctrl+K command search work?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Press Ctrl+K (or Cmd+K on macOS, or /) from any page to open the instant command palette. You can also star any tool to pin it to your Quick Access bar; favorites and recent history are stored privately in your browser's localStorage."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen flex flex-col justify-between transition-colors">
+
+  <!-- Linear-Style Hero Section -->
+  <section class="relative pt-20 pb-16 px-4 text-center overflow-hidden border-b border-zinc-200/80 dark:border-zinc-800/80 bg-radial-[at_top] from-indigo-500/10 via-transparent to-transparent">
+    <div class="max-w-4xl mx-auto relative z-10">
+
+      <!-- Announcement Pill -->
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800/80 text-indigo-700 dark:text-indigo-300 text-xs font-semibold mb-6 shadow-2xs">
+        <span class="flex h-2 w-2 rounded-full bg-indigo-500 animate-pulse"></span>
+        <span>Introducing OmniTools 2.0 • 64 Client-Side Utilities</span>
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+      </div>
+
+      <!-- Main Headline -->
+      <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight mb-5 leading-tight text-zinc-900 dark:text-white">
+        Universal Utilities.<br>
+        <span class="bg-gradient-to-r from-indigo-600 via-violet-600 to-cyan-500 bg-clip-text text-transparent">Zero Server Uploads.</span>
+      </h1>
+
+      <p class="text-sm sm:text-base md:text-lg text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto mb-8 font-normal leading-relaxed">
+        A unified suite of high-performance tools for developers, creators, and everyday productivity. Converted, calculated, and processed directly inside your browser memory.
+      </p>
+
+      <!-- Hero Command Search Bar -->
+      <div id="search" class="max-w-xl mx-auto mb-8">
+        <div class="relative flex items-center group">
+          <input type="text" id="search-input" placeholder="Search 64 tools (e.g. 'pdf to word', 'compress image', 'sip', 'json')..."
+            class="w-full pl-12 pr-28 py-3.5 rounded-2xl bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white placeholder-zinc-400 border border-zinc-200 dark:border-zinc-800 shadow-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-sm transition-all"
+            autocomplete="off">
+          <svg class="w-5 h-5 text-zinc-400 absolute left-4 pointer-events-none group-focus-within:text-indigo-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+          <div class="absolute right-3.5 flex items-center gap-1.5 pointer-events-none">
+            <kbd class="px-2 py-0.5 text-[10px] font-mono bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-md text-zinc-400 shadow-2xs">Ctrl+K</kbd>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature Badges -->
+      <div class="flex flex-wrap items-center justify-center gap-2.5 text-xs text-zinc-500 dark:text-zinc-400 font-medium">
+        <span class="privacy-badge">
+          <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span>100% Client-Side Privacy</span>
+        </span>
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold bg-zinc-100 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300">
+          <svg class="w-3.5 h-3.5 text-amber-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          <span>Instant In-Memory Execution</span>
+        </span>
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold bg-zinc-100 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300">
+          <svg class="w-3.5 h-3.5 text-indigo-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>
+          <span>Zero Ads • 100% Free</span>
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content Grid -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full flex-1">
+
+    <!-- 1. PDF Conversion & Utilities Section (Rose Accent) -->
+    <section id="pdf-tools" class="mb-14 scroll-mt-24">
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 flex items-center justify-center shrink-0">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          </div>
+          <div>
+            <h2 class="text-xl font-bold text-zinc-900 dark:text-white">PDF Conversion &amp; Utilities</h2>
+            <p class="text-xs text-zinc-500 dark:text-zinc-400">Secure, client-side PDF conversions, merging, splitting, and watermarking.</p>
+          </div>
+        </div>
+        <span class="text-xs px-2.5 py-1 rounded-full bg-rose-500/10 text-rose-600 dark:text-rose-400 font-semibold border border-rose-500/20">
+          24 Tools
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+
+        <!-- 1. PDF to Word -->
+        <div class="tool-card group">
+          <a href="/tools/pdf/pdf-to-word.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20">PDF</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">PDF to Word</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Convert PDF files into editable Word (.doc) documents client-side.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 2. PDF to Excel -->
+        <div class="tool-card group">
+          <a href="/tools/pdf/pdf-to-excel.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20">PDF</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">PDF to Excel</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Extract PDF data tables into editable Excel (.xlsx) spreadsheets.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 3. PDF to CSV -->
+        <div class="tool-card group">
+          <a href="/tools/pdf/pdf-to-csv.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M8 13h2"/><path d="M8 17h2"/><path d="M14 13h2"/><path d="M14 17h2"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20">PDF</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">PDF to CSV</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Extract tabular PDF contents into clean CSV spreadsheets.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 4. PDF to HTML -->
+        <div class="tool-card group">
+          <a href="/tools/pdf/pdf-to-html.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20">PDF</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">PDF to HTML</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Convert PDFs to clean HTML code preserving text and formatting.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 5. PDF to Text -->
+        <div class="tool-card group">
+          <a href="/tools/pdf/pdf-to-text.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><line x1="21" y1="6" x2="3" y2="6"/><line x1="15" y1="12" x2="3" y2="12"/><line x1="17" y1="18" x2="3" y2="18"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20">PDF</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">PDF to Text</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Extract raw text from PDF documents with instant copy &amp; download.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 6. PDF to JPG -->
+        <div class="tool-card group">
+          <a href="/tools/pdf/pdf-to-jpg.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20">PDF</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">PDF to JPG</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Render and export PDF pages as high-quality JPG images.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 7. PDF to PNG -->
+        <div class="tool-card group">
+          <a href="/tools/pdf/pdf-to-png.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20">PDF</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">PDF to PNG</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Convert PDF pages to lossless PNG images with transparent support.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 8. PDF to WebP -->
+        <div class="tool-card group">
+          <a href="/tools/pdf/pdf-to-webp.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20">PDF</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">PDF to WebP</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Convert PDF pages into lightweight, modern WebP images.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 9. PDF to XML -->
+        <div class="tool-card group">
+          <a href="/tools/pdf/pdf-to-xml.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/><line x1="14" y1="4" x2="10" y2="20"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20">PDF</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">PDF to XML</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Parse and structure PDF text into formatted XML hierarchy.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 10. PDF to JSON -->
+        <div class="tool-card group">
+          <a href="/tools/pdf/pdf-to-json.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1"/><path d="M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20">PDF</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">PDF to JSON</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Extract PDF text and page metadata into structured JSON.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 11. PDF to ZIP -->
+        <div class="tool-card group">
+          <a href="/tools/pdf/pdf-to-zip.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20">PDF</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">PDF to ZIP</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Package and compress PDF documents into secure ZIP archives.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 12. Merge PDF -->
+        <div class="tool-card group">
+          <a href="/tools/pdf/merge-pdf.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20">PDF</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">Merge PDF</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Combine multiple PDF files into a single unified document.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 13. PDF Splitter -->
+        <div class="tool-card group">
+          <a href="/tools/pdf/pdf-splitter.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20">PDF</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">PDF Splitter</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Split multi-page PDFs into separate documents by page range.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 14. PDF Watermark -->
+        <div class="tool-card group">
+          <a href="/tools/pdf/pdf-watermark.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20">PDF</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">PDF Watermark</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Add custom text watermarks to your PDF pages securely.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 15. PNG to PDF -->
+        <div class="tool-card group">
+          <a href="/tools/pdf/png-to-pdf.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><circle cx="10" cy="13" r="2"/><path d="m20 17-1.09-1.09a2 2 0 0 0-2.82 0L10 22"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20">PDF</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">PNG to PDF</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Convert PNG images into a clean, downloadable PDF document.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 16. JPEG to PDF -->
+        <div class="tool-card group">
+          <a href="/tools/pdf/jpeg-to-pdf.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20">PDF</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">JPEG to PDF</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Turn JPG/JPEG photos into professional PDF documents.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 17. WebP to PDF -->
+        <div class="tool-card group">
+          <a href="/tools/pdf/webp-to-pdf.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20">PDF</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">WebP to PDF</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Convert modern WebP graphics into standard PDF format.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 18. Text to PDF -->
+        <div class="tool-card group">
+          <a href="/tools/pdf/text-to-pdf.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20">PDF</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">Text to PDF</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Convert plain text and notes into formatted PDF documents.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 19. HTML to PDF -->
+        <div class="tool-card group">
+          <a href="/tools/pdf/html-to-pdf.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20">PDF</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">HTML to PDF</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Render HTML code or web snippets directly into PDF pages.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 20. Excel to PDF -->
+        <div class="tool-card group">
+          <a href="/tools/pdf/excel-to-pdf.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20">PDF</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">Excel to PDF</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Convert Excel spreadsheets (.xlsx) into clean printable PDFs.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 21. CSV to PDF -->
+        <div class="tool-card group">
+          <a href="/tools/pdf/csv-to-pdf.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M8 13h2"/><path d="M8 17h2"/><path d="M14 13h2"/><path d="M14 17h2"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20">PDF</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">CSV to PDF</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Transform CSV datasets into formatted table PDF reports.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 22. JSON to PDF -->
+        <div class="tool-card group">
+          <a href="/tools/pdf/json-to-pdf.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1"/><path d="M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20">PDF</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">JSON to PDF</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Convert JSON tree datasets into readable PDF documents.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 23. XML to PDF -->
+        <div class="tool-card group">
+          <a href="/tools/pdf/xml-to-pdf.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/><line x1="14" y1="4" x2="10" y2="20"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20">PDF</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">XML to PDF</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Render XML files into structured, printable PDF files.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 24. Speech to PDF -->
+        <div class="tool-card group">
+          <a href="/tools/pdf/speech-to-pdf.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20">PDF</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">Speech to PDF</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Transcribe your voice in real-time and export directly as PDF.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 2. Image Processing & Optimization Section (Blue Accent) -->
+    <section id="image-tools" class="mb-14 scroll-mt-24">
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 flex items-center justify-center shrink-0">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          </div>
+          <div>
+            <h2 class="text-xl font-bold text-zinc-900 dark:text-white">Image Processing &amp; Optimization</h2>
+            <p class="text-xs text-zinc-500 dark:text-zinc-400">Compress, resize, watermark, and convert image files right in browser.</p>
+          </div>
+        </div>
+        <span class="text-xs px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 font-semibold border border-blue-500/20">
+          6 Tools
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+
+        <!-- 25. Image Compressor -->
+        <div class="tool-card group">
+          <a href="/tools/images/image-compressor.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="14" y1="10" x2="21" y2="3"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20">Image</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">Image Compressor</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Reduce image file size with zero quality loss using HTML5 Canvas.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 26. Image Resizer -->
+        <div class="tool-card group">
+          <a href="/tools/images/image-resizer.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20">Image</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">Image Resizer</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Resize images by width, height, or aspect ratio with instant preview.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 27. Compress to 100KB -->
+        <div class="tool-card group">
+          <a href="/tools/images/image-100kb.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20">Image</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">Compress to 100KB</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Optimize photos to strictly under 100KB for portals &amp; forms.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 28. Image Watermark Adder -->
+        <div class="tool-card group">
+          <a href="/tools/images/image-watermark.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20">Image</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">Image Watermark Adder</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Add repeated or positioned text watermarks over images.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 29. JPG to PNG Converter -->
+        <div class="tool-card group">
+          <a href="/tools/images/jpg-to-png.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20">Image</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">JPG to PNG Converter</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Convert JPG photos to PNG format with lossless compression.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 30. PNG to JPG Converter -->
+        <div class="tool-card group">
+          <a href="/tools/images/png-to-jpg.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20">Image</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">PNG to JPG Converter</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Convert transparent PNG files into high-speed JPG format.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3. Financial & Everyday Calculators Section (Emerald Accent) -->
+    <section id="calculators" class="mb-14 scroll-mt-24">
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center justify-center shrink-0">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="16" y1="14" x2="16" y2="18"/><path d="M8 10h.01"/><path d="M12 10h.01"/><path d="M16 10h.01"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/></svg>
+          </div>
+          <div>
+            <h2 class="text-xl font-bold text-zinc-900 dark:text-white">Financial &amp; Everyday Calculators</h2>
+            <p class="text-xs text-zinc-500 dark:text-zinc-400">Calculate investments, interest, BMI, age, and convert units.</p>
+          </div>
+        </div>
+        <span class="text-xs px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-semibold border border-emerald-500/20">
+          6 Tools
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+
+        <!-- 31. Age Calculator -->
+        <div class="tool-card group">
+          <a href="/tools/calculators/age-calculator.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20">Calculator</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">Age Calculator</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Calculate your exact age in years, months, days, and total hours.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 32. BMI Calculator -->
+        <div class="tool-card group">
+          <a href="/tools/calculators/bmi-calculator.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20">Calculator</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">BMI Calculator</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Evaluate body mass index and healthy weight ranges with charts.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 33. Compound Interest -->
+        <div class="tool-card group">
+          <a href="/tools/calculators/compound-interest.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20">Calculator</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">Compound Interest</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Calculate future investment growth with compound interest charts.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 34. GST Calculator -->
+        <div class="tool-card group">
+          <a href="/tools/calculators/gst-calculator.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M8 7h8"/><path d="M8 11h8"/><path d="M8 15h5"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20">Calculator</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">GST Calculator</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Quickly compute inclusive and exclusive Goods and Services Tax.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 35. SIP Calculator -->
+        <div class="tool-card group">
+          <a href="/tools/calculators/sip-calculator.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20">Calculator</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">SIP Calculator</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Plan mutual fund systematic investments with interactive projection graphs.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 36. Unit Converter -->
+        <div class="tool-card group">
+          <a href="/tools/calculators/unit-converter.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z"/><path d="m14.5 12.5 2-2"/><path d="m11.5 9.5 2-2"/><path d="m8.5 6.5 2-2"/><path d="m17.5 15.5 2-2"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20">Calculator</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">Unit Converter</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Convert length, weight, temperature, area, and volume instantly.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 4. SEO & Web Optimization Section (Purple Accent) -->
+    <section id="seo-tools" class="mb-14 scroll-mt-24">
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 flex items-center justify-center shrink-0">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+          <div>
+            <h2 class="text-xl font-bold text-zinc-900 dark:text-white">SEO &amp; Web Optimization</h2>
+            <p class="text-xs text-zinc-500 dark:text-zinc-400">Audit page performance, generate meta tags, and build sitemaps.</p>
+          </div>
+        </div>
+        <span class="text-xs px-2.5 py-1 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-400 font-semibold border border-purple-500/20">
+          7 Tools
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+
+        <!-- 37. SEO & Speed Analyzer -->
+        <div class="tool-card group">
+          <a href="/tools/seo/seo-analyzer.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20">SEO</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">SEO &amp; Speed Analyzer</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Run Google PageSpeed performance &amp; SEO audits on any URL.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 38. Extract Meta Tags -->
+        <div class="tool-card group">
+          <a href="/tools/seo/extract-meta-tags.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20">SEO</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">Extract Meta Tags</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Inspect OpenGraph, Twitter Cards, and SEO meta tags of any site.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 39. Meta Tag Generator -->
+        <div class="tool-card group">
+          <a href="/tools/seo/meta-tag-generator.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20">SEO</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">Meta Tag Generator</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Build Google and social media meta tags with live SERP preview.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 40. Robots.txt Generator -->
+        <div class="tool-card group">
+          <a href="/tools/seo/robots-txt-generator.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8.01" y2="16"/><line x1="16" y1="16" x2="16.01" y2="16"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20">SEO</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">Robots.txt Generator</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Configure crawl permissions and bot rules with visual controls.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 41. XML Sitemap Generator -->
+        <div class="tool-card group">
+          <a href="/tools/seo/xml-sitemap-generator.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="4" rx="1"/><rect x="3" y="17" width="6" height="4" rx="1"/><rect x="15" y="17" width="6" height="4" rx="1"/><path d="M12 7v4"/><path d="M6 17v-4h12v4"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20">SEO</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">XML Sitemap Generator</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Crawl internal links and generate search engine XML sitemaps.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 42. Website Speed Test -->
+        <div class="tool-card group">
+          <a href="/tools/seo/website-speed-test.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 14l4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20">SEO</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">Website Speed Test</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Benchmark page load metrics, Core Web Vitals, and DNS timing.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 43. Keyword Density -->
+        <div class="tool-card group">
+          <a href="/tools/seo/keyword-density.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20">SEO</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">Keyword Density</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Analyze word frequency and keyword optimization percentages in text.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 5. Developer & Everyday Utilities Section (Indigo Accent) -->
+    <section id="developer-tools" class="mb-14 scroll-mt-24">
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 flex items-center justify-center shrink-0">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+          <div>
+            <h2 class="text-xl font-bold text-zinc-900 dark:text-white">Developer &amp; Everyday Utilities</h2>
+            <p class="text-xs text-zinc-500 dark:text-zinc-400">Quick daily helpers for developers, designers, and students.</p>
+          </div>
+        </div>
+        <span class="text-xs px-2.5 py-1 rounded-full bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-semibold border border-indigo-500/20">
+          18 Tools
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+
+        <!-- 44. YouTube Media Hub -->
+        <div class="tool-card group">
+          <a href="/tools/utilities/youtube-video-downloader.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20">Utility</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">YouTube Media Hub</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Watch videos in a private player, get embed codes &amp; download HD thumbnails.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 45. Thumbnail Downloader -->
+        <div class="tool-card group">
+          <a href="/tools/utilities/thumbnail-downloader.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20">Utility</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">Thumbnail Downloader</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Extract and download YouTube thumbnails in 1080p, 720p, and 480p.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 46. YouTube Tag Generator -->
+        <div class="tool-card group">
+          <a href="/tools/utilities/youtube-tag-generator.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20">Utility</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">YouTube Tag Generator</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Generate high-ranking SEO tags and keywords for YouTube videos.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 47. Screenshot Taker -->
+        <div class="tool-card group">
+          <a href="/tools/utilities/website-screenshot-taker.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20">Utility</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">Screenshot Taker</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Capture any tab, window, or display screen directly in high definition.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 48. QR Code Generator -->
+        <div class="tool-card group">
+          <a href="/tools/utilities/qr-code-generator.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3z"/><path d="M17 17h4v4h-4z"/><path d="M14 21h1"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20">Utility</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">QR Code Generator</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Generate custom QR codes for URLs, WiFi, emails, and texts.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 49. Password Generator -->
+        <div class="tool-card group">
+          <a href="/tools/utilities/password-generator.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20">Utility</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">Password Generator</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Generate cryptographically strong, customizable secure passwords.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 50. JSON Formatter & Validator -->
+        <div class="tool-card group">
+          <a href="/tools/utilities/json-formatter.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1"/><path d="M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20">Utility</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">JSON Formatter &amp; Validator</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Prettify, minify, validate, and inspect JSON payloads with syntax highlighting.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 51. MD5 Hash Generator -->
+        <div class="tool-card group">
+          <a href="/tools/utilities/md5-hash-generator.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20">Utility</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">MD5 Hash Generator</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Compute client-side cryptographic MD5 hashes from any string.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 52. Notes App & Scratchpad -->
+        <div class="tool-card group">
+          <a href="/tools/utilities/notes-app.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20">Utility</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">Notes App &amp; Scratchpad</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Write, edit, and persist notes locally in browser storage.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 53. Internet Speed Test -->
+        <div class="tool-card group">
+          <a href="/tools/utilities/netspeed-test.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20">Utility</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">Internet Speed Test</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Test real-time ping, latency, and download throughput.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 54. Word & Character Counter -->
+        <div class="tool-card group">
+          <a href="/tools/utilities/word-counter.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><line x1="21" y1="6" x2="3" y2="6"/><line x1="15" y1="12" x2="3" y2="12"/><line x1="17" y1="18" x2="3" y2="18"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20">Utility</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">Word &amp; Character Counter</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Count words, characters, sentences, paragraphs, and reading time.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 55. Caesar Cipher -->
+        <div class="tool-card group">
+          <a href="/tools/utilities/caesar-cipher.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><circle cx="12" cy="16" r="1"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20">Utility</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">Caesar Cipher</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Encrypt and decrypt text messages using classic shift cryptography.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 56. Color Code Picker -->
+        <div class="tool-card group">
+          <a href="/tools/utilities/color-code.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20">Utility</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">Color Code Picker</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Pick colors and copy HEX, RGB, HSL, and CMYK formats.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 57. CSS Gradient Generator -->
+        <div class="tool-card group">
+          <a href="/tools/utilities/css-gradient-generator.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20">Utility</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">CSS Gradient Generator</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Design linear &amp; radial CSS gradients with 1-click CSS code export.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 58. Number to Word -->
+        <div class="tool-card group">
+          <a href="/tools/utilities/number-to-word.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20">Utility</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">Number to Word</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Spell numbers out into English words for checks and invoices.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 59. Lorem Ipsum Generator -->
+        <div class="tool-card group">
+          <a href="/tools/utilities/lorem-ipsum.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20">Utility</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">Lorem Ipsum Generator</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Generate custom dummy placeholder text for mockups and designs.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 60. Logo Maker -->
+        <div class="tool-card group">
+          <a href="/tools/utilities/logo-maker.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20">Utility</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">Logo Maker</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Craft simple brand marks and typography logos client-side.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 61. Privacy Policy Generator -->
+        <div class="tool-card group">
+          <a href="/tools/utilities/privacy-policy-generator.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20">Utility</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">Privacy Policy Generator</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Generate compliant privacy policies for websites and apps.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 6. Finance & Live Currency Section (Amber Accent) -->
+    <section id="financial-tools" class="mb-14 scroll-mt-24">
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 flex items-center justify-center shrink-0">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg>
+          </div>
+          <div>
+            <h2 class="text-xl font-bold text-zinc-900 dark:text-white">Finance &amp; Currency Exchange</h2>
+            <p class="text-xs text-zinc-500 dark:text-zinc-400">Live global exchange rates for 160+ world currencies.</p>
+          </div>
+        </div>
+        <span class="text-xs px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 font-semibold border border-amber-500/20">
+          1 Tool
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+
+        <!-- 62. Currency Converter -->
+        <div class="tool-card group">
+          <a href="/tools/finance/currency-converter/index.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20">Finance</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">Currency Converter</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Convert 160+ world currencies with real-time live exchange rates.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 7. Browser Mini Games Section (Violet Accent) -->
+    <section id="games" class="mb-14 scroll-mt-24">
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-violet-500/10 text-violet-600 dark:text-violet-400 border border-violet-500/20 flex items-center justify-center shrink-0">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><rect x="2" y="6" width="20" height="12" rx="2"/></svg>
+          </div>
+          <div>
+            <h2 class="text-xl font-bold text-zinc-900 dark:text-white">Browser Mini Games</h2>
+            <p class="text-xs text-zinc-500 dark:text-zinc-400">Lightweight, instant-play arcade &amp; strategy games in browser.</p>
+          </div>
+        </div>
+        <span class="text-xs px-2.5 py-1 rounded-full bg-violet-500/10 text-violet-600 dark:text-violet-400 font-semibold border border-violet-500/20">
+          2 Tools
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+
+        <!-- 63. Flappy Bird Game -->
+        <div class="tool-card group">
+          <a href="/tools/games/bird-game.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-violet-500/10 text-violet-600 dark:text-violet-400 border border-violet-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><rect x="2" y="6" width="20" height="12" rx="2"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-violet-500/10 text-violet-600 dark:text-violet-400 border-violet-500/20">Games</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">Flappy Bird Game</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Play the classic flying bird obstacle arcade game in WebGL.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <!-- 64. Tic Tac Toe Game -->
+        <div class="tool-card group">
+          <a href="/tools/games/tic-tac-toe.html" class="flex flex-col h-full justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-violet-500/10 text-violet-600 dark:text-violet-400 border border-violet-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/><path d="M15 3v18"/><path d="M3 9h18"/><path d="M3 15h18"/></svg>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider border bg-violet-500/10 text-violet-600 dark:text-violet-400 border-violet-500/20">Games</span>
+              </div>
+              <h3 class="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5 leading-snug">Tic Tac Toe Game</h3>
+              <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">Play interactive Tic Tac Toe against a friend or smart AI.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              <span>Launch Tool</span>
+              <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Homepage AEO & Engagement Section: Why OmniTools 2.0 Bento Trust Grid -->
+    <div id="why-omnitools" role="region" aria-labelledby="why-omnitools-heading" class="mt-16 pt-12 border-t border-zinc-200/80 dark:border-zinc-800/80">
+      <div class="max-w-3xl mb-8">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 mb-3">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+          Architecture &amp; Trust
+        </span>
+        <h2 id="why-omnitools-heading" class="text-2xl sm:text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-white mb-2">
+          Why OmniTools 2.0?
+        </h2>
+        <p class="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+          Built around local-first browser execution so sensitive documents, images, and calculations never leave your device.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Bento Card 1 (Featured) -->
+        <div class="md:col-span-2 bg-white dark:bg-zinc-900/80 rounded-2xl p-6 border border-zinc-200/80 dark:border-zinc-800 shadow-xs flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center justify-center mb-4">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+            </div>
+            <h3 class="text-base font-bold text-zinc-900 dark:text-white mb-2">100% Client-Side Privacy &amp; Zero Server Uploads</h3>
+            <p class="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+              Every PDF merge, image compression, financial projection, and hash generation runs strictly inside your browser's RAM via HTML5 Canvas, FileReader, Blob, and Web Crypto APIs. Zero files are ever uploaded, logged, or stored on remote servers.
+            </p>
+          </div>
+          <div class="mt-5 pt-4 border-t border-zinc-100 dark:border-zinc-800/80 flex flex-wrap gap-2 text-[11px] font-medium text-zinc-500 dark:text-zinc-400">
+            <span class="px-2.5 py-1 rounded-lg bg-zinc-100 dark:bg-zinc-800">Zero Data Retention</span>
+            <span class="px-2.5 py-1 rounded-lg bg-zinc-100 dark:bg-zinc-800">No Account Required</span>
+            <span class="px-2.5 py-1 rounded-lg bg-zinc-100 dark:bg-zinc-800">In-Memory Execution</span>
+          </div>
+        </div>
+
+        <!-- Bento Card 2 -->
+        <div class="bg-white dark:bg-zinc-900/80 rounded-2xl p-6 border border-zinc-200/80 dark:border-zinc-800 shadow-xs">
+          <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+          <h3 class="text-base font-bold text-zinc-900 dark:text-white mb-2">Instant Execution Speed</h3>
+          <p class="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+            Skip slow file-upload queues and artificial countdown timers. Conversions start the millisecond you drop a file.
+          </p>
+        </div>
+
+        <!-- Bento Card 3 -->
+        <div class="bg-white dark:bg-zinc-900/80 rounded-2xl p-6 border border-zinc-200/80 dark:border-zinc-800 shadow-xs">
+          <div class="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+          </div>
+          <h3 class="text-base font-bold text-zinc-900 dark:text-white mb-2">Offline-Ready PWA Support</h3>
+          <p class="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+            Install OmniTools on desktop or mobile via our Web App Manifest and Service Worker for fast, reliable offline access.
+          </p>
+        </div>
+
+        <!-- Bento Card 4 -->
+        <div class="bg-white dark:bg-zinc-900/80 rounded-2xl p-6 border border-zinc-200/80 dark:border-zinc-800 shadow-xs">
+          <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          </div>
+          <h3 class="text-base font-bold text-zinc-900 dark:text-white mb-2">Universal Format Coverage</h3>
+          <p class="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+            Work seamlessly across PDF, Word, Excel, CSV, JSON, XML, HTML, PNG, JPG, WebP, and ZIP archives in one place.
+          </p>
+        </div>
+
+        <!-- Bento Card 5 -->
+        <div class="bg-white dark:bg-zinc-900/80 rounded-2xl p-6 border border-zinc-200/80 dark:border-zinc-800 shadow-xs">
+          <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+          <h3 class="text-base font-bold text-zinc-900 dark:text-white mb-2">Command Palette &amp; Bookmarks</h3>
+          <p class="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+            Press <kbd class="px-1.5 py-0.5 text-[10px] font-mono bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded">Ctrl+K</kbd> anytime to jump across 64 tools, and pin your most-used utilities locally.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Platform FAQ Accordion -->
+    <div id="platform-faq" role="region" aria-labelledby="platform-faq-heading" class="mt-14 mb-4">
+      <div class="max-w-3xl mb-6">
+        <h2 id="platform-faq-heading" class="text-2xl font-extrabold tracking-tight text-zinc-900 dark:text-white mb-2">
+          Frequently Asked Questions
+        </h2>
+        <p class="text-sm text-zinc-600 dark:text-zinc-400">
+          Everything you need to know about OmniTools 2.0 privacy, offline PWA capabilities, and supported formats.
+        </p>
+      </div>
+
+      <div class="space-y-3">
+        <details class="group bg-white dark:bg-zinc-900/80 rounded-2xl border border-zinc-200/80 dark:border-zinc-800 overflow-hidden transition-all" open>
+          <summary class="flex items-center justify-between gap-4 p-5 cursor-pointer list-none font-semibold text-sm text-zinc-900 dark:text-white select-none hover:bg-zinc-50 dark:hover:bg-zinc-800/40 transition-colors">
+            <span>How does OmniTools 2.0 guarantee 100% client-side privacy and zero server uploads?</span>
+            <svg class="w-4 h-4 text-zinc-400 shrink-0 group-open:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-5 pb-5 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed border-t border-zinc-100 dark:border-zinc-800/80 pt-3">
+            Every PDF conversion, image compression, financial calculation, and developer utility on OmniTools executes strictly inside your browser's local memory using HTML5 Web APIs (Canvas, FileReader, Blob, Web Crypto) and client-side libraries. Your files never touch an external server.
+          </div>
+        </details>
+
+        <details class="group bg-white dark:bg-zinc-900/80 rounded-2xl border border-zinc-200/80 dark:border-zinc-800 overflow-hidden transition-all">
+          <summary class="flex items-center justify-between gap-4 p-5 cursor-pointer list-none font-semibold text-sm text-zinc-900 dark:text-white select-none hover:bg-zinc-50 dark:hover:bg-zinc-800/40 transition-colors">
+            <span>Can I use OmniTools offline as a Progressive Web App (PWA)?</span>
+            <svg class="w-4 h-4 text-zinc-400 shrink-0 group-open:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-5 pb-5 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed border-t border-zinc-100 dark:border-zinc-800/80 pt-3">
+            Yes. OmniTools 2.0 includes a Web App Manifest and Service Worker that cache static assets and tool interfaces so you can install it on desktop or mobile and run offline-capable utilities without an active internet connection.
+          </div>
+        </details>
+
+        <details class="group bg-white dark:bg-zinc-900/80 rounded-2xl border border-zinc-200/80 dark:border-zinc-800 overflow-hidden transition-all">
+          <summary class="flex items-center justify-between gap-4 p-5 cursor-pointer list-none font-semibold text-sm text-zinc-900 dark:text-white select-none hover:bg-zinc-50 dark:hover:bg-zinc-800/40 transition-colors">
+            <span>What file formats are supported across the PDF and image tools?</span>
+            <svg class="w-4 h-4 text-zinc-400 shrink-0 group-open:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-5 pb-5 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed border-t border-zinc-100 dark:border-zinc-800/80 pt-3">
+            OmniTools supports bidirectional conversions across PDF, DOC/Word, XLSX/Excel, CSV, HTML, TXT, JSON, XML, ZIP, PNG, JPG/JPEG, and WebP, along with lossless/lossy resizing, 100KB target compression, merging, splitting, and watermarking.
+          </div>
+        </details>
+
+        <details class="group bg-white dark:bg-zinc-900/80 rounded-2xl border border-zinc-200/80 dark:border-zinc-800 overflow-hidden transition-all">
+          <summary class="flex items-center justify-between gap-4 p-5 cursor-pointer list-none font-semibold text-sm text-zinc-900 dark:text-white select-none hover:bg-zinc-50 dark:hover:bg-zinc-800/40 transition-colors">
+            <span>Are all 64 tools completely free with no account or paywalls?</span>
+            <svg class="w-4 h-4 text-zinc-400 shrink-0 group-open:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-5 pb-5 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed border-t border-zinc-100 dark:border-zinc-800/80 pt-3">
+            Yes. All 64 utilities are 100% free with zero ads, zero registration walls, and no arbitrary daily file limits—bounded only by your browser's available device memory.
+          </div>
+        </details>
+
+        <details class="group bg-white dark:bg-zinc-900/80 rounded-2xl border border-zinc-200/80 dark:border-zinc-800 overflow-hidden transition-all">
+          <summary class="flex items-center justify-between gap-4 p-5 cursor-pointer list-none font-semibold text-sm text-zinc-900 dark:text-white select-none hover:bg-zinc-50 dark:hover:bg-zinc-800/40 transition-colors">
+            <span>Which browsers are supported by OmniTools 2.0?</span>
+            <svg class="w-4 h-4 text-zinc-400 shrink-0 group-open:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-5 pb-5 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed border-t border-zinc-100 dark:border-zinc-800/80 pt-3">
+            OmniTools supports all modern evergreen browsers including Google Chrome, Microsoft Edge, Mozilla Firefox, and Apple Safari on desktop and mobile devices.
+          </div>
+        </details>
+
+        <details class="group bg-white dark:bg-zinc-900/80 rounded-2xl border border-zinc-200/80 dark:border-zinc-800 overflow-hidden transition-all">
+          <summary class="flex items-center justify-between gap-4 p-5 cursor-pointer list-none font-semibold text-sm text-zinc-900 dark:text-white select-none hover:bg-zinc-50 dark:hover:bg-zinc-800/40 transition-colors">
+            <span>How do bookmarks, recent tools, and Ctrl+K command search work?</span>
+            <svg class="w-4 h-4 text-zinc-400 shrink-0 group-open:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-5 pb-5 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed border-t border-zinc-100 dark:border-zinc-800/80 pt-3">
+            Press <kbd class="px-1.5 py-0.5 text-[10px] font-mono bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded">Ctrl+K</kbd> (or <kbd class="px-1.5 py-0.5 text-[10px] font-mono bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded">Cmd+K</kbd> on macOS, or <kbd class="px-1.5 py-0.5 text-[10px] font-mono bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded">/</kbd>) from any page to open the instant command palette. You can also star any tool to pin it to your Quick Access bar; favorites and recent history are stored privately in your browser's <code class="text-[11px] font-mono">localStorage</code>.
+          </div>
+        </details>
+      </div>
+    </div>
+
+  </main>
+
+  <script type="module" src="/src/layout.js"></script>
+</body>
+</html>

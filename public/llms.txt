@@ -1,0 +1,90 @@
+# OmniTools 2.0
+
+> OmniTools is a fast, 100% client-side, privacy-first web productivity portal offering 64 free utilities across PDF conversion, image editing, financial & health calculators, SEO analysis, developer/text utilities, live currency conversion, and browser games. Every file and calculation is processed directly inside browser memory with zero server uploads, zero data retention, and zero ads.
+
+## Privacy & Architecture Guarantees
+- **100% Client-Side Execution:** Documents, images, and inputs are processed locally via HTML5 Web APIs (Canvas, FileReader, Blob, Web Speech, LocalStorage) and client-side libraries (`pdf.js`, `jsPDF`, `pdf-lib`, `JSZip`, `SheetJS/XLSX`, `Chart.js`, `CryptoJS`, `qrcodejs`).
+- **Zero Server Uploads:** User files never leave the browser or touch external storage servers.
+- **Zero Ads & Zero File Tracking:** Only browser-local storage (`localStorage`) is used for theme preference, tool favorites, recent tools, and the Notes App scratchpad.
+- **Full Technical Index:** [llms-full.txt](https://YOUR_DOMAIN.com/llms-full.txt)
+
+## Core Portal Pages
+- [OmniTools Home Hub](https://YOUR_DOMAIN.com/): Searchable directory of all 64 client-side productivity tools with Ctrl+K command search, Favorites, and Recently Used shortcuts.
+- [Privacy Policy](https://YOUR_DOMAIN.com/privacy.html): Official privacy architecture documentation (0% server uploads, 100% local processing).
+- [Contact Support](https://YOUR_DOMAIN.com/contactus.html): Support channels, bug reporting, and privacy FAQ.
+
+## PDF Conversion & Utilities (24 Tools)
+- [PDF to Word](https://YOUR_DOMAIN.com/tools/pdf/pdf-to-word.html): Convert PDF files into editable Word (.doc) documents client-side.
+- [PDF to Excel](https://YOUR_DOMAIN.com/tools/pdf/pdf-to-excel.html): Extract PDF data tables into editable Excel (.xlsx) spreadsheets.
+- [PDF to CSV](https://YOUR_DOMAIN.com/tools/pdf/pdf-to-csv.html): Extract tabular PDF contents into clean CSV spreadsheets.
+- [PDF to HTML](https://YOUR_DOMAIN.com/tools/pdf/pdf-to-html.html): Convert PDFs to clean HTML code preserving text and formatting.
+- [PDF to Text](https://YOUR_DOMAIN.com/tools/pdf/pdf-to-text.html): Extract raw text from PDF documents with instant copy & download.
+- [PDF to JPG](https://YOUR_DOMAIN.com/tools/pdf/pdf-to-jpg.html): Render and export PDF pages as high-quality JPG images.
+- [PDF to PNG](https://YOUR_DOMAIN.com/tools/pdf/pdf-to-png.html): Convert PDF pages to lossless PNG images with transparent support.
+- [PDF to WebP](https://YOUR_DOMAIN.com/tools/pdf/pdf-to-webp.html): Convert PDF pages into lightweight, modern WebP images.
+- [PDF to XML](https://YOUR_DOMAIN.com/tools/pdf/pdf-to-xml.html): Parse and structure PDF text into formatted XML hierarchy.
+- [PDF to JSON](https://YOUR_DOMAIN.com/tools/pdf/pdf-to-json.html): Extract PDF text and page metadata into structured JSON.
+- [PDF to ZIP](https://YOUR_DOMAIN.com/tools/pdf/pdf-to-zip.html): Package and compress PDF documents into secure ZIP archives.
+- [Merge PDF](https://YOUR_DOMAIN.com/tools/pdf/merge-pdf.html): Combine multiple PDF files into a single unified document.
+- [PDF Splitter](https://YOUR_DOMAIN.com/tools/pdf/pdf-splitter.html): Split multi-page PDFs into separate documents by page range.
+- [PDF Watermark](https://YOUR_DOMAIN.com/tools/pdf/pdf-watermark.html): Add custom text watermarks to your PDF pages securely.
+- [PNG to PDF](https://YOUR_DOMAIN.com/tools/pdf/png-to-pdf.html): Convert PNG images into a clean, downloadable PDF document.
+- [JPEG to PDF](https://YOUR_DOMAIN.com/tools/pdf/jpeg-to-pdf.html): Turn JPG/JPEG photos into professional PDF documents.
+- [WebP to PDF](https://YOUR_DOMAIN.com/tools/pdf/webp-to-pdf.html): Convert modern WebP graphics into standard PDF format.
+- [Text to PDF](https://YOUR_DOMAIN.com/tools/pdf/text-to-pdf.html): Convert plain text and notes into formatted PDF documents.
+- [HTML to PDF](https://YOUR_DOMAIN.com/tools/pdf/html-to-pdf.html): Render HTML code or web snippets directly into PDF pages.
+- [Excel to PDF](https://YOUR_DOMAIN.com/tools/pdf/excel-to-pdf.html): Convert Excel spreadsheets (.xlsx) into clean printable PDFs.
+- [CSV to PDF](https://YOUR_DOMAIN.com/tools/pdf/csv-to-pdf.html): Transform CSV datasets into formatted table PDF reports.
+- [JSON to PDF](https://YOUR_DOMAIN.com/tools/pdf/json-to-pdf.html): Convert JSON tree datasets into readable PDF documents.
+- [XML to PDF](https://YOUR_DOMAIN.com/tools/pdf/xml-to-pdf.html): Render XML files into structured, printable PDF files.
+- [Speech to PDF](https://YOUR_DOMAIN.com/tools/pdf/speech-to-pdf.html): Transcribe your voice in real-time and export directly as PDF.
+
+## Image Editing & Optimization (6 Tools)
+- [Image Compressor](https://YOUR_DOMAIN.com/tools/images/image-compressor.html): Reduce image file size with zero quality loss using HTML5 Canvas.
+- [Image Resizer](https://YOUR_DOMAIN.com/tools/images/image-resizer.html): Resize images by width, height, or aspect ratio with instant preview.
+- [Compress to 100KB](https://YOUR_DOMAIN.com/tools/images/image-100kb.html): Optimize photos to strictly under 100KB for portals & forms.
+- [Image Watermark Adder](https://YOUR_DOMAIN.com/tools/images/image-watermark.html): Add repeated or positioned text watermarks over images.
+- [JPG to PNG Converter](https://YOUR_DOMAIN.com/tools/images/jpg-to-png.html): Convert JPG photos to PNG format with lossless compression.
+- [PNG to JPG Converter](https://YOUR_DOMAIN.com/tools/images/png-to-jpg.html): Convert transparent PNG files into high-speed JPG format.
+
+## Financial & Health Calculators (6 Tools)
+- [Age Calculator](https://YOUR_DOMAIN.com/tools/calculators/age-calculator.html): Calculate your exact age in years, months, days, and total hours.
+- [BMI Calculator](https://YOUR_DOMAIN.com/tools/calculators/bmi-calculator.html): Evaluate body mass index and healthy weight ranges with charts.
+- [Compound Interest](https://YOUR_DOMAIN.com/tools/calculators/compound-interest.html): Calculate future investment growth with compound interest charts.
+- [GST Calculator](https://YOUR_DOMAIN.com/tools/calculators/gst-calculator.html): Quickly compute inclusive and exclusive Goods and Services Tax.
+- [SIP Calculator](https://YOUR_DOMAIN.com/tools/calculators/sip-calculator.html): Plan mutual fund systematic investments with interactive projection graphs.
+- [Unit Converter](https://YOUR_DOMAIN.com/tools/calculators/unit-converter.html): Convert length, weight, temperature, area, and volume instantly.
+
+## SEO & Web Performance Tools (7 Tools)
+- [SEO & Speed Analyzer](https://YOUR_DOMAIN.com/tools/seo/seo-analyzer.html): Run Google PageSpeed performance & SEO audits on any URL.
+- [Extract Meta Tags](https://YOUR_DOMAIN.com/tools/seo/extract-meta-tags.html): Inspect OpenGraph, Twitter Cards, and SEO meta tags of any site.
+- [Meta Tag Generator](https://YOUR_DOMAIN.com/tools/seo/meta-tag-generator.html): Build Google and social media meta tags with live SERP preview.
+- [Robots.txt Generator](https://YOUR_DOMAIN.com/tools/seo/robots-txt-generator.html): Configure crawl permissions and bot rules with visual controls.
+- [XML Sitemap Generator](https://YOUR_DOMAIN.com/tools/seo/xml-sitemap-generator.html): Crawl internal links and generate search engine XML sitemaps.
+- [Website Speed Test](https://YOUR_DOMAIN.com/tools/seo/website-speed-test.html): Benchmark page load metrics, Core Web Vitals, and DNS timing.
+- [Keyword Density](https://YOUR_DOMAIN.com/tools/seo/keyword-density.html): Analyze word frequency and keyword optimization percentages in text.
+
+## Developer, Media & Text Utilities (18 Tools)
+- [YouTube Media Hub](https://YOUR_DOMAIN.com/tools/utilities/youtube-video-downloader.html): Watch videos in a private player, get embed codes & download HD thumbnails.
+- [Thumbnail Downloader](https://YOUR_DOMAIN.com/tools/utilities/thumbnail-downloader.html): Extract and download YouTube thumbnails in 1080p, 720p, and 480p.
+- [YouTube Tag Generator](https://YOUR_DOMAIN.com/tools/utilities/youtube-tag-generator.html): Generate high-ranking SEO tags and keywords for YouTube videos.
+- [Screenshot Taker](https://YOUR_DOMAIN.com/tools/utilities/website-screenshot-taker.html): Capture any tab, window, or display screen directly in high definition.
+- [QR Code Generator](https://YOUR_DOMAIN.com/tools/utilities/qr-code-generator.html): Generate custom QR codes for URLs, WiFi, emails, and texts.
+- [Password Generator](https://YOUR_DOMAIN.com/tools/utilities/password-generator.html): Generate cryptographically strong, customizable secure passwords.
+- [JSON Formatter & Validator](https://YOUR_DOMAIN.com/tools/utilities/json-formatter.html): Prettify, minify, validate, and inspect JSON payloads with syntax highlighting.
+- [MD5 Hash Generator](https://YOUR_DOMAIN.com/tools/utilities/md5-hash-generator.html): Compute client-side cryptographic MD5 hashes from any string.
+- [Notes App & Scratchpad](https://YOUR_DOMAIN.com/tools/utilities/notes-app.html): Write, edit, and persist notes locally in browser storage.
+- [Internet Speed Test](https://YOUR_DOMAIN.com/tools/utilities/netspeed-test.html): Test real-time ping, latency, and download throughput.
+- [Word & Character Counter](https://YOUR_DOMAIN.com/tools/utilities/word-counter.html): Count words, characters, sentences, paragraphs, and reading time.
+- [Caesar Cipher](https://YOUR_DOMAIN.com/tools/utilities/caesar-cipher.html): Encrypt and decrypt text messages using classic shift cryptography.
+- [Color Code Picker](https://YOUR_DOMAIN.com/tools/utilities/color-code.html): Pick colors and copy HEX, RGB, HSL, and CMYK formats.
+- [CSS Gradient Generator](https://YOUR_DOMAIN.com/tools/utilities/css-gradient-generator.html): Design linear & radial CSS gradients with 1-click CSS code export.
+- [Number to Word](https://YOUR_DOMAIN.com/tools/utilities/number-to-word.html): Spell numbers out into English words for checks and invoices.
+- [Lorem Ipsum Generator](https://YOUR_DOMAIN.com/tools/utilities/lorem-ipsum.html): Generate custom dummy placeholder text for mockups and designs.
+- [Logo Maker](https://YOUR_DOMAIN.com/tools/utilities/logo-maker.html): Craft simple brand marks and typography logos client-side.
+- [Privacy Policy Generator](https://YOUR_DOMAIN.com/tools/utilities/privacy-policy-generator.html): Generate compliant privacy policies for websites and apps.
+
+## Finance & Interactive Games (3 Tools)
+- [Currency Converter](https://YOUR_DOMAIN.com/tools/finance/currency-converter/index.html): Convert 160+ world currencies with real-time live exchange rates.
+- [Flappy Bird Game](https://YOUR_DOMAIN.com/tools/games/bird-game.html): Play the classic flying bird obstacle arcade game in WebGL.
+- [Tic Tac Toe Game](https://YOUR_DOMAIN.com/tools/games/tic-tac-toe.html): Play interactive Tic Tac Toe against a friend or smart AI.
